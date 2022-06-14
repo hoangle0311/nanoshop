@@ -18,7 +18,7 @@ class Environment {
     return '';
   }
 
-  static get domain {
+  static String get domain {
     return dotenv.env[EnvironmentKeys.apiUrl] ?? DefaultStringConstant.notFound;
   }
 

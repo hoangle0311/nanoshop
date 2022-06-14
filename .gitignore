@@ -12,6 +12,7 @@
 *.env
 .env.development
 .env.production
+*.g.dart
 
 # IntelliJ related
 *.iml

@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nanoshop/src/presentation/blocs/post_bloc/post_bloc.dart';
+
+import '../../injector.dart';
+import '../bloc/bloc_with_state.dart';
+import '../params/token_param.dart';
+
+void onUseScrollControllerForLazyLoadingPost(
+  BuildContext context,
+  ScrollController scrollController,
+) {
+  final maxScrollExtend = scrollController.position.maxScrollExtent;
+  final currentScroll = scrollController.position.pixels;
+
+  final bloc = BlocProvider.of<PostBloc>(context);
+  final processState = bloc.processState;
+  final hasMore = bloc.state.hasMore;
+
+  if (currentScroll >= maxScrollExtend &&
+      hasMore &&
+      processState == BlocProcessState.idle) {
+    bloc.add(
+      LoadMorePost(
+        tokenParam: injector<TokenParam>(),
+      ),
+    );
+  }
+}
