@@ -35,7 +35,7 @@ class BottomNavText extends StatelessWidget {
             ? LinearGradient(
                 colors: [
                   AppColors.primaryColor,
-                  AppColors.yellow,
+                  AppColors.accentPrimaryColor,
                 ],
               )
             : null,

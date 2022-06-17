@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   // Lay banner voi group bang 15350
-  static const _groupIdBanner = '15350';
+  static const _groupIdBanner = '15272';
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +76,11 @@ class HomePage extends StatelessWidget {
                   height: 200,
                   scale: 1,
                 ),
-                Image.asset(
-                  ImagePath.backgroundImage,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+                // Image.asset(
+                //   ImagePath.backgroundImage,
+                //   width: double.infinity,
+                //   fit: BoxFit.cover,
+                // ),
               ],
             ),
           ),
@@ -106,7 +106,11 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                _horizontalCategory(),
+                Container(
+                  color: HexColor("#F2F7FF"),
+
+                  child: _horizontalCategory(),
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -174,7 +178,7 @@ class HomePage extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: [
                       AppColors.primaryColor,
-                      AppColors.yellow,
+                      AppColors.accentPrimaryColor,
                     ],
                   ),
                 ),
@@ -225,6 +229,7 @@ class HomePage extends StatelessWidget {
                   ),
                   child: HomeTitleContainer(
                     title: "Danh mục",
+                    titleColor: AppColors.primaryColor,
                     onTap: () {
                       Navigator.of(context)
                           .pushNamed(AppRouterEndPoint.LISTCATEGORY);
@@ -386,7 +391,7 @@ class VerticalListProductHomePage extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         AppColors.primaryColor,
-                        AppColors.yellow,
+                        AppColors.accentPrimaryColor,
                       ],
                     ),
                     onTap: () {
@@ -456,7 +461,7 @@ class ShopsWidget extends StatelessWidget {
                         gradient: LinearGradient(
                           colors: [
                             AppColors.primaryColor,
-                            AppColors.yellow,
+                            AppColors.accentPrimaryColor,
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
@@ -596,20 +601,20 @@ class FlashSaleWidget extends StatelessWidget {
       builder: (context, state) {
         if (state.status == FlashSaleStatus.running) {
           return Container(
-            height: 520,
+            height: 480,
             color: Colors.white,
             child: Stack(
               children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Image.asset(
-                    ImagePath.flashSaleBackground,
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                // Positioned(
+                //   top: 0,
+                //   left: 0,
+                //   right: 0,
+                //   bottom: 0,
+                //   child: Image.asset(
+                //     ImagePath.flashSaleBackground,
+                //     fit: BoxFit.fill,
+                //   ),
+                // ),
                 const Positioned(
                   top: 0,
                   left: 0,
@@ -617,7 +622,7 @@ class FlashSaleWidget extends StatelessWidget {
                   child: TimeFlashSaleWidget(),
                 ),
                 Positioned(
-                  top: 120,
+                  top: 80,
                   left: 0,
                   right: 0,
                   bottom: 0,
@@ -672,7 +677,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
           end: Alignment.centerRight,
           colors: [
             AppColors.primaryColor,
-            AppColors.yellow,
+            AppColors.accentPrimaryColor,
           ],
         ).createShader(bounds);
       },
@@ -717,6 +722,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
           return Stack(
             children: [
               Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Image.asset(
                   ImagePath.flashSaleDecor,
                   fit: BoxFit.cover,
@@ -724,7 +730,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 10,
+                top: 20,
                 left: 0,
                 right: 0,
                 child: Row(

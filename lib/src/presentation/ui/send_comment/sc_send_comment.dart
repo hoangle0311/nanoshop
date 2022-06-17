@@ -357,7 +357,7 @@ class _Rating extends StatelessWidget {
               itemPadding: const EdgeInsets.only(right: 5),
               itemBuilder: (context, _) => Icon(
                 Icons.star,
-                color: AppColors.yellow,
+                color: AppColors.accentPrimaryColor,
               ),
               unratedColor: AppColors.grey,
               onRatingUpdate: (newValue) {

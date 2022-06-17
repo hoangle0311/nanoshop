@@ -48,7 +48,7 @@ class NameProductContainer extends StatelessWidget {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.yellow,
+                          color: AppColors.accentPrimaryColor,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(

@@ -25,7 +25,7 @@ class DropDownField extends StatelessWidget {
         return LinearGradient(
           colors: <Color>[
             AppColors.primaryColor,
-            AppColors.yellow,
+            AppColors.accentPrimaryColor,
           ],
         ).createShader(bounds);
       },

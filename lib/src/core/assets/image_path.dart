@@ -1,7 +1,7 @@
 class ImagePath {
   static const chiNhanhImage = 'assets/images/chi_nhanh.png';
   static const backgroundHomeAppbar =
-      'assets/images/background_home_appbar.png';
+      'assets/images/background_app_bar.png';
   static const backgroundAccountPage =
       'assets/images/background_account_page.png';
   static const backgroundHomeAppbarBehind =

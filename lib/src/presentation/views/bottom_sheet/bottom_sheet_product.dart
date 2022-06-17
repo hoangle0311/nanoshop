@@ -204,7 +204,7 @@ class _BottomSheetProductState extends State<BottomSheetProduct> {
                             topLeft: Radius.circular(5),
                             bottomLeft: Radius.circular(5),
                           ),
-                          color: AppColors.yellow.withOpacity(0.2),
+                          color: AppColors.accentPrimaryColor.withOpacity(0.2),
                         ),
                         child: Center(
                           child: Text(
@@ -246,7 +246,7 @@ class _BottomSheetProductState extends State<BottomSheetProduct> {
                             end: Alignment.centerRight,
                             colors: [
                               AppColors.primaryColor,
-                              AppColors.yellow,
+                              AppColors.accentPrimaryColor,
                             ],
                           ),
                         ),
@@ -319,7 +319,7 @@ class AmountProduct extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
-                  color: AppColors.yellow.withOpacity(0.5),
+                  color: AppColors.accentPrimaryColor.withOpacity(0.5),
                   border: Border(
                     right: BorderSide(
                       width: 1,

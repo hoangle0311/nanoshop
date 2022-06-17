@@ -1372,7 +1372,7 @@ class _ScreenChatState extends State<ScreenChat> with WidgetsBindingObserver {
           (msg) {
             count++;
             if (widget.arguments.count != 0 &&
-                (messages.length - count) == widget.arguments.count! - 1) {
+                (messages.length - count) == widget.arguments.count - 1) {
               _groupedMessages.add(
                 Center(
                   child: Chip(

@@ -95,7 +95,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         // TODO FIREBASE ACCOUNT
-        await FireBaseAccount.createUser(
+         FireBaseAccount.createUser(
           id: dataState.data!.data!.type! == '3'
               ? "Admin"
               : dataState.data!.data!.userId,

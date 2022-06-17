@@ -1,5 +1,5 @@
 class Strings {
-  static const appName = "Tatra";
+  static const appName = "Jk Audio";
   static const labelAccount = "Số điện thoại";
   static const labelAddress = "Địa chỉ";
   static const labelFullname = "Họ và tên";

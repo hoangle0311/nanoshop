@@ -3,24 +3,29 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nanoshop/src/chat/screen_chat.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
 import 'package:nanoshop/src/core/constant/message/message.dart';
 import 'package:nanoshop/src/core/params/detail_product_param.dart';
 import 'package:nanoshop/src/core/toast/toast.dart';
+import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
 import 'package:nanoshop/src/presentation/ui/detail_product/widgets/detail_stats_product_container.dart';
 import 'package:nanoshop/src/presentation/ui/detail_product/widgets/name_product_container.dart';
 import 'package:nanoshop/src/presentation/ui/detail_product/widgets/rating_detail_product.dart';
 import 'package:nanoshop/src/presentation/views/components/comment_widget/comment_list_tile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../chat/models/data_model.dart';
 import '../../../core/assets/image_path.dart';
 import '../../../core/constant/strings/strings.dart';
 import '../../../core/params/related_product_param.dart';
 import '../../../core/params/token_param.dart';
 import '../../../domain/entities/product/product.dart';
+import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../cubits/detail_product_cubit/detail_product_cubit.dart';
 import '../../cubits/get_list_comment_cubit/get_list_comment_cubit.dart';
 import '../../cubits/related_list_product_cubit/related_list_product_cubit.dart';
@@ -386,7 +391,28 @@ class _BottomNavigationBar extends StatelessWidget {
                     child: _iconWithText(
                       'Chat ngay',
                       Icons.message,
-                      onTap: () {},
+                      onTap: () async {
+                        var authBloc = context.read<AuthenticationBloc>();
+                        var authState = authBloc.state;
+
+                        if (authState.user != UserLogin.empty) {
+                          DataModel dataModel =
+                              DataModel(authState.user.userId);
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ScreenChat(
+                              arguments: ModelChatScreen(
+                                name: "Admin",
+                                currentUserNo: authState.user.userId!,
+                                peerNo: "Admin",
+                                prefs: prefs,
+                                model: dataModel,
+                              ),
+                            ),
+                          ));
+                        }
+                      },
                     ),
                   ),
                   Container(
@@ -454,7 +480,7 @@ class _BottomNavigationBar extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: [
                       AppColors.primaryColor,
-                      AppColors.yellow,
+                      AppColors.accentPrimaryColor,
                     ],
                   ),
                 ),

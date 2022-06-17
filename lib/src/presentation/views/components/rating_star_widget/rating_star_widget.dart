@@ -23,13 +23,13 @@ class RatingStarWidget extends StatelessWidget {
               ? Icon(
                   Icons.star,
                   size: kSizeStar,
-                  color: AppColors.yellow,
+                  color: AppColors.accentPrimaryColor,
                 )
               : rating > double.parse((index + 0.5).toString())
                   ? Icon(
                       Icons.star_half,
                       size: kSizeStar,
-                      color: AppColors.yellow,
+                      color: AppColors.accentPrimaryColor,
                     )
                   : Icon(
                       Icons.star_border,

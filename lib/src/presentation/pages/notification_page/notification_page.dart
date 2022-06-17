@@ -23,8 +23,8 @@ class NotificationPage extends StatelessWidget {
             count: 50,
           ),
           NotificationItem(
-            url: ImagePath.updateIconNotificationScreen,
-            sub: "Cập nhật TATRA Pharmacy",
+            url: ImagePath.appIcon,
+            sub: "Cập nhật JK Audio",
             title: "Cập nhật",
             count: 50,
           ),
@@ -81,6 +81,7 @@ class NotificationItem extends StatelessWidget {
                 ),
                 child: Image.asset(
                   url,
+                  color: AppColors.primaryColor,
                 ),
               ),
               SizedBox(

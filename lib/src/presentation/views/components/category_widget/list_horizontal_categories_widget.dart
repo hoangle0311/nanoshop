@@ -85,7 +85,7 @@ class ListHorizontalCategoriesWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   style: TextStyleApp.textStyle4.copyWith(
-                    color: Colors.white,
+                    color: AppColors.black,
                   ),
                 ),
               ),

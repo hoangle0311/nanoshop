@@ -33,16 +33,16 @@ class ScSignUp extends StatelessWidget {
         child: Scaffold(
           body: Stack(
             children: [
-              Positioned(
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Image.asset(
-                  ImagePath.backgroundImage,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              // Positioned(
+              //   top: 0,
+              //   bottom: 0,
+              //   left: 0,
+              //   right: 0,
+              //   child: Image.asset(
+              //     ImagePath.backgroundImage,
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
               const SignUpForm(),
             ],
           ),
@@ -197,7 +197,7 @@ class _ConfirmPolicyWidget extends StatelessWidget {
                   TextSpan(
                     text: "của Nanoshop.",
                     style: TextStyleApp.textStyle2.copyWith(
-                      color: AppColors.yellow,
+                      color: AppColors.accentPrimaryColor,
                     ),
                   ),
                 ],
@@ -327,13 +327,13 @@ class _SignUpButton extends StatelessWidget {
                 gradient: LinearGradient(
                 colors: [
                   AppColors.primaryColor,
-                  AppColors.yellow,
+                  AppColors.accentPrimaryColor,
                 ],
               ))
             : ButtonWithCenterTitle(
                 title: Strings.titleSignUp,
                 textColor:
-                    state.status.isValidated ? Colors.black : Colors.white,
+                    state.status.isValidated ? Colors.black : AppColors.grey,
                 onTap: state.status.isValidated
                     ? () {
                         context.read<SignUpBloc>().add(SignUpSubmitted(
@@ -345,7 +345,7 @@ class _SignUpButton extends StatelessWidget {
                     ? LinearGradient(
                         colors: [
                           AppColors.primaryColor,
-                          AppColors.yellow,
+                          AppColors.accentPrimaryColor,
                         ],
                       )
                     : null,

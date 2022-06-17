@@ -1,84 +1,48 @@
 {
   "project_info": {
-    "project_number": "893307919211",
-    "project_id": "nanoshop-3533c",
-    "storage_bucket": "nanoshop-3533c.appspot.com"
+    "project_number": "337515841050",
+    "project_id": "jk-audio-3f8f4",
+    "storage_bucket": "jk-audio-3f8f4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:893307919211:android:1370d0ee96b539b01c0a2e",
+        "mobilesdk_app_id": "1:337515841050:android:5cff38d2ffc8e9d947f3a3",
         "android_client_info": {
-          "package_name": "com.example.nanoshop_app"
+          "package_name": "jkaudio.org"
         }
       },
       "oauth_client": [
         {
-          "client_id": "893307919211-3b1bl9vthb2nd7nom3ol55gcnqe0cjt8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD9j2P0wCFjJsfLyCg-21RZBZS9XHSvqno"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "893307919211-3b1bl9vthb2nd7nom3ol55gcnqe0cjt8.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "893307919211-k1m0r5abaho35cr8aqk5u5bgbkn4ib8h.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.nanoshopApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:893307919211:android:196c032268ebe0521c0a2e",
-        "android_client_info": {
-          "package_name": "com.example.plphamar"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "893307919211-2ejhmei9qp7ctqno1diskntlalubba18.apps.googleusercontent.com",
+          "client_id": "337515841050-bf86d9k4ai04mfm3r8rc9f9beqe7ke2b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.plphamar",
+            "package_name": "jkaudio.org",
             "certificate_hash": "2fa9e9da97f87d5a58923e24ab9bc73810f8ff1f"
           }
         },
         {
-          "client_id": "893307919211-3b1bl9vthb2nd7nom3ol55gcnqe0cjt8.apps.googleusercontent.com",
+          "client_id": "337515841050-sodk8rvkjvnfcdebfbnc8qvanqhlqvis.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD9j2P0wCFjJsfLyCg-21RZBZS9XHSvqno"
+          "current_key": "AIzaSyBhJa9VG_AI8dexugEacqmE2MhTBE8GZcQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "893307919211-3b1bl9vthb2nd7nom3ol55gcnqe0cjt8.apps.googleusercontent.com",
+              "client_id": "337515841050-sodk8rvkjvnfcdebfbnc8qvanqhlqvis.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "893307919211-k1m0r5abaho35cr8aqk5u5bgbkn4ib8h.apps.googleusercontent.com",
+              "client_id": "337515841050-23de6g6b8u29gtluak0c1r8mkaocm0uk.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.nanoshopApp"
+                "bundle_id": "jkaudio.org"
               }
             }
           ]

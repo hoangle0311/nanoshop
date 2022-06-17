@@ -7,7 +7,11 @@ import 'package:nanoshop/src/presentation/blocs/local_product_bloc/local_product
 import 'package:nanoshop/src/presentation/blocs/post_bloc/post_bloc.dart';
 import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
 import 'package:nanoshop/src/presentation/ui/load_app/sc_load_app.dart';
+import 'package:provider/provider.dart';
 
+import 'chat/provider/DownloadInfoProvider.dart';
+import 'chat/provider/Observer.dart';
+import 'chat/provider/currentchat_peer.dart';
 import 'config/routers/app_router/app_router.dart';
 import 'core/params/token_param.dart';
 import 'injector.dart';
@@ -19,58 +23,65 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiProvider(
       providers: [
-        // BlocProvider<GetTokenBloc>(
-        //   create: (context) => injector<GetTokenBloc>()
-        //     ..add(
-        //       GetToken(
-        //         injector<TokenParam>().string,
-        //         injector<TokenParam>().token,
-        //       ),
-        //     ),
-        // ),
-        BlocProvider<AuthenticationBloc>(
-          create: (context) => injector<AuthenticationBloc>()
-            ..add(
-              AuthenticationCheckLocalRequested(
-                tokenParam: injector<TokenParam>(),
-              ),
-            ),
-        ),
-        BlocProvider<BottomNavCubit>(
-          create: (context) => injector<BottomNavCubit>(),
-        ),
-        BlocProvider<ShoppingCartCubit>(
-          create: (context) => injector<ShoppingCartCubit>(),
-        ),
-        BlocProvider<LocalProductBloc>(
-          create: (context) => injector<LocalProductBloc>()
-            ..add(
-              GetListFavouriteProductEvent(),
-            ),
-        ),
-        BlocProvider(
-          create: (BuildContext context) {
-            return injector<PostBloc>()
+        ChangeNotifierProvider(create: (_) => Observer()),
+        ChangeNotifierProvider(create: (_) => CurrentChatPeer()),
+        ChangeNotifierProvider(create: (_) => DownloadInfoprovider()),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          // BlocProvider<GetTokenBloc>(
+          //   create: (context) => injector<GetTokenBloc>()
+          //     ..add(
+          //       GetToken(
+          //         injector<TokenParam>().string,
+          //         injector<TokenParam>().token,
+          //       ),
+          //     ),
+          // ),
+          BlocProvider<AuthenticationBloc>(
+            create: (context) => injector<AuthenticationBloc>()
               ..add(
-                GetListPost(
+                AuthenticationCheckLocalRequested(
                   tokenParam: injector<TokenParam>(),
                 ),
-              );
-          },
+              ),
+          ),
+          BlocProvider<BottomNavCubit>(
+            create: (context) => injector<BottomNavCubit>(),
+          ),
+          BlocProvider<ShoppingCartCubit>(
+            create: (context) => injector<ShoppingCartCubit>(),
+          ),
+          BlocProvider<LocalProductBloc>(
+            create: (context) => injector<LocalProductBloc>()
+              ..add(
+                GetListFavouriteProductEvent(),
+              ),
+          ),
+          BlocProvider(
+            create: (BuildContext context) {
+              return injector<PostBloc>()
+                ..add(
+                  GetListPost(
+                    tokenParam: injector<TokenParam>(),
+                  ),
+                );
+            },
+          ),
+        ],
+        child: MaterialApp(
+          onGenerateRoute: AppRouters.onGenerateRoutes,
+          home: BlocListener<AuthenticationBloc, AuthenticationState>(
+            listener: (context, state) {
+              // print(state);
+            },
+            child: const ScHome(),
+          ),
+          builder: BotToastInit(),
+          navigatorObservers: [BotToastNavigatorObserver()],
         ),
-      ],
-      child: MaterialApp(
-        onGenerateRoute: AppRouters.onGenerateRoutes,
-        home: BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            // print(state);
-          },
-          child: const ScHome(),
-        ),
-        builder: BotToastInit(),
-        navigatorObservers: [BotToastNavigatorObserver()],
       ),
     );
   }

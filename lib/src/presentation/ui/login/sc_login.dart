@@ -35,16 +35,16 @@ class ScLogin extends StatelessWidget {
           create: (context) => injector<LoginBloc>(),
           child: Stack(
             children: [
-              Positioned(
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Image.asset(
-                  ImagePath.backgroundImage,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              // Positioned(
+              //   top: 0,
+              //   bottom: 0,
+              //   left: 0,
+              //   right: 0,
+              //   child: Image.asset(
+              //     ImagePath.backgroundImage,
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
               const LoginForm(),
             ],
           ),
@@ -174,7 +174,7 @@ class LoginForm extends StatelessWidget {
                       "Quên mật khẩu?",
                       textAlign: TextAlign.end,
                       style: TextStyleApp.textStyle2.copyWith(
-                        color: AppColors.yellow,
+                        color: AppColors.accentPrimaryColor,
                       ),
                     ),
                     SizedBox(
@@ -246,7 +246,7 @@ class LoginForm extends StatelessWidget {
                                       .pushNamed(AppRouterEndPoint.SIGNUP);
                                 },
                               style: TextStyleApp.textStyle2.copyWith(
-                                color: AppColors.yellow,
+                                color: AppColors.accentPrimaryColor,
                               ),
                             ),
                           ],
@@ -355,7 +355,7 @@ class _LoginButton extends StatelessWidget {
                 gradient: LinearGradient(
                 colors: [
                   AppColors.primaryColor,
-                  AppColors.yellow,
+                  AppColors.accentPrimaryColor,
                 ],
               ))
             : ButtonWithCenterTitle(
@@ -375,7 +375,7 @@ class _LoginButton extends StatelessWidget {
                     ? LinearGradient(
                         colors: [
                           AppColors.primaryColor,
-                          AppColors.yellow,
+                          AppColors.accentPrimaryColor,
                         ],
                       )
                     : null,

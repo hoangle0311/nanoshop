@@ -159,7 +159,7 @@ class BottomHomeNavBar extends StatelessWidget {
                                 end: Alignment.centerRight,
                                 colors: [
                                   AppColors.primaryColor,
-                                  AppColors.yellow,
+                                  AppColors.accentPrimaryColor,
                                 ],
                               ).createShader(bounds);
                             },
@@ -182,7 +182,7 @@ class BottomHomeNavBar extends StatelessWidget {
                             end: Alignment.centerRight,
                             colors: [
                               AppColors.primaryColor,
-                              AppColors.yellow,
+                              AppColors.accentPrimaryColor,
                             ],
                           ).createShader(bounds);
                         },
