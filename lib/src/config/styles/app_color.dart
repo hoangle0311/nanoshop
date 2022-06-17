@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 part 'hex_color.dart';
 
 class AppColors {
-  static Color get primaryColor => HexColor("#CC7341");
+  static Color get primaryColor => HexColor("#0080DB");
 
   static Color get black => HexColor("#000000");
 
@@ -17,5 +17,5 @@ class AppColors {
 
   static Color get grey => HexColor("#E5E5E5");
 
-  static Color get yellow => HexColor("#F9DF7B");
+  static Color get accentPrimaryColor => HexColor("#0080DB");
 }

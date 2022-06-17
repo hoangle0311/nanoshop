@@ -12,7 +12,6 @@ import 'package:nanoshop/src/domain/usecases/auth_usecase/sign_up_usecase.dart';
 import '../../../core/form_model/login/password_input.dart';
 import '../../../core/form_model/login/username_input.dart';
 import '../../../core/resource/data_state.dart';
-import '../../../domain/entities/user_login/user_login.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';

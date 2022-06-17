@@ -23,7 +23,7 @@ class ProductGridTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var imageUrl =
-        "http://plpharma.nanoweb.vn/mediacenter/media/images/plpharma.nanoweb.vn" +
+        "http://plpharma.nanoweb.vn/mediacenter/" +
             ((product.avatarPath ?? '') + (product.avatarName ?? ''));
 
     return InkWell(
@@ -58,7 +58,7 @@ class ProductGridTile extends StatelessWidget {
                     children: [
                       Text(
                         product.name ?? '',
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyleApp.textStyle1.copyWith(
                           color: AppColors.black,
@@ -99,7 +99,7 @@ class ProductGridTile extends StatelessWidget {
                         height: 10,
                       ),
                       StarWithRateCount(
-                        rateCount: product.rateCount ?? '0.0',
+                        rateCount: double.parse(product.productInfo != null ? product.productInfo!.totalRating ?? '0.0' : '0').round().toString(),
                       ),
                     ],
                   ),

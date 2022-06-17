@@ -8,9 +8,11 @@ import 'package:nanoshop/src/core/assets/image_path.dart';
 import 'package:nanoshop/src/core/form_model/login/password_input.dart';
 import 'package:nanoshop/src/core/form_model/login/username_input.dart';
 import 'package:nanoshop/src/core/toast/toast.dart';
+import 'package:nanoshop/src/data/repositories/auth_repository_impl.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:nanoshop/src/presentation/views/components/remove_focus_widget/remove_focus_widget.dart';
+import 'package:nanoshop/src/presentation/views/dialog/dialog_loading.dart';
 
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/constant/strings/strings.dart';
@@ -33,16 +35,16 @@ class ScLogin extends StatelessWidget {
           create: (context) => injector<LoginBloc>(),
           child: Stack(
             children: [
-              Positioned(
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Image.asset(
-                  ImagePath.backgroundImage,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              // Positioned(
+              //   top: 0,
+              //   bottom: 0,
+              //   left: 0,
+              //   right: 0,
+              //   child: Image.asset(
+              //     ImagePath.backgroundImage,
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
               const LoginForm(),
             ],
           ),
@@ -59,24 +61,57 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.status == FormzStatus.submissionSuccess) {
-          context.read<AuthenticationBloc>().add(
-                AuthenticationUserRequest(
-                  userId: state.userLogin.userId!,
-                  tokenParam: injector<TokenParam>(),
-                ),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) async {
+            if (state.status == FormzStatus.submissionInProgress) {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return const Dialog(
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    child: DialogLoading(),
+                  );
+                },
               );
-          Navigator.of(context).pop(true);
-        }
-        if (state.status == FormzStatus.submissionFailure) {
-          Toast.showText(
-            "Đăng nhập thất bại",
-            iconData: Icons.sms_failed,
-          );
-        }
-      },
+            }
+            if (state.status == FormzStatus.submissionSuccess) {
+
+              context.read<AuthenticationBloc>().add(
+                    AuthenticationUserRequest(
+                      userId: state.userLogin.userId!,
+                      tokenParam: injector<TokenParam>(),
+                    ),
+                  );
+              // await Future.delayed(
+              //   Duration(seconds: 1),
+              // );
+            }
+            if (state.status == FormzStatus.submissionFailure) {
+              Navigator.of(context).pop();
+              Toast.showText(
+                "Đăng nhập thất bại",
+                iconData: Icons.sms_failed,
+              );
+            }
+          },
+        ),
+        BlocListener<AuthenticationBloc, AuthenticationState>(
+          listener: (context, state) {
+            if(state.status == AuthenticationStatus.authenticated){
+              Navigator.of(context).pop();
+              Navigator.of(context).pop(true);
+            }
+
+            if(state.status == AuthenticationStatus.unauthenticated){
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+      ],
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -139,7 +174,7 @@ class LoginForm extends StatelessWidget {
                       "Quên mật khẩu?",
                       textAlign: TextAlign.end,
                       style: TextStyleApp.textStyle2.copyWith(
-                        color: AppColors.yellow,
+                        color: AppColors.accentPrimaryColor,
                       ),
                     ),
                     SizedBox(
@@ -211,7 +246,7 @@ class LoginForm extends StatelessWidget {
                                       .pushNamed(AppRouterEndPoint.SIGNUP);
                                 },
                               style: TextStyleApp.textStyle2.copyWith(
-                                color: AppColors.yellow,
+                                color: AppColors.accentPrimaryColor,
                               ),
                             ),
                           ],
@@ -320,7 +355,7 @@ class _LoginButton extends StatelessWidget {
                 gradient: LinearGradient(
                 colors: [
                   AppColors.primaryColor,
-                  AppColors.yellow,
+                  AppColors.accentPrimaryColor,
                 ],
               ))
             : ButtonWithCenterTitle(
@@ -340,7 +375,7 @@ class _LoginButton extends StatelessWidget {
                     ? LinearGradient(
                         colors: [
                           AppColors.primaryColor,
-                          AppColors.yellow,
+                          AppColors.accentPrimaryColor,
                         ],
                       )
                     : null,

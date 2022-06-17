@@ -7,4 +7,10 @@ abstract class FlashSaleEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetFlashSale extends FlashSaleEvent {}
+class GetFlashSale extends FlashSaleEvent {
+  final TokenParam tokenParam;
+
+  const GetFlashSale({
+    required this.tokenParam,
+  });
+}

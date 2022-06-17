@@ -60,23 +60,32 @@ class AuthenticationBloc
         ),
       ),
     );
-
-    DataState<UserLoginResponseModel> dataState = await _getUserUsecase.call(
-      GetUserParam(
-        userId: userId,
-        token: event.tokenParam.token,
-      ),
-    );
-
-    if (dataState is DataSuccess) {
-      UserLogin user = dataState.data!.data!;
-
+    try {
       emit(
-        AuthenticationState.authenticated(user),
+       const AuthenticationState.authenticating(),
       );
-    }
 
-    if (dataState is DataFailed) {
+      DataState<UserLoginResponseModel> dataState = await _getUserUsecase.call(
+        GetUserParam(
+          userId: userId,
+          token: event.tokenParam.token,
+        ),
+      );
+
+      if (dataState is DataSuccess) {
+        UserLogin user = dataState.data!.data!;
+
+        emit(
+          AuthenticationState.authenticated(user),
+        );
+      }
+
+      if (dataState is DataFailed) {
+        emit(
+          const AuthenticationState.unauthenticated(),
+        );
+      }
+    } catch (e) {
       emit(
         const AuthenticationState.unauthenticated(),
       );
@@ -88,8 +97,6 @@ class AuthenticationBloc
     emit,
   ) async {
     var userId = _getUserLocalUsecase.call(null);
-
-    Log.i(userId.toString());
 
     if (userId == null) {
       return;

@@ -1,8 +1,29 @@
 class Strings {
-  static const appName = "Tatra";
+  static const appName = "Jk Audio";
   static const labelAccount = "Số điện thoại";
+  static const labelAddress = "Địa chỉ";
   static const labelFullname = "Họ và tên";
   static const labelPassword = "Mật khẩu";
   static const labelConfirmPassword = "Nhắc lại mật khẩu";
   static const titleSignUp = "Đăng ký";
+  static const labelAccountPageConfig = "Thông tin cá nhân";
+  static const labelOrderPageConfig = "Quản lý đơn hàng";
+  static const labelWalletPageConfig = "Ví điện tử";
+  static const labelAQPageConfig = "Hỏi đáp";
+  static const labelChangePasswordPageConfig = "Đổi mật khẩu";
+  static const labelLogoutPageConfig = "Đăng xuất";
+  static const shoppingCart = "Giỏ hàng";
+  static const payment = "Thanh toán";
+  static const buyNow = "Mua ngay";
+  static const amount = "Số lượng";
+  static const hintVoucher = "Nhập mã khuyến mãi";
+  static const apply = "Áp dụng";
+  static const choose = "Lựa chọn";
+  static const choosePayment = "Phương thức thanh toán";
+  static const chooseTransport = "Đơn vị vận chuyển";
+  static const chooseAddress = "Địa chỉ nhận hàng";
+  static const chooseVoucher = "Mã giảm giá";
+  static const edit = "Chỉnh sửa";
+  static const sendComment = "Gửi bình luận";
+  static const send = "Gửi";
 }

@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:nanoshop/src/core/params/change_password_param.dart';
 import 'package:nanoshop/src/core/params/get_user_param.dart';
 import 'package:nanoshop/src/core/params/sign_up_param.dart';
 import 'package:nanoshop/src/data/data_source/local/user_service/user_local_service.dart';
+import 'package:nanoshop/src/data/models/default_response_model/default_response_model.dart';
 import 'package:nanoshop/src/data/models/sign_up_response_model/sign_up_response_model.dart';
 import 'package:nanoshop/src/data/models/user/user_login_response_model.dart';
 import 'package:retrofit/dio.dart';
@@ -105,12 +107,6 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<DataState<SignUpResponseModel>> signUpUser(
       SignUpParam signUpParam) async {
-    if (!kReleaseMode) {
-      await Future<void>.delayed(
-        const Duration(seconds: 1),
-      );
-    }
-
     try {
       final HttpResponse response = await _authService.signUpUser(
         name: signUpParam.fullname,
@@ -151,5 +147,32 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<void> removeUserLocal() async {
     return await _userLocalService.removeUserLocal();
+  }
+
+  @override
+  Future<DataState<DefaultResponseModel>> changePassword(
+      ChangePasswordParam param) async {
+    try {
+      final HttpResponse response = await _authService.changePasswordUser(
+        token: param.token,
+        body: param.toJson(),
+      );
+
+      if (response.response.statusCode == HttpStatus.ok) {
+        return DataSuccess(data: response.data);
+      }
+
+      return DataFailed(
+        error: DioError(
+          requestOptions: response.response.requestOptions,
+          error: response.response.statusMessage,
+          type: DioErrorType.response,
+        ),
+      );
+    } on DioError catch (e) {
+      return DataFailed(
+        error: e,
+      );
+    }
   }
 }

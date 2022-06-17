@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nanoshop/src/domain/entities/banner/banner.dart';
+import 'package:nanoshop/src/data/models/banner_response_model.dart/group_banner.dart';
 
 part 'banner_response_model.g.dart';
 
 @JsonSerializable()
 class BannerResponseModel {
   int? code;
-  List<Banner>? data;
+  GroupBanner? data;
   String? message;
   String? error;
 
@@ -17,8 +17,9 @@ class BannerResponseModel {
     this.error,
   });
 
-  factory BannerResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$BannerResponseModelFromJson(json);
+  factory BannerResponseModel.fromJson(Map<String, dynamic> json) {
+    return _$BannerResponseModelFromJson(json);
+  }
 
   Map<String, dynamic> toJson() => _$BannerResponseModelToJson(this);
 }

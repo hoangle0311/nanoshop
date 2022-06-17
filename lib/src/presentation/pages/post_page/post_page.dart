@@ -6,6 +6,7 @@ import 'package:nanoshop/src/presentation/views/components/post_widget/list_vert
 
 import '../../../core/hooks/use_scroll_controller_for_lazy_loading_post.dart';
 import '../../blocs/post_bloc/post_bloc.dart';
+import '../../views/components/app_bar/main_app_bar.dart';
 import '../../views/components/loading_widget/list_horizontal_category_loading.dart';
 
 class PostPage extends HookWidget {
@@ -27,8 +28,17 @@ class PostPage extends HookWidget {
       _mainScrollController,
     ]);
 
-    return _body(
-      mainScrollController: _mainScrollController,
+    return Column(
+      children: [
+        PageAppBar(
+          title: 'Tin tức',
+        ),
+        Expanded(
+          child: _body(
+            mainScrollController: _mainScrollController,
+          ),
+        ),
+      ],
     );
   }
 
@@ -37,8 +47,10 @@ class PostPage extends HookWidget {
   }) {
     return SingleChildScrollView(
       controller: mainScrollController,
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
+
           _verticalListPost(),
         ],
       ),
@@ -48,16 +60,15 @@ class PostPage extends HookWidget {
   Widget _verticalListPost() {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
-        if (state is PostFailed) {
-          return Center(
+        if (state.posts.isEmpty && state.status == PostStatus.failure) {
+          return const Center(
             child: Text(
-              state.dioError?.message ?? "Lỗi khi tải dữ liệu",
+              "Lỗi khi tải dữ liệu",
             ),
           );
         }
 
-        if (state is PostDone) {
-          print(state.posts.length);
+        if (state.posts.isNotEmpty) {
           return ListVerticalPostWidget(posts: state.posts);
         }
 

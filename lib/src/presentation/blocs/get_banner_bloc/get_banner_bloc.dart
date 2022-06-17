@@ -12,6 +12,7 @@ import '../../../domain/entities/banner/banner.dart';
 import '../../../domain/usecases/banner_usecase/get_banner_usecase.dart';
 
 part 'get_banner_event.dart';
+
 part 'get_banner_state.dart';
 
 class GetBannerBloc extends Bloc<GetBannerEvent, GetBannerState> {
@@ -27,33 +28,39 @@ class GetBannerBloc extends Bloc<GetBannerEvent, GetBannerState> {
     GetBannerByGroupId event,
     Emitter emit,
   ) async {
-    DataState<BannerResponseModel> dataState = await _getBannerUsecase.call(
-      BannerParam(
-        groupId: "1",
-        limit: "10",
-        token: event.tokenParam.token,
-      ),
-    );
-
-    if (kDebugMode) {
-      await Future.delayed(
-        const Duration(seconds: 3),
-      );
-    }
-
-    if (dataState is DataSuccess) {
-      emit(
-        GetBannerDone(
-          banners: dataState.data!.data!,
+    try {
+      DataState<BannerResponseModel> dataState = await _getBannerUsecase.call(
+        BannerParam(
+          groupId: event.groupId,
+          limit: "10",
+          token: event.tokenParam.token,
         ),
       );
-    }
 
-    if (dataState is DataFailed) {
+      if (kDebugMode) {
+        await Future.delayed(
+          const Duration(seconds: 3),
+        );
+      }
+
+      if (dataState is DataSuccess) {
+        emit(
+          GetBannerDone(
+            banners: dataState.data!.data!.data!,
+          ),
+        );
+      }
+
+      if (dataState is DataFailed) {
+        emit(
+          GetBannerFailed(
+            error: dataState.error,
+          ),
+        );
+      }
+    } catch (e) {
       emit(
-        GetBannerFailed(
-          error: dataState.error,
-        ),
+        GetBannerFailed(),
       );
     }
   }

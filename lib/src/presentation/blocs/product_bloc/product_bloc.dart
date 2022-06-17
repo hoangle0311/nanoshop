@@ -5,9 +5,11 @@ import 'package:equatable/equatable.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:nanoshop/src/core/bloc/bloc_with_state.dart';
+import 'package:nanoshop/src/core/params/filter_param.dart';
 import 'package:nanoshop/src/core/params/product_param.dart';
 import 'package:nanoshop/src/core/utils/log/log.dart';
 import 'package:nanoshop/src/data/models/product_response_model/product_response_model.dart';
+import 'package:nanoshop/src/domain/entities/manufacture/manufacturer.dart';
 import 'package:nanoshop/src/domain/usecases/domain_layer_usecase.dart';
 
 import '../../../core/params/token_param.dart';
@@ -15,6 +17,7 @@ import '../../../core/resource/data_state.dart';
 import '../../../domain/entities/product/product.dart';
 
 part 'product_event.dart';
+
 part 'product_state.dart';
 
 class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
@@ -95,7 +98,29 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
     GetListProductEvent event,
     Emitter emit,
   ) async {
+    _page = 1;
     List<Product> products = [];
+    var priceMax, priceMin, manuId;
+    if (event.filterParam != null) {
+      if (event.filterParam!.values != null) {
+        priceMax = event.filterParam!.values!.end.round();
+        priceMin = event.filterParam!.values!.start.round();
+      }
+
+      if (event.filterParam!.manufacturer != Manufacturer.empty) {
+        manuId = event.filterParam!.manufacturer!.id;
+      }
+    }
+
+    final param = ProductParam(
+      page: _page,
+      limit: postPerPage,
+      token: event.tokenParam.token,
+      categoryId: event.categoryId,
+      priceMax: priceMax,
+      priceMin: priceMin,
+      manuId: manuId,
+    );
 
     emit(
       state.copyWith(
@@ -104,13 +129,7 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
     );
 
     DataState<ProductResponseModel> dataState =
-        await _getListProductUsecase.call(
-      ProductParam(
-        page: _page,
-        limit: postPerPage,
-        token: event.tokenParam.token,
-      ),
-    );
+        await _getListProductUsecase.call(param);
 
     if (dataState is DataSuccess) {
       products.addAll(
@@ -122,6 +141,7 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
 
       emit(
         state.copyWith(
+          param: param,
           status: ProductStatus.success,
           products: List.of(products),
           hasMore: products.length >= postPerPage,
@@ -185,18 +205,18 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
   }
 
   _onLoadMore(
-    event,
+    LoadMoreListProductEvent event,
     Emitter emit,
   ) async {
     _page++;
 
     List<Product> products = [];
 
-    if (!kReleaseMode) {
-      await Future.delayed(
-        const Duration(seconds: 5),
-      );
-    }
+    // if (!kReleaseMode) {
+    //   await Future.delayed(
+    //     const Duration(seconds: 5),
+    //   );
+    // }
 
     emit(
       state.copyWith(
@@ -204,16 +224,23 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
       ),
     );
 
-    DataState response = await _getListProductUsecase.call(
-      ProductParam(
-        page: _page,
-        limit: postPerPage,
-        token: event.tokenParam.token,
-      ),
+    final param = ProductParam(
+      page: _page,
+      limit: postPerPage,
+      token: state.param!.token,
+      categoryId: state.param!.categoryId,
+      manuId: state.param!.manuId,
+      priceMin: state.param!.priceMin,
+      priceMax: state.param!.priceMax,
+    );
+
+    DataState<ProductResponseModel> response =
+        await _getListProductUsecase.call(
+      param,
     );
 
     if (response is DataSuccess) {
-      products.addAll(response.data);
+      products.addAll(response.data!.data!.data!);
 
       List<Product> listCheckProduct =
           await _checkProductHasFavourite(products);
@@ -223,6 +250,13 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
           status: ProductStatus.success,
           products: List.of(state.products)..addAll(listCheckProduct),
           hasMore: listCheckProduct.length >= postPerPage,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          status: ProductStatus.failure,
+          hasMore: false,
         ),
       );
     }

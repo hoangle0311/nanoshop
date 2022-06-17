@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "337515841050",
+    "project_id": "jk-audio-3f8f4",
+    "storage_bucket": "jk-audio-3f8f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337515841050:android:5cff38d2ffc8e9d947f3a3",
+        "android_client_info": {
+          "package_name": "jkaudio.org"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337515841050-bf86d9k4ai04mfm3r8rc9f9beqe7ke2b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jkaudio.org",
+            "certificate_hash": "2fa9e9da97f87d5a58923e24ab9bc73810f8ff1f"
+          }
+        },
+        {
+          "client_id": "337515841050-sodk8rvkjvnfcdebfbnc8qvanqhlqvis.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhJa9VG_AI8dexugEacqmE2MhTBE8GZcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337515841050-sodk8rvkjvnfcdebfbnc8qvanqhlqvis.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "337515841050-23de6g6b8u29gtluak0c1r8mkaocm0uk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jkaudio.org"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

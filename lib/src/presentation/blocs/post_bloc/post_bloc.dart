@@ -26,7 +26,7 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
 
   PostBloc(
     this._getListPostUsecase,
-  ) : super(PostLoading()) {
+  ) : super(const PostState()) {
     on<GetListPost>(_onLoadListPost);
     on<LoadMorePost>(_onLoadMoreList);
   }
@@ -35,6 +35,11 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
     GetListPost event,
     emit,
   ) async {
+    emit(
+      state.copyWith(
+        status: PostStatus.loading,
+      ),
+    );
     DataState<PostResponseModel> dataState = await _getListPostUsecase.call(
       PostParam(
         page: _page,
@@ -47,17 +52,18 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
       List<Post> posts = dataState.data!.data!.data!;
 
       emit(
-        PostDone(
+        state.copyWith(
+          status: PostStatus.success,
           posts: posts,
-          hasMore: posts.length > postPerPage,
+          hasMore: posts.length >= postPerPage,
         ),
       );
     }
 
     if (dataState is DataFailed) {
       emit(
-        PostFailed(
-          dioError: dataState.error,
+        state.copyWith(
+          status: PostStatus.failure,
         ),
       );
     }
@@ -67,55 +73,91 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
     LoadMorePost event,
     emit,
   ) async {
-    if (state is PostDone) {
-      _page++;
-      Stream stream = runBlocProcess(
-        () async* {
-          if (!kReleaseMode) {
-            await Future.delayed(
-              Duration(seconds: 3),
-            );
-          }
+    emit(
+      state.copyWith(
+        status: PostStatus.loading,
+      ),
+    );
+    _page++;
 
-          List<Post> posts = [];
+    DataState<PostResponseModel> dataState = await _getListPostUsecase.call(
+      PostParam(
+        page: _page,
+        limit: postPerPage,
+        token: event.tokenParam.token,
+      ),
+    );
 
-          DataState<PostResponseModel> dataState = await _getListPostUsecase.call(
-            PostParam(
-              page: _page,
-              limit: postPerPage,
-              token: event.tokenParam.token,
-            ),
-          );
+    if (dataState is DataSuccess) {
+      List<Post> posts = dataState.data!.data!.data!;
 
-          if (dataState is DataSuccess) {
-            posts.addAll(
-              dataState.data!.data!.data!,
-            );
-
-            yield PostDone(
-              posts: posts,
-              hasMore: posts.length > postPerPage,
-            );
-          }
-
-          if (dataState is DataFailed) {
-            yield PostDone(
-              posts: posts,
-              hasMore: false,
-            );
-          }
-        },
+      emit(
+        state.copyWith(
+          status: PostStatus.success,
+          posts: List.of(state.posts)..addAll(posts),
+          hasMore: posts.length >= postPerPage,
+        ),
       );
-
-      await for (final stateValue in stream) {
-        var currentState = state as PostDone;
-        List<Post> posts = [];
-        posts.addAll(currentState.posts);
-        posts.addAll(stateValue.posts);
-        emit(
-          currentState.copyWith(posts: posts, hasMore: stateValue.hasMore),
-        );
-      }
     }
+
+    if (dataState is DataFailed) {
+      emit(
+        state.copyWith(
+          status: PostStatus.success,
+          hasMore: false,
+        ),
+      );
+    }
+
+    // if (state is PostDone) {
+    //   _page++;
+    //   Stream stream = runBlocProcess(
+    //     () async* {
+    //       if (!kReleaseMode) {
+    //         await Future.delayed(
+    //          const Duration(seconds: 3),
+    //         );
+    //       }
+    //
+    //       List<Post> posts = [];
+    //
+    //       DataState<PostResponseModel> dataState = await _getListPostUsecase.call(
+    //         PostParam(
+    //           page: _page,
+    //           limit: postPerPage,
+    //           token: event.tokenParam.token,
+    //         ),
+    //       );
+    //
+    //       if (dataState is DataSuccess) {
+    //         posts.addAll(
+    //           dataState.data!.data!.data!,
+    //         );
+    //
+    //         yield PostDone(
+    //           posts: posts,
+    //           hasMore: posts.length > postPerPage,
+    //         );
+    //       }
+    //
+    //       if (dataState is DataFailed) {
+    //         yield PostDone(
+    //           posts: posts,
+    //           hasMore: false,
+    //         );
+    //       }
+    //     },
+    //   );
+    //
+    //   await for (final stateValue in stream) {
+    //     var currentState = state as PostDone;
+    //     List<Post> posts = [];
+    //     posts.addAll(currentState.posts);
+    //     posts.addAll(stateValue.posts);
+    //     emit(
+    //       currentState.copyWith(posts: posts, hasMore: stateValue.hasMore),
+    //     );
+    //   }
+    // }
   }
 }

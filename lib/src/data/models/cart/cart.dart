@@ -9,6 +9,7 @@ class Cart extends Equatable {
   final String? avatarName;
   final String? avatarPath;
   final String? priceMarket;
+  final bool isChecking;
 
   const Cart({
     this.id,
@@ -18,13 +19,19 @@ class Cart extends Equatable {
     this.avatarPath,
     this.priceMarket,
     this.total = 0,
+    this.isChecking = true,
   });
+
+  double getTotalPrice() {
+    return total * double.parse(price ?? '0');
+  }
 
   @override
   List<Object?> get props => [
         id,
         name,
         total,
+        isChecking,
       ];
 
   factory Cart.fromProduct({
@@ -42,9 +49,11 @@ class Cart extends Equatable {
 
   Cart copyWith({
     int? total,
+    bool? isChecking,
   }) {
     return Cart(
       total: total ?? this.total,
+      isChecking: isChecking ?? this.isChecking,
       avatarName: avatarName,
       avatarPath: avatarPath,
       id: id,

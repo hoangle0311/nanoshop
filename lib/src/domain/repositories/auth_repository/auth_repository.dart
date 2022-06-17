@@ -1,6 +1,8 @@
 import 'package:nanoshop/src/core/params/login_user_param.dart';
+import 'package:nanoshop/src/data/models/default_response_model/default_response_model.dart';
 import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 
+import '../../../core/params/change_password_param.dart';
 import '../../../core/params/get_user_param.dart';
 import '../../../core/params/sign_up_param.dart';
 import '../../../core/resource/data_state.dart';
@@ -18,6 +20,10 @@ abstract class AuthRepository {
 
   Future<DataState<UserLoginResponseModel>> getUser(
     GetUserParam param,
+  );
+
+  Future<DataState<DefaultResponseModel>> changePassword(
+    ChangePasswordParam param,
   );
 
   String? getUserIdLocal();

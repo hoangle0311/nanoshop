@@ -116,5 +116,8 @@ class UserLogin extends Equatable {
   @override
   List<Object?> get props => [
         userId,
+        name,
+        email,
+        phone,
       ];
 }

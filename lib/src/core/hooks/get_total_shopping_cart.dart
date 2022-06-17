@@ -9,7 +9,10 @@ String getTotalPriceShoppingCart(BuildContext context) {
 
   var total = 0;
   for (var element in listCart) {
-    total += (element.total) * double.parse(element.price ?? '0').round();
+    if(!element.isChecking){
+      continue;
+    }
+    total += element.getTotalPrice().round();
   }
 
   return total.toString();

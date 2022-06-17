@@ -1,11 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
+import 'package:nanoshop/src/config/styles/app_text_style.dart';
+import 'package:nanoshop/src/domain/entities/product/image_product.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
 import 'package:nanoshop/src/presentation/views/components/image_widget/load_image_form_url_widget.dart';
 
 class DetailProductSliderImage extends StatefulWidget {
-  final List<String> images;
+  final List<ImageProduct> images;
 
   const DetailProductSliderImage({
     Key? key,
@@ -42,9 +45,12 @@ class _DetailProductSliderImageState extends State<DetailProductSliderImage> {
             ),
             items: widget.images.map(
               (e) {
+
+                var imageUrl = Environment.domain + '/mediacenter/' + (e.path ?? '') + (e.name??'');
+
                 return Container(
                   child: LoadImageFromUrlWidget(
-                    imageUrl: e,
+                    imageUrl: imageUrl,
                   ),
                 );
               },
@@ -57,11 +63,14 @@ class _DetailProductSliderImageState extends State<DetailProductSliderImage> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             decoration: BoxDecoration(
-              color: AppColors.primaryColor,
+              color: AppColors.grey,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               "${_indexPage + 1}/${widget.images.length}",
+              style: TextStyleApp.textStyle4.copyWith(
+                fontSize: 13,
+              ),
             ),
           ),
         ),

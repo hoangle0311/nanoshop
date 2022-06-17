@@ -10,6 +10,7 @@ import 'package:nanoshop/src/data/models/user/user_login_response_model.dart';
 import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/login_usecase.dart';
 
+import '../../../chat/firebase/firebase_account.dart';
 import '../../../domain/usecases/auth_usecase/add_user_local_usecase.dart';
 
 part 'login_event.dart';
@@ -84,29 +85,46 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ),
       );
 
-      DataState<UserLoginResponseModel> dataState = await _loginUsecase.call(
-        LoginUserParam(
-          userName: state.username.value,
-          password: state.password.value,
-          token: event.tokenParam.token,
-        ),
-      );
-
-      if (dataState is DataSuccess) {
-
-        await _addUserLocalUsecase.call(
-          dataState.data!.data!,
-        );
-
-        emit(
-          state.copyWith(
-            status: FormzStatus.submissionSuccess,
-            userLogin: dataState.data!.data,
+      try {
+        DataState<UserLoginResponseModel> dataState = await _loginUsecase.call(
+          LoginUserParam(
+            userName: state.username.value,
+            password: state.password.value,
+            token: event.tokenParam.token,
           ),
         );
-      }
 
-      if (dataState is DataFailed) {
+        // TODO FIREBASE ACCOUNT
+         FireBaseAccount.createUser(
+          id: dataState.data!.data!.type! == '3'
+              ? "Admin"
+              : dataState.data!.data!.userId,
+          name: dataState.data!.data!.type! == '3'
+              ? 'Admin'
+              : dataState.data!.data!.name,
+        );
+
+        if (dataState is DataSuccess) {
+          await _addUserLocalUsecase.call(
+            dataState.data!.data!,
+          );
+
+          emit(
+            state.copyWith(
+              status: FormzStatus.submissionSuccess,
+              userLogin: dataState.data!.data,
+            ),
+          );
+        }
+
+        if (dataState is DataFailed) {
+          emit(
+            state.copyWith(
+              status: FormzStatus.submissionFailure,
+            ),
+          );
+        }
+      } catch (e) {
         emit(
           state.copyWith(
             status: FormzStatus.submissionFailure,

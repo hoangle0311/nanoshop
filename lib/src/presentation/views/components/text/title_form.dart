@@ -14,7 +14,7 @@ class TitleForm extends StatelessWidget {
     return Text(
       title,
       style: TextStyleApp.textStyle2.copyWith(
-        color: AppColors.yellow,
+        color: AppColors.accentPrimaryColor,
         fontSize: 21,
       ),
     );

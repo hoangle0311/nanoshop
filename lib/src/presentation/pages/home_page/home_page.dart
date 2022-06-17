@@ -8,15 +8,22 @@ import 'package:nanoshop/src/core/assets/image_path.dart';
 
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/blocs/flash_sale_bloc/flash_sale_bloc.dart';
+import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
 import 'package:nanoshop/src/presentation/views/components/banner_widget/slide_banner_home.dart';
 import 'package:nanoshop/src/presentation/views/components/buttons/button_with_title_widget.dart';
 import 'package:nanoshop/src/presentation/views/components/loading_widget/banner_loading.dart';
 import 'package:nanoshop/src/presentation/views/components/loading_widget/list_horizontal_category_loading.dart';
 import 'package:nanoshop/src/presentation/views/components/product_widget/list_vertical_product_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../chat/list_chat.dart';
+import '../../../chat/models/data_model.dart';
+import '../../../chat/screen_chat.dart';
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/hooks/go_to_list_product_screen.dart';
 import '../../../core/params/token_param.dart';
+import '../../../domain/entities/user_login/user_login.dart';
+import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../blocs/blocs.dart';
 import '../../blocs/local_product_bloc/local_product_bloc.dart';
 import '../../cubits/time_cubit/time_cubit.dart';
@@ -27,8 +34,8 @@ import '../../views/components/widgets/home_title_container.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  // Lay banner voi group bang 1
-  static const _groupIdBanner = '1';
+  // Lay banner voi group bang 15350
+  static const _groupIdBanner = '15272';
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +53,6 @@ class HomePage extends StatelessWidget {
         ),
         BlocProvider(
           lazy: true,
-
           create: (_) => injector<GetCategoryBloc>()
             ..add(
               GetListCategoryEvent(
@@ -76,11 +82,11 @@ class HomePage extends StatelessWidget {
                   height: 200,
                   scale: 1,
                 ),
-                Image.asset(
-                  ImagePath.backgroundImage,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+                // Image.asset(
+                //   ImagePath.backgroundImage,
+                //   width: double.infinity,
+                //   fit: BoxFit.cover,
+                // ),
               ],
             ),
           ),
@@ -96,15 +102,24 @@ class HomePage extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).padding.top,
         ),
-        HomeAppBar(),
+        const HomeAppBar(),
         Expanded(
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 _slideBanner(),
-                _horizontalCategory(),
-                // FlashSaleWidget(),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  color: HexColor("#F2F7FF"),
+                  child: _horizontalCategory(),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const FlashSaleWidget(),
                 // BlocProvider(
                 //   create: (context) => injector<ProductBloc>()
                 //     ..add(
@@ -113,15 +128,15 @@ class HomePage extends StatelessWidget {
                 //   child: const HorizontalListProductHomePage(),
                 // ),
                 // Banner Home
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
-                  child: const Placeholder(
-                    fallbackWidth: double.infinity,
-                    fallbackHeight: 120,
-                  ),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 10,
+                //   ),
+                //   child: const Placeholder(
+                //     fallbackWidth: double.infinity,
+                //     fallbackHeight: 120,
+                //   ),
+                // ),
                 BlocProvider(
                   create: (context) => injector<ProductBloc>()
                     ..add(
@@ -168,7 +183,7 @@ class HomePage extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: [
                       AppColors.primaryColor,
-                      AppColors.yellow,
+                      AppColors.accentPrimaryColor,
                     ],
                   ),
                 ),
@@ -217,8 +232,13 @@ class HomePage extends StatelessWidget {
                     horizontal: 10,
                     vertical: 10,
                   ),
-                  child: const HomeTitleContainer(
+                  child: HomeTitleContainer(
                     title: "Danh mục",
+                    titleColor: AppColors.primaryColor,
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(AppRouterEndPoint.LISTCATEGORY);
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -352,12 +372,12 @@ class VerticalListProductHomePage extends StatelessWidget {
                       vertical: 10,
                     ),
                     child: HomeTitleContainer(
-                      title: "Danh mục",
+                      title: "Tất cả sản phẩm",
                       titleColor: AppColors.black,
                       onTap: () {
                         goToListProductScreen(
                           context: context,
-                          title: "Danh mục",
+                          title: "Tất cả sản phẩm",
                         );
                       },
                     ),
@@ -376,13 +396,13 @@ class VerticalListProductHomePage extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         AppColors.primaryColor,
-                        AppColors.yellow,
+                        AppColors.accentPrimaryColor,
                       ],
                     ),
                     onTap: () {
                       goToListProductScreen(
                         context: context,
-                        title: "Danh mục",
+                        title: "Tất cả sản phẩm",
                       );
                     },
                   ),
@@ -433,7 +453,10 @@ class ShopsWidget extends StatelessWidget {
                     height: 10,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(AppRouterEndPoint.LISTSHOP);
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -443,7 +466,7 @@ class ShopsWidget extends StatelessWidget {
                         gradient: LinearGradient(
                           colors: [
                             AppColors.primaryColor,
-                            AppColors.yellow,
+                            AppColors.accentPrimaryColor,
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
@@ -492,7 +515,10 @@ class HomeAppBar extends StatelessWidget {
             ),
             Expanded(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(AppRouterEndPoint.SEARCHPRODUCT);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -507,13 +533,18 @@ class HomeAppBar extends StatelessWidget {
                         Container(
                           margin: const EdgeInsets.only(left: 20),
                           child: Text(
-                            'Từ khóa tìm kiếm...',
+                            'Tìm kiếm...',
+                            style: TextStyleApp.textStyle2.copyWith(
+                              color: AppColors.primaryColor,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
+                            color: AppColors.primaryColor,
                           ),
                           child: Image.asset(ImagePath.appBarIconSearch),
                         ),
@@ -526,21 +557,72 @@ class HomeAppBar extends StatelessWidget {
             SizedBox(
               width: 16,
             ),
-            Badge(
-              badgeContent: Text(
-                '1',
-              ),
-              badgeColor: Colors.white,
-              animationDuration: Duration.zero,
-              padding: const EdgeInsets.all(5),
-              child: Image.asset(
-                ImagePath.appBarShoppingBagIcon,
-              ),
+            BlocBuilder<ShoppingCartCubit, ShoppingCartState>(
+              buildWhen: (pre, cur) {
+                return pre.listCart != cur.listCart;
+              },
+              builder: (context, state) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      AppRouterEndPoint.SHOPPINGCART,
+                    );
+                  },
+                  child: Badge(
+                    showBadge: state.listCart.isNotEmpty,
+                    badgeContent: Text(
+                      state.listCart.length.toString(),
+                      style: TextStyleApp.textStyle1.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    badgeColor: Colors.white,
+                    animationDuration: Duration.zero,
+                    padding: const EdgeInsets.all(5),
+                    child: Image.asset(
+                      ImagePath.appBarShoppingBagIcon,
+                    ),
+                  ),
+                );
+              },
             ),
             SizedBox(
               width: 16,
             ),
-            Image.asset(ImagePath.appBarMessageIcon),
+            InkWell(
+              onTap: () async {
+                var authBloc = context.read<AuthenticationBloc>();
+                var authState = authBloc.state;
+
+                if (authState.user != UserLogin.empty) {
+                  DataModel dataModel = DataModel(authState.user.userId);
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  if (authState.user.type == '3') {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ListChat(
+                        id: 'Admin',
+                      ),
+                    ));
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ScreenChat(
+                        arguments: ModelChatScreen(
+                          name: "Admin",
+                          currentUserNo: authState.user.userId!,
+                          peerNo: "Admin",
+                          prefs: prefs,
+                          model: dataModel,
+                        ),
+                      ),
+                    ));
+                  }
+                } else {
+                  Navigator.of(context).pushNamed(AppRouterEndPoint.LOGIN);
+                }
+              },
+              child: Image.asset(ImagePath.appBarMessageIcon),
+            ),
           ],
         ),
       ),
@@ -557,20 +639,20 @@ class FlashSaleWidget extends StatelessWidget {
       builder: (context, state) {
         if (state.status == FlashSaleStatus.running) {
           return Container(
-            height: 520,
+            height: 480,
             color: Colors.white,
             child: Stack(
               children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Image.asset(
-                    ImagePath.flashSaleBackground,
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                // Positioned(
+                //   top: 0,
+                //   left: 0,
+                //   right: 0,
+                //   bottom: 0,
+                //   child: Image.asset(
+                //     ImagePath.flashSaleBackground,
+                //     fit: BoxFit.fill,
+                //   ),
+                // ),
                 const Positioned(
                   top: 0,
                   left: 0,
@@ -578,7 +660,7 @@ class FlashSaleWidget extends StatelessWidget {
                   child: TimeFlashSaleWidget(),
                 ),
                 Positioned(
-                  top: 120,
+                  top: 80,
                   left: 0,
                   right: 0,
                   bottom: 0,
@@ -633,7 +715,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
           end: Alignment.centerRight,
           colors: [
             AppColors.primaryColor,
-            AppColors.yellow,
+            AppColors.accentPrimaryColor,
           ],
         ).createShader(bounds);
       },
@@ -647,7 +729,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Text(
-          time > 10 ? time.toString() : "0" + time.toString(),
+          time > 9 ? time.toString() : "0" + time.toString(),
           style: TextStyleApp.textStyle2.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -678,6 +760,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
           return Stack(
             children: [
               Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Image.asset(
                   ImagePath.flashSaleDecor,
                   fit: BoxFit.cover,
@@ -685,7 +768,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 10,
+                top: 20,
                 left: 0,
                 right: 0,
                 child: Row(

@@ -15,6 +15,7 @@ class ListShoppingCartWidget extends StatelessWidget {
       builder: (context, state) {
         if (state.listCart.isNotEmpty) {
           return ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: state.listCart.length,
             itemBuilder: ((context, index) {
               return ShoppingCartListTile(

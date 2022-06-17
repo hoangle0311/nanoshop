@@ -50,12 +50,12 @@ class _DetailWithTittleProductFragmentState
               ),
             ),
           ),
-          if (widget.product.productDesc != null &&
-              widget.product.productDesc != null)
+          if (widget.product.productInfo!.productDesc != null &&
+              widget.product.productInfo!.productSortdesc  != null)
             Html(
               data: _isActive
-                  ? widget.product.productDesc
-                  : widget.product.productSortdesc,
+                  ? widget.product.productInfo!.productDesc
+                  : widget.product.productInfo!.productSortdesc,
             ),
           ButtonSeeMore(
             isActive: _isActive,

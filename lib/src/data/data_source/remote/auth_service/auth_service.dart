@@ -1,7 +1,6 @@
 import 'package:nanoshop/src/core/constant/api/api_path.dart';
 import 'package:nanoshop/src/data/models/sign_up_response_model/sign_up_response_model.dart';
 import 'package:nanoshop/src/data/models/user/user_login_response_model.dart';
-import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -34,5 +33,11 @@ abstract class AuthService {
     @Part(name: "phone") required String phone,
     @Part(name: "password") required String password,
     @Part(name: "passwordConfirm") required String passwordConfirm,
+  });
+
+  @POST(ApiPath.changePassword)
+  Future<HttpResponse<SignUpResponseModel>> changePasswordUser({
+    @Header("token") required String token,
+    @Body() required Map<String, dynamic> body,
   });
 }

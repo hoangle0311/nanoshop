@@ -15,12 +15,14 @@ class ListVerticalPostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
+      padding:  EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       children: [
         ...List.generate(
           posts.length,
           (index) => PostListTile(
             post: posts[index],
+            index: index,
           ),
         )
       ],

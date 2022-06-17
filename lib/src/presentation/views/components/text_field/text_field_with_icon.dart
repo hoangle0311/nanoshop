@@ -48,7 +48,7 @@ class TextFieldWithIcon extends StatelessWidget {
           return LinearGradient(
             colors: <Color>[
               AppColors.primaryColor,
-              AppColors.yellow,
+              AppColors.accentPrimaryColor,
             ],
           ).createShader(bounds);
         },
@@ -66,7 +66,9 @@ class TextFieldWithIcon extends StatelessWidget {
           style: TextStyleApp.textStyle1,
           decoration: InputDecoration(
             labelText: labelText,
-            labelStyle: TextStyleApp.textStyle1,
+            labelStyle: TextStyleApp.textStyle1.copyWith(
+              color: AppColors.primaryColor,
+            ),
             errorText: errorText,
             errorStyle: TextStyleApp.textStyle1.copyWith(
               color: Colors.red,

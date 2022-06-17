@@ -56,6 +56,31 @@ dependencies:
   badges: ^2.0.3
   google_fonts: ^2.3.1
   intl: ^0.17.0
+  share: ^2.0.4
+  webview_flutter: any
+  flutter_rating_bar: ^4.0.0
+  google_maps_flutter: ^2.1.2
+  rxdart: ^0.27.3
+  cloud_firestore: ^3.1.11
+  firebase_messaging: ^11.2.12
+  firebase_core: ^1.14.0
+  firebase_storage: ^10.2.11
+  flutter_linkify: ^5.0.2
+  url_launcher: ^6.0.10
+  photo_view: ^0.13.0
+  flutter_local_notifications: ^9.4.0
+  scoped_model: ^2.0.0-nullsafety.0
+  localstorage: ^4.0.0+1
+  cached_network_image: ^3.2.0
+  fluttertoast: ^8.0.9
+  permission_handler: ^9.2.0
+  ntp: ^2.0.0
+  image_picker: ^0.8.4+11
+  media_info: ^0.10.0
+  keyboard_dismisser: ^2.0.1
+  percent_indicator: ^4.0.0
+  provider: ^6.0.2
+
 
 dev_dependencies:
   flutter_test:
