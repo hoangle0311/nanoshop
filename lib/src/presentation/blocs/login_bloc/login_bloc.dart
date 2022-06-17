@@ -10,6 +10,7 @@ import 'package:nanoshop/src/data/models/user/user_login_response_model.dart';
 import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/login_usecase.dart';
 
+import '../../../chat/firebase/firebase_account.dart';
 import '../../../domain/usecases/auth_usecase/add_user_local_usecase.dart';
 
 part 'login_event.dart';
@@ -91,6 +92,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             password: state.password.value,
             token: event.tokenParam.token,
           ),
+        );
+
+        // TODO FIREBASE ACCOUNT
+        await FireBaseAccount.createUser(
+          id: dataState.data!.data!.type! == '3'
+              ? "Admin"
+              : dataState.data!.data!.userId,
+          name: dataState.data!.data!.type! == '3'
+              ? 'Admin'
+              : dataState.data!.data!.name,
         );
 
         if (dataState is DataSuccess) {
