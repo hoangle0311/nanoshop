@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanoshop/src/config/styles/app_color.dart';
 
 class RatingStarWidget extends StatelessWidget {
   final double rating;
@@ -18,19 +19,22 @@ class RatingStarWidget extends StatelessWidget {
       children: List.generate(
         total,
         (index) {
-          return rating > index + 1
+          return rating >= double.parse((index + 1).toString())
               ? Icon(
                   Icons.star,
                   size: kSizeStar,
+                  color: AppColors.yellow,
                 )
-              : rating >= index + 0.5
+              : rating > double.parse((index + 0.5).toString())
                   ? Icon(
                       Icons.star_half,
                       size: kSizeStar,
+                      color: AppColors.yellow,
                     )
                   : Icon(
                       Icons.star_border,
                       size: kSizeStar,
+                      color: AppColors.grey,
                     );
         },
       ),

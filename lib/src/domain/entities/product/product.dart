@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:nanoshop/src/domain/entities/product/image_product.dart';
+import 'package:nanoshop/src/domain/entities/product/product_info.dart';
 
 part 'product.g.dart';
 
@@ -74,9 +76,17 @@ class Product extends Equatable {
   final String? priceSaveText;
   @JsonKey(name: "is_liked")
   final int? isLiked;
+  @JsonKey(name: "product_info")
+  final ProductInfo? productInfo;
+  @JsonKey(name: "product_qty")
+  final String? productQty;
+  final List<ImageProduct>? images;
 
   const Product({
     this.id,
+    this.productQty,
+    this.productInfo,
+    this.images,
     this.name,
     this.price,
     this.priceMarket,

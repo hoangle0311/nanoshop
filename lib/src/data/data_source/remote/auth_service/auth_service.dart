@@ -1,7 +1,6 @@
 import 'package:nanoshop/src/core/constant/api/api_path.dart';
 import 'package:nanoshop/src/data/models/sign_up_response_model/sign_up_response_model.dart';
 import 'package:nanoshop/src/data/models/user/user_login_response_model.dart';
-import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 

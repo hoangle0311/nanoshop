@@ -15,6 +15,7 @@ import '../../../core/resource/data_state.dart';
 import '../../../domain/entities/product/product.dart';
 
 part 'product_event.dart';
+
 part 'product_state.dart';
 
 class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
@@ -185,18 +186,18 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
   }
 
   _onLoadMore(
-    event,
+    LoadMoreListProductEvent event,
     Emitter emit,
   ) async {
     _page++;
 
     List<Product> products = [];
 
-    if (!kReleaseMode) {
-      await Future.delayed(
-        const Duration(seconds: 5),
-      );
-    }
+    // if (!kReleaseMode) {
+    //   await Future.delayed(
+    //     const Duration(seconds: 5),
+    //   );
+    // }
 
     emit(
       state.copyWith(
@@ -204,7 +205,8 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
       ),
     );
 
-    DataState response = await _getListProductUsecase.call(
+    DataState<ProductResponseModel> response =
+        await _getListProductUsecase.call(
       ProductParam(
         page: _page,
         limit: postPerPage,
@@ -213,7 +215,7 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
     );
 
     if (response is DataSuccess) {
-      products.addAll(response.data);
+      products.addAll(response.data!.data!.data!);
 
       List<Product> listCheckProduct =
           await _checkProductHasFavourite(products);
@@ -223,6 +225,13 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
           status: ProductStatus.success,
           products: List.of(state.products)..addAll(listCheckProduct),
           hasMore: listCheckProduct.length >= postPerPage,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          status: ProductStatus.failure,
+          hasMore: false,
         ),
       );
     }

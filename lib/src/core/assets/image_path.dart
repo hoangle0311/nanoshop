@@ -2,6 +2,8 @@ class ImagePath {
   static const chiNhanhImage = 'assets/images/chi_nhanh.png';
   static const backgroundHomeAppbar =
       'assets/images/background_home_appbar.png';
+  static const backgroundAccountPage =
+      'assets/images/background_account_page.png';
   static const backgroundHomeAppbarBehind =
       'assets/images/background_home_appbar_behind.png';
   static const dummyImageStarter =
@@ -54,6 +56,8 @@ class ImagePath {
       'assets/images/account_page_icon/car_icon.png';
   static const accountPageIconFile =
       'assets/images/account_page_icon/file_icon.png';
+  static const accountPageIconWallet =
+      'assets/images/account_page_icon/wallet_icon.png';
   static const accountPageIconHelp =
       'assets/images/account_page_icon/help_icon.png';
   static const accountPageIconLogout =
@@ -93,11 +97,11 @@ class ImagePath {
   static const backgroundDecorateHeaderImage =
       'assets/images/background_app/decorate_image_header.png';
   static const locationIconPaymentScreen =
-      'assets/images/payment_screen_icon/location_icon.png';
+      'assets/images/payment_screen_icon/payment_location_icon.png';
   static const voucherIconPaymentScreen =
-      'assets/images/payment_screen_icon/voucher_icon.png';
+      'assets/images/payment_screen_icon/payment_ticket_icon.png';
   static const walletIconPaymentScreen =
-      'assets/images/payment_screen_icon/wallet_icon.png';
+      'assets/images/payment_screen_icon/payment_wallet_icon.png';
 
   static const hotSaleIconNotificationScreen =
       'assets/images/notification_screen_icon/hot_sale_icon.png';

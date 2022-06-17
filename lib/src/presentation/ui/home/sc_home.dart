@@ -19,60 +19,45 @@ class ScHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GetTokenBloc, GetTokenState>(
       builder: (context, state) {
-        if(state is GetTokenDone){
+        if (state is GetTokenDone) {
           return MultiBlocProvider(
             providers: [
-
               BlocProvider<FlashSaleBloc>(
-                create: (context) =>
-                injector<FlashSaleBloc>()
+                create: (context) => injector<FlashSaleBloc>()
                   ..add(
-                    GetFlashSale(),
+                    GetFlashSale(
+                      tokenParam: injector<TokenParam>(),
+                    ),
                   ),
               ),
             ],
             child: Scaffold(
               extendBody: true,
               body: BlocBuilder<BottomNavCubit, BottomNavState>(
-                builder: (context, state) =>
-                    IndexedStack(
-                      index: state.index,
-                      children: List.generate(
-                        navDataItems.length,
-                            (index) {
-                          switch (index) {
-                            case 0:
-                              return const HomePage();
-                            case 1:
-                              return MultiBlocProvider(
-                                providers: [
-                                  BlocProvider(
-                                    create: (BuildContext context) {
-                                      return injector<PostBloc>()
-                                        ..add(
-                                          GetListPost(
-                                            tokenParam: injector<TokenParam>(),
-                                          ),
-                                        );
-                                    },
-                                  ),
-                                ],
-                                child: const PostPage(),
-                              );
-                            case 2:
-                              return const ShoppingCartPage();
-                            case 3:
-                              return MessagePage();
-                            case 4:
-                              return AccountPage();
-                            default:
-                              return HomePage();
-                          }
-                        },
-                      ),
-                    ),
+                builder: (context, state) => IndexedStack(
+                  index: state.index,
+                  children: List.generate(
+                    navDataItems.length,
+                    (index) {
+                      switch (index) {
+                        case 0:
+                          return const HomePage();
+                        case 1:
+                          return const PostPage();
+                        case 2:
+                          return const ShoppingCartPage();
+                        case 3:
+                          return AccountPage();
+                        case 4:
+                          return AccountPage();
+                        default:
+                          return HomePage();
+                      }
+                    },
+                  ),
+                ),
               ),
-              bottomNavigationBar: BottomHomeNavBar(),
+              bottomNavigationBar: const BottomHomeNavBar(),
             ),
           );
         }

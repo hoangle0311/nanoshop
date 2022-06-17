@@ -37,6 +37,7 @@ class PostPage extends HookWidget {
   }) {
     return SingleChildScrollView(
       controller: mainScrollController,
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           _verticalListPost(),
@@ -48,16 +49,15 @@ class PostPage extends HookWidget {
   Widget _verticalListPost() {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
-        if (state is PostFailed) {
-          return Center(
+        if (state.posts.isEmpty && state.status == PostStatus.failure) {
+          return const Center(
             child: Text(
-              state.dioError?.message ?? "Lỗi khi tải dữ liệu",
+              "Lỗi khi tải dữ liệu",
             ),
           );
         }
 
-        if (state is PostDone) {
-          print(state.posts.length);
+        if (state.posts.isNotEmpty) {
           return ListVerticalPostWidget(posts: state.posts);
         }
 

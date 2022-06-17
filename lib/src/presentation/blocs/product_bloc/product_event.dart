@@ -36,5 +36,8 @@ class CheckAddFavouriteProductEvent extends ProductEvent {
 }
 
 class LoadMoreListProductEvent extends ProductEvent {
-  const LoadMoreListProductEvent() : super(index: 0);
+  final TokenParam tokenParam;
+  const LoadMoreListProductEvent({
+    required this.tokenParam,
+}) : super(index: 0);
 }

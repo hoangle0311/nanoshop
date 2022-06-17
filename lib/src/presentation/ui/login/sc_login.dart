@@ -60,7 +60,7 @@ class LoginForm extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.status == FormzStatus.submissionSuccess) {
           context.read<AuthenticationBloc>().add(
                 AuthenticationUserRequest(
@@ -68,6 +68,9 @@ class LoginForm extends StatelessWidget {
                   tokenParam: injector<TokenParam>(),
                 ),
               );
+          await Future.delayed(
+            Duration(seconds: 1),
+          );
           Navigator.of(context).pop(true);
         }
         if (state.status == FormzStatus.submissionFailure) {

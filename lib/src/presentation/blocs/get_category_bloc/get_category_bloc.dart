@@ -11,6 +11,7 @@ import '../../../domain/entities/category/category.dart';
 import '../../../domain/usecases/category_usecase/get_list_category_usecase.dart';
 
 part 'get_category_event.dart';
+
 part 'get_category_state.dart';
 
 class GetCategoryBloc extends Bloc<GetCategoryEvent, GetCategoryState> {
@@ -28,7 +29,10 @@ class GetCategoryBloc extends Bloc<GetCategoryEvent, GetCategoryState> {
   ) async {
     DataState<CategoryResponseModel> dataState =
         await _getListCategoryUsecase.call(
-      CategoryParam(token: event.tokenParam.token),
+      CategoryParam(
+        token: event.tokenParam.token,
+        type: "product",
+      ),
     );
 
     if (kDebugMode) {

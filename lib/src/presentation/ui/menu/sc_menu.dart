@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
+import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 
 import '../../../config/styles/app_color.dart';
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/data/menu_data/menu_data.dart';
 import '../../../core/utils/log/log.dart';
+import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../views/components/dash/dash.dart';
 
 class ScMenu extends StatelessWidget {
@@ -29,67 +33,62 @@ class ScMenu extends StatelessWidget {
     dynamic model,
     required BuildContext context,
   }) {
-    return InkWell(
-      onTap: () {
-        model.onTap();
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width / 2 - 10,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 25,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              model.url,
+    return Container(
+      width: MediaQuery.of(context).size.width / 2 - 10,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 25,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            model.url,
+            color: AppColors.primaryColor,
+          ),
+          SizedBox(
+            height: 23,
+          ),
+          Text(
+            model.name,
+            style: TextStyleApp.textStyle2.copyWith(
               color: AppColors.primaryColor,
+              fontSize: 15,
             ),
-            SizedBox(
-              height: 23,
-            ),
-            Text(
-              model.name,
-              style: TextStyleApp.textStyle2.copyWith(
-                color: AppColors.primaryColor,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Dash(
-              color: AppColors.primaryColor,
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            // RichText(
-            //   text: TextSpan(
-            //     children: [
-            //       TextSpan(
-            //         text: "33",
-            //         style: TextStyleApp.textStyle1.copyWith(
-            //           fontSize: 15,
-            //           color: AppColor.color17,
-            //         ),
-            //       ),
-            //       TextSpan(
-            //         text: " thông báo mới",
-            //         style: TextStyleApp.textStyle2.copyWith(
-            //           color: AppColor.color13,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Dash(
+            color: AppColors.primaryColor,
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          // RichText(
+          //   text: TextSpan(
+          //     children: [
+          //       TextSpan(
+          //         text: "33",
+          //         style: TextStyleApp.textStyle1.copyWith(
+          //           fontSize: 15,
+          //           color: AppColor.color17,
+          //         ),
+          //       ),
+          //       TextSpan(
+          //         text: " thông báo mới",
+          //         style: TextStyleApp.textStyle2.copyWith(
+          //           color: AppColor.color13,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+        ],
       ),
     );
   }
@@ -151,10 +150,28 @@ class ScMenu extends StatelessWidget {
                 children: [
                   ...List.generate(
                     dummyMenu.length,
-                    (index) => _itemMenu(
-                      model: dummyMenu[index],
-                      context: context,
-                    ),
+                    (index) {
+                      return InkWell(
+                        onTap: () {
+                          var authBloc = context.read<AuthenticationBloc>();
+                          var authState = authBloc.state;
+
+                          if (dummyMenu[index].name == "Đơn hàng") {
+                            if (authState.user != UserLogin.empty) {
+                              Navigator.of(context)
+                                  .pushNamed(AppRouterEndPoint.LISTORDER);
+                            } else {
+                              Navigator.of(context)
+                                  .pushNamed(AppRouterEndPoint.LOGIN);
+                            }
+                          }
+                        },
+                        child: _itemMenu(
+                          model: dummyMenu[index],
+                          context: context,
+                        ),
+                      );
+                    },
                   )
                 ],
               ),

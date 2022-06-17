@@ -1,10 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/domain/entities/flash_sale/flash_sale.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/get_flash_sale_product_usecase.dart';
 
+import '../../../data/models/flash_sale_response_model/flash_sale_response_model.dart';
+
 part 'flash_sale_event.dart';
+
 part 'flash_sale_state.dart';
 
 class FlashSaleBloc extends Bloc<FlashSaleEvent, FlashSaleState> {
@@ -25,13 +29,21 @@ class FlashSaleBloc extends Bloc<FlashSaleEvent, FlashSaleState> {
     GetFlashSale event,
     emit,
   ) async {
-    DataState dataState =
-        await _getListFlashSaleProductRemoteUsecase.call(null);
+    DataState<FlashSaleResponseModel> dataState =
+        await _getListFlashSaleProductRemoteUsecase.call(
+      event.tokenParam.token,
+    );
 
     if (dataState is DataSuccess) {
+      List<FlashSale> _listFlashSale = List.of(dataState.data!.data!);
+
+      if (_listFlashSale.isEmpty) {
+        return;
+      }
+
       emit(
         state.copyWith(
-          flashSale: dataState.data,
+          flashSale: _listFlashSale[0],
           status: FlashSaleStatus.running,
         ),
       );

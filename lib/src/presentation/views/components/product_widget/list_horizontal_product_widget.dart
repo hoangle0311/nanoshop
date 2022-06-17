@@ -17,7 +17,7 @@ class ListHorizontalProductWidget extends StatelessWidget {
     BuildContext context,
   ) {
     var imageUrl =
-        "http://plpharma.nanoweb.vn/mediacenter/media/images/plpharma.nanoweb.vn" +
+        "http://plpharma.nanoweb.vn/mediacenter/" +
             ((product.avatarPath ?? '') + (product.avatarName ?? ''));
 
     return InkWell(
@@ -59,6 +59,9 @@ class ListHorizontalProductWidget extends StatelessWidget {
                         imageUrl: imageUrl,
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -110,7 +113,7 @@ class ListHorizontalProductWidget extends StatelessWidget {
                           height: 10,
                         ),
                         StarWithRateCount(
-                          rateCount: product.rateCount ?? '0.0',
+                          rateCount: double.parse(product.productInfo != null ? product.productInfo!.totalRating ?? '0.0' : '0').round().toString(),
                         ),
                       ],
                     ),

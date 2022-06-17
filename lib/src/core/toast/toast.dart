@@ -22,10 +22,12 @@ class Toast {
                         onPressed: () {
                           textCancel();
                         }),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        text,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          text,
+                        ),
                       ),
                     )
                   ],

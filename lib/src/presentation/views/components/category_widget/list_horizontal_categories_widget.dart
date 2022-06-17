@@ -155,10 +155,10 @@ class ListHorizontalCategoriesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       child: Row(
         children: [
-          SizedBox(
+         const SizedBox(
             width: 10,
           ),
           IntrinsicHeight(

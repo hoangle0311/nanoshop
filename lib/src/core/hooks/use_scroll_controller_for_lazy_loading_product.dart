@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/blocs/blocs.dart';
+
+import '../params/token_param.dart';
 
 void onUseScrollControllerForLazyLoadingProduct(
   BuildContext context,
@@ -13,11 +16,13 @@ void onUseScrollControllerForLazyLoadingProduct(
   final state = bloc.state;
   final hasMore = bloc.state.hasMore;
 
-  if (currentScroll >= maxScrollExtend &&
+  if (currentScroll >= (maxScrollExtend - 200) &&
       hasMore &&
       state.status != ProductStatus.loading) {
     bloc.add(
-      const LoadMoreListProductEvent(),
+      LoadMoreListProductEvent(
+        tokenParam: injector<TokenParam>(),
+      ),
     );
   }
 }

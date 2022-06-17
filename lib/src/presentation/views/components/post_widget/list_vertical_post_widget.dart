@@ -21,6 +21,7 @@ class ListVerticalPostWidget extends StatelessWidget {
           posts.length,
           (index) => PostListTile(
             post: posts[index],
+            index: index,
           ),
         )
       ],

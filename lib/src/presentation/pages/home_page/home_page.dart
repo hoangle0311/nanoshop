@@ -8,6 +8,7 @@ import 'package:nanoshop/src/core/assets/image_path.dart';
 
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/blocs/flash_sale_bloc/flash_sale_bloc.dart';
+import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
 import 'package:nanoshop/src/presentation/views/components/banner_widget/slide_banner_home.dart';
 import 'package:nanoshop/src/presentation/views/components/buttons/button_with_title_widget.dart';
 import 'package:nanoshop/src/presentation/views/components/loading_widget/banner_loading.dart';
@@ -27,8 +28,8 @@ import '../../views/components/widgets/home_title_container.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  // Lay banner voi group bang 1
-  static const _groupIdBanner = '1';
+  // Lay banner voi group bang 15350
+  static const _groupIdBanner = '15350';
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,6 @@ class HomePage extends StatelessWidget {
         ),
         BlocProvider(
           lazy: true,
-
           create: (_) => injector<GetCategoryBloc>()
             ..add(
               GetListCategoryEvent(
@@ -96,15 +96,21 @@ class HomePage extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).padding.top,
         ),
-        HomeAppBar(),
+        const HomeAppBar(),
         Expanded(
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 _slideBanner(),
+                const SizedBox(
+                  height: 10,
+                ),
                 _horizontalCategory(),
-                // FlashSaleWidget(),
+                const SizedBox(
+                  height: 10,
+                ),
+                const FlashSaleWidget(),
                 // BlocProvider(
                 //   create: (context) => injector<ProductBloc>()
                 //     ..add(
@@ -526,16 +532,34 @@ class HomeAppBar extends StatelessWidget {
             SizedBox(
               width: 16,
             ),
-            Badge(
-              badgeContent: Text(
-                '1',
-              ),
-              badgeColor: Colors.white,
-              animationDuration: Duration.zero,
-              padding: const EdgeInsets.all(5),
-              child: Image.asset(
-                ImagePath.appBarShoppingBagIcon,
-              ),
+            BlocBuilder<ShoppingCartCubit, ShoppingCartState>(
+              buildWhen: (pre, cur) {
+                return pre.listCart != cur.listCart;
+              },
+              builder: (context, state) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      AppRouterEndPoint.SHOPPINGCART,
+                    );
+                  },
+                  child: Badge(
+                    showBadge: state.listCart.isNotEmpty,
+                    badgeContent: Text(
+                      state.listCart.length.toString(),
+                      style: TextStyleApp.textStyle1.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    badgeColor: Colors.white,
+                    animationDuration: Duration.zero,
+                    padding: const EdgeInsets.all(5),
+                    child: Image.asset(
+                      ImagePath.appBarShoppingBagIcon,
+                    ),
+                  ),
+                );
+              },
             ),
             SizedBox(
               width: 16,

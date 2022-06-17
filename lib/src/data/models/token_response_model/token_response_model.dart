@@ -19,7 +19,6 @@ class TokenResponseModel {
   });
 
   factory TokenResponseModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     return _$TokenResponseModelFromJson(json);
   }
 

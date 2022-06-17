@@ -89,8 +89,6 @@ class AuthenticationBloc
   ) async {
     var userId = _getUserLocalUsecase.call(null);
 
-    Log.i(userId.toString());
-
     if (userId == null) {
       return;
     }

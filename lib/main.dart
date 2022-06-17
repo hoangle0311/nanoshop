@@ -17,15 +17,19 @@ void main() async {
 
   await initializeDependencies();
 
+  injector<GetTokenBloc>()
+    .add(
+      GetToken(
+        injector<TokenParam>().string,
+        injector<TokenParam>().token,
+      ),
+    );
+
+  await Future.delayed(const Duration(milliseconds: 200));
+
   runApp(
     BlocProvider(
-      create: (context) => injector<GetTokenBloc>()
-        ..add(
-          GetToken(
-            injector<TokenParam>().string,
-            injector<TokenParam>().token,
-          ),
-        ),
+      create: (context) => injector<GetTokenBloc>(),
       child: const App(),
     ),
   );

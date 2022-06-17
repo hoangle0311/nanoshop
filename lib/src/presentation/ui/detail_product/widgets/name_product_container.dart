@@ -24,7 +24,10 @@ class NameProductContainer extends StatelessWidget {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
                 child: Row(
                   children: [
                     Expanded(
@@ -134,12 +137,16 @@ class NameProductContainer extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                product.rate ?? "0",
+                                double.parse(
+                                        product.productInfo!.totalRating ?? "0")
+                                    .round()
+                                    .toString(),
                                 style: TextStyleApp.textStyle2,
                               ),
                             ),
                             RatingStarWidget(
-                              rating: double.parse(product.rate ?? "0"),
+                              rating: double.parse(
+                                  product.productInfo!.totalRating ?? "0"),
                             ),
                           ],
                         ),
@@ -150,7 +157,7 @@ class NameProductContainer extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          'Bình luận ${product.rateCount ?? "0"} ',
+                          'Bình luận ${product.productInfo!.totalVotes ?? "0"} ',
                           textAlign: TextAlign.center,
                           style: TextStyleApp.textStyle2,
                         ),

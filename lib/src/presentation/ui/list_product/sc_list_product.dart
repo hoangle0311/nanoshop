@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/core/hooks/use_scroll_controller_for_lazy_loading_product.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
@@ -26,7 +27,7 @@ class ScListProductArgument {
 class ScListProduct extends StatelessWidget {
   final ScListProductArgument argument;
 
-  static const _groupIdBanner = '1';
+  static const _groupIdBanner = '15350';
 
   const ScListProduct({
     Key? key,
@@ -116,7 +117,7 @@ class _BannerProduct extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: LoadImageFromUrlWidget(
-                  imageUrl: state.banners[0].bannerSrc ?? '',
+                  imageUrl: Environment.domain + (state.banners[0].bannerSrc ?? ''),
                 ),
               ),
             );
