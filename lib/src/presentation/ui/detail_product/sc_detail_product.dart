@@ -19,6 +19,7 @@ import 'package:nanoshop/src/presentation/ui/detail_product/widgets/rating_detai
 import 'package:nanoshop/src/presentation/views/components/comment_widget/comment_list_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../chat/list_chat.dart';
 import '../../../chat/models/data_model.dart';
 import '../../../core/assets/image_path.dart';
 import '../../../core/constant/strings/strings.dart';
@@ -400,17 +401,28 @@ class _BottomNavigationBar extends StatelessWidget {
                               DataModel(authState.user.userId);
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ScreenChat(
-                              arguments: ModelChatScreen(
-                                name: "Admin",
-                                currentUserNo: authState.user.userId!,
-                                peerNo: "Admin",
-                                prefs: prefs,
-                                model: dataModel,
+                          if (authState.user.type == '3') {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ListChat(
+                                id: 'Admin',
                               ),
-                            ),
-                          ));
+                            ));
+                          } else {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ScreenChat(
+                                arguments: ModelChatScreen(
+                                  name: "Admin",
+                                  currentUserNo: authState.user.userId!,
+                                  peerNo: "Admin",
+                                  prefs: prefs,
+                                  model: dataModel,
+                                ),
+                              ),
+                            ));
+                          }
+                        } else {
+                          Navigator.of(context)
+                              .pushNamed(AppRouterEndPoint.LOGIN);
                         }
                       },
                     ),

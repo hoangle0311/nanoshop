@@ -29,7 +29,7 @@ final navDataItems = [
       debugLabel: "message",
     ),
     icon: const Icon(Icons.message),
-    label: "Tin nhắn",
+    label: "Thông báo",
     needUserAccess: true,
   ),
   NavData(

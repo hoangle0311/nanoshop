@@ -98,8 +98,12 @@ class _ScHomeState extends State<ScHome> {
                         case 1:
                           return const PostPage();
                         case 2:
-                          return const NotificationPage();
+                          return const ShoppingCartPage(
+                            isShow: true,
+                          );
                         case 3:
+                          return const NotificationPage();
+                        case 4:
                           return const AccountPage();
                         default:
                           return HomePage();
