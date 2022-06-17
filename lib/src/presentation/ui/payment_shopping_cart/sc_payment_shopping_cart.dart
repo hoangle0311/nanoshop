@@ -10,6 +10,7 @@ import 'package:nanoshop/src/data/models/cart/cart.dart';
 import 'package:nanoshop/src/domain/entities/payment/payment.dart';
 import 'package:nanoshop/src/domain/entities/transport/transport.dart';
 import 'package:nanoshop/src/injector.dart';
+import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
 import 'package:nanoshop/src/presentation/ui/payment_shopping_cart/widgets/payment_cart_list_tile.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 import 'package:nanoshop/src/presentation/views/components/remove_focus_widget/remove_focus_widget.dart';
@@ -116,6 +117,8 @@ class ScPaymentShoppingCart extends StatelessWidget {
                     Toast.showText(
                       'Đặt hàng thành công',
                     );
+
+                    context.read<ShoppingCartCubit>().onClearShoppingCart();
 
                     Navigator.pushNamedAndRemoveUntil(
                         context,

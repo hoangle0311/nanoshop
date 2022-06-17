@@ -36,4 +36,7 @@ class ApiPath {
   static const String getBank = '/api/home/getBank';
   static const String checkout = '/api/app/shopping/checkout';
   static const String getListOrder = '/api/app/profile/order';
+  static const String getListShop = '/api/home/getShopStore';
+  static const String changePassword = '/api/app/profile/changepassword';
+  static const String getManufacturer = '/api/home/GetManufacturer';
 }

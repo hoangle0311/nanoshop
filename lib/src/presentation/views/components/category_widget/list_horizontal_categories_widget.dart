@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:nanoshop/src/config/environment/app_environment.dart';
+import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/presentation/views/components/image_widget/load_image_form_url_widget.dart';
 
 import '../../../../config/styles/app_color.dart';
 import '../../../../config/styles/app_text_style.dart';
 import '../../../../domain/entities/category/category.dart';
+import '../../../ui/list_product/sc_list_product.dart';
 
 class ListHorizontalCategoriesWidget extends StatelessWidget {
   final List<Category> categories;
 
-  Widget _itemCategory(dynamic model) {
-    var imageUrl = "http://plpharma.nanoweb.vn/mediacenter" +
-        (model.imagePath + model.imageName);
+  Widget _itemCategory(Category model, BuildContext context) {
+    var imageUrl = "${Environment.domain}/mediacenter" +
+        ((model.imagePath ?? '') + (model.imageName ?? ''));
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          AppRouterEndPoint.LISTPRODUCT,
+          arguments: ScListProductArgument(
+            title: model.catName ?? '',
+            categoryId: model.catId,
+          ),
+        );
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
         // decoration: BoxDecoration(
@@ -70,7 +81,7 @@ class ListHorizontalCategoriesWidget extends StatelessWidget {
               width: 57,
               child: Center(
                 child: Text(
-                  model.catName,
+                  model.catName ?? '',
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   style: TextStyleApp.textStyle4.copyWith(
@@ -158,14 +169,17 @@ class ListHorizontalCategoriesWidget extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       child: Row(
         children: [
-         const SizedBox(
+          const SizedBox(
             width: 10,
           ),
           IntrinsicHeight(
             child: Row(
               children: categories
                   .map(
-                    (e) => _itemCategory(e),
+                    (e) => _itemCategory(
+                      e,
+                      context,
+                    ),
                   )
                   .toList(),
             ),

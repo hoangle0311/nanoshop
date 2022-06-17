@@ -108,7 +108,10 @@ class ScMenu extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
             child: TextField(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(AppRouterEndPoint.SEARCHPRODUCT);
+              },
               readOnly: true,
               decoration: InputDecoration(
                 hintStyle: TextStyleApp.textStyle2.copyWith(
@@ -160,6 +163,16 @@ class ScMenu extends StatelessWidget {
                             if (authState.user != UserLogin.empty) {
                               Navigator.of(context)
                                   .pushNamed(AppRouterEndPoint.LISTORDER);
+                            } else {
+                              Navigator.of(context)
+                                  .pushNamed(AppRouterEndPoint.LOGIN);
+                            }
+                          }
+
+                          if (dummyMenu[index].name == "Thông báo") {
+                            if (authState.user != UserLogin.empty) {
+                              Navigator.of(context)
+                                  .pushNamed(AppRouterEndPoint.NOTIFICATION);
                             } else {
                               Navigator.of(context)
                                   .pushNamed(AppRouterEndPoint.LOGIN);

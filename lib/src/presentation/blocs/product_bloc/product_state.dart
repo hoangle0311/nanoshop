@@ -6,10 +6,12 @@ class ProductState extends Equatable {
   final List<Product> products;
   final ProductStatus status;
   final bool hasMore;
+  final ProductParam? param;
 
   const ProductState({
     this.products = const [],
     this.hasMore = false,
+    this.param,
     this.status = ProductStatus.initial,
   });
 
@@ -17,11 +19,13 @@ class ProductState extends Equatable {
     ProductStatus? status,
     List<Product>? products,
     bool? hasMore,
+    ProductParam? param,
   }) {
     return ProductState(
       status: status ?? this.status,
       products: products ?? this.products,
       hasMore: hasMore ?? this.hasMore,
+      param: param ?? this.param,
     );
   }
 
@@ -30,6 +34,7 @@ class ProductState extends Equatable {
         products,
         status,
         hasMore,
+        param,
       ];
 }
 

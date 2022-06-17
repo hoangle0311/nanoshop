@@ -186,4 +186,12 @@ class ShoppingCartCubit extends Cubit<ShoppingCartState> {
       ),
     );
   }
+
+  void onClearShoppingCart() {
+    emit(
+      state.copyWith(
+        listCart: [],
+      ),
+    );
+  }
 }

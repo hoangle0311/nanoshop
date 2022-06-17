@@ -8,6 +8,7 @@ import '../../../../core/constant/api/api_path.dart';
 import '../../../../core/utils/log/log.dart';
 import '../../../models/add_comment_response/add_comment_response_model.dart';
 import '../../../models/flash_sale_response_model/flash_sale_response_model.dart';
+import '../../../models/manufacturer_response_model/manufacturer_response_model.dart';
 import '../../../models/product_response_model/detail_product_response_model.dart';
 import '../../../models/product_response_model/product_response_model.dart';
 
@@ -21,8 +22,7 @@ abstract class ProductRemoteService {
   @POST(ApiPath.product)
   Future<HttpResponse<ProductResponseModel>> getListProduct({
     @Header("token") required String token,
-    @Part(name: "page") int? page = 1,
-    @Part(name: "limit") int? limit = 10,
+    @Body() required Map<String, dynamic> body,
   });
 
   @POST(ApiPath.detailProduct)
@@ -64,6 +64,11 @@ abstract class ProductRemoteService {
 
   @GET(ApiPath.flashSale)
   Future<HttpResponse<FlashSaleResponseModel>> getListProductFlashSale({
+    @Header("token") required String token,
+  });
+
+  @GET(ApiPath.getManufacturer)
+  Future<HttpResponse<ManufacturerResponseModel>> getListManufacturer({
     @Header("token") required String token,
   });
 }

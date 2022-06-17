@@ -12,10 +12,14 @@ abstract class ProductEvent extends Equatable {
 }
 
 class GetListProductEvent extends ProductEvent {
+  final String? categoryId;
   final TokenParam tokenParam;
+  final FilterParam? filterParam;
 
   GetListProductEvent({
     required this.tokenParam,
+    this.categoryId,
+    this.filterParam,
   }) : super(index: 0);
 }
 

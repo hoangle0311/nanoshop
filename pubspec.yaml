@@ -59,6 +59,8 @@ dependencies:
   share: ^2.0.4
   webview_flutter: any
   flutter_rating_bar: ^4.0.0
+  google_maps_flutter: ^2.1.2
+  rxdart: ^0.27.3
 
 dev_dependencies:
   flutter_test:

@@ -119,15 +119,15 @@ class HomePage extends StatelessWidget {
                 //   child: const HorizontalListProductHomePage(),
                 // ),
                 // Banner Home
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
-                  child: const Placeholder(
-                    fallbackWidth: double.infinity,
-                    fallbackHeight: 120,
-                  ),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 10,
+                //   ),
+                //   child: const Placeholder(
+                //     fallbackWidth: double.infinity,
+                //     fallbackHeight: 120,
+                //   ),
+                // ),
                 BlocProvider(
                   create: (context) => injector<ProductBloc>()
                     ..add(
@@ -223,8 +223,12 @@ class HomePage extends StatelessWidget {
                     horizontal: 10,
                     vertical: 10,
                   ),
-                  child: const HomeTitleContainer(
+                  child: HomeTitleContainer(
                     title: "Danh mục",
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(AppRouterEndPoint.LISTCATEGORY);
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -358,12 +362,12 @@ class VerticalListProductHomePage extends StatelessWidget {
                       vertical: 10,
                     ),
                     child: HomeTitleContainer(
-                      title: "Danh mục",
+                      title: "Tất cả sản phẩm",
                       titleColor: AppColors.black,
                       onTap: () {
                         goToListProductScreen(
                           context: context,
-                          title: "Danh mục",
+                          title: "Tất cả sản phẩm",
                         );
                       },
                     ),
@@ -388,7 +392,7 @@ class VerticalListProductHomePage extends StatelessWidget {
                     onTap: () {
                       goToListProductScreen(
                         context: context,
-                        title: "Danh mục",
+                        title: "Tất cả sản phẩm",
                       );
                     },
                   ),
@@ -439,7 +443,10 @@ class ShopsWidget extends StatelessWidget {
                     height: 10,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(AppRouterEndPoint.LISTSHOP);
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -498,7 +505,10 @@ class HomeAppBar extends StatelessWidget {
             ),
             Expanded(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(AppRouterEndPoint.SEARCHPRODUCT);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -513,13 +523,18 @@ class HomeAppBar extends StatelessWidget {
                         Container(
                           margin: const EdgeInsets.only(left: 20),
                           child: Text(
-                            'Từ khóa tìm kiếm...',
+                            'Tìm kiếm...',
+                            style: TextStyleApp.textStyle2.copyWith(
+                              color: AppColors.primaryColor,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
+                            color: AppColors.primaryColor,
                           ),
                           child: Image.asset(ImagePath.appBarIconSearch),
                         ),
@@ -671,7 +686,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Text(
-          time > 10 ? time.toString() : "0" + time.toString(),
+          time > 9 ? time.toString() : "0" + time.toString(),
           style: TextStyleApp.textStyle2.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.bold,

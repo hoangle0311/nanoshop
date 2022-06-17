@@ -84,29 +84,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ),
       );
 
-      DataState<UserLoginResponseModel> dataState = await _loginUsecase.call(
-        LoginUserParam(
-          userName: state.username.value,
-          password: state.password.value,
-          token: event.tokenParam.token,
-        ),
-      );
-
-      if (dataState is DataSuccess) {
-
-        await _addUserLocalUsecase.call(
-          dataState.data!.data!,
-        );
-
-        emit(
-          state.copyWith(
-            status: FormzStatus.submissionSuccess,
-            userLogin: dataState.data!.data,
+      try {
+        DataState<UserLoginResponseModel> dataState = await _loginUsecase.call(
+          LoginUserParam(
+            userName: state.username.value,
+            password: state.password.value,
+            token: event.tokenParam.token,
           ),
         );
-      }
 
-      if (dataState is DataFailed) {
+        if (dataState is DataSuccess) {
+          await _addUserLocalUsecase.call(
+            dataState.data!.data!,
+          );
+
+          emit(
+            state.copyWith(
+              status: FormzStatus.submissionSuccess,
+              userLogin: dataState.data!.data,
+            ),
+          );
+        }
+
+        if (dataState is DataFailed) {
+          emit(
+            state.copyWith(
+              status: FormzStatus.submissionFailure,
+            ),
+          );
+        }
+      } catch (e) {
         emit(
           state.copyWith(
             status: FormzStatus.submissionFailure,

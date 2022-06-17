@@ -20,7 +20,6 @@ class CommentResponseModel {
   });
 
   factory CommentResponseModel.fromJson(Map<String, dynamic> json) {
-    Log.i(json.toString());
     return _$CommentResponseModelFromJson(json);
   }
 

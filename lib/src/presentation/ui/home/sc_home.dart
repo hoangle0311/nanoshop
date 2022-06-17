@@ -10,6 +10,7 @@ import '../../blocs/blocs.dart';
 import '../../blocs/flash_sale_bloc/flash_sale_bloc.dart';
 import '../../blocs/post_bloc/post_bloc.dart';
 import '../../bottom_home_nav_bar.dart';
+import '../../pages/notification_page/notification_page.dart';
 import '../../pages/pages.dart';
 
 class ScHome extends StatelessWidget {
@@ -45,11 +46,9 @@ class ScHome extends StatelessWidget {
                         case 1:
                           return const PostPage();
                         case 2:
-                          return const ShoppingCartPage();
+                          return const NotificationPage();
                         case 3:
-                          return AccountPage();
-                        case 4:
-                          return AccountPage();
+                          return const AccountPage();
                         default:
                           return HomePage();
                       }

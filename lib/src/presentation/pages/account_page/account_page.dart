@@ -128,6 +128,9 @@ class UserConfigWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ItemConfig(
+            onTap: (){
+              Navigator.of(context).pushNamed(AppRouterEndPoint.UPDATEINFORMATION);
+            },
             title: Strings.labelAccountPageConfig,
             pathIcons: ImagePath.accountPageIconUser,
           ),
@@ -170,6 +173,9 @@ class UserConfigWidget2 extends StatelessWidget {
             pathIcons: ImagePath.accountPageIconHelp,
           ),
           ItemConfig(
+            onTap: (){
+              Navigator.of(context).pushNamed(AppRouterEndPoint.CHANGEPASSWORD);
+            },
             title: Strings.labelChangePasswordPageConfig,
             pathIcons: ImagePath.accountPageIconUnlock,
           ),

@@ -34,4 +34,10 @@ abstract class AuthService {
     @Part(name: "password") required String password,
     @Part(name: "passwordConfirm") required String passwordConfirm,
   });
+
+  @POST(ApiPath.changePassword)
+  Future<HttpResponse<SignUpResponseModel>> changePasswordUser({
+    @Header("token") required String token,
+    @Body() required Map<String, dynamic> body,
+  });
 }
