@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
@@ -23,7 +26,8 @@ class ScListCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => injector<GetCategoryBloc>()
+      create: (_) =>
+      injector<GetCategoryBloc>()
         ..add(
           GetListCategoryEvent(
             tokenParam: injector<TokenParam>(),
@@ -41,9 +45,10 @@ class ScListCategory extends StatelessWidget {
                 child: Column(
                   children: List.generate(
                     state.categories.length,
-                    (index) => ItemCategory(
-                      model: state.categories[index],
-                    ),
+                        (index) =>
+                        ItemCategory(
+                          model: state.categories[index],
+                        ),
                   ),
                   // children: (arguments.categories as List)
                   //     .map(
@@ -93,6 +98,19 @@ class ItemCategory extends StatefulWidget {
 
 class _ItemCategoryState extends State<ItemCategory> {
   bool _showChildren = false;
+
+  Future<String> _getCount() async {
+    http.Response response = await http.post(
+      Uri.parse(
+        Environment.domain + '/api/home/getCountInCategory',
+      ),
+      headers: {
+        "token": injector<TokenParam>().token,
+      },
+    );
+
+    return json.decode(response.body)['data']['count'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,39 +223,53 @@ class _ItemCategoryState extends State<ItemCategory> {
                       if (widget.model.children != null)
                         ...List.generate(
                           widget.model.children.length,
-                          (index) => InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                AppRouterEndPoint.LISTPRODUCT,
-                                arguments: ScListProductArgument(
-                                  title: widget.model.children[index].catName ?? '',
-                                  categoryId: widget.model.children[index].catId,
-                                ),
-                              );
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 12),
-                              child: Row(
-                                mainAxisAlignment:
+                              (index) =>
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    AppRouterEndPoint.LISTPRODUCT,
+                                    arguments: ScListProductArgument(
+                                      title: widget.model.children[index]
+                                          .catName ??
+                                          '',
+                                      categoryId:
+                                      widget.model.children[index].catId,
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 12),
+                                  child: Row(
+                                    mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    widget.model.children[index].catName,
-                                    style: TextStyleApp.textStyle2.copyWith(
-                                      color: AppColors.black,
-                                    ),
+                                    children: [
+                                      Text(
+                                        widget.model.children[index].catName,
+                                        style: TextStyleApp.textStyle2.copyWith(
+                                          color: AppColors.black,
+                                        ),
+                                      ),
+                                      FutureBuilder<String>(
+                                        future: _getCount(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<dynamic> snapshot) {
+                                          if(snapshot.hasData){
+                                            return Text("(${snapshot.data})");
+                                          }
+                                          return Text(
+                                            "(0)",
+                                            style: TextStyleApp.textStyle2
+                                                .copyWith(
+                                              color: AppColors.black,
+                                              fontStyle: FontStyle.italic,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    "(25)",
-                                    style: TextStyleApp.textStyle2.copyWith(
-                                      color: AppColors.black,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
                         ),
                     ],
                   ),

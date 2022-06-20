@@ -23,6 +23,7 @@ class ApiPath {
   static const String post = '/api/home/getNews';
   static const String login = '/api/home/login';
   static const String getUser = '/api/app/profile/getUser';
+  static const String updateUser = '/api/app/profile/updateUser';
   static const String flashSale = '/api/home/getFlashSaleInHome';
   static const String signUp = '/api/home/signup';
   static const String getDiscount = '/api/app/shopping/getdiscount';
@@ -39,4 +40,6 @@ class ApiPath {
   static const String getListShop = '/api/home/getShopStore';
   static const String changePassword = '/api/app/profile/changepassword';
   static const String getManufacturer = '/api/home/GetManufacturer';
+  static const String getTypeNotification = '/api/app/profile/getTypeNotifications';
+  static const String getNotification = '/api/app/profile/getNotifications';
 }

@@ -35,7 +35,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
   Future<DataState<ProductResponseModel>> getListProductRemote(
       ProductParam param) async {
     try {
-      Log.i(param.toJson().toString());
       final HttpResponse<ProductResponseModel> response =
           await _productRemoteService.getListProduct(
         token: param.token,

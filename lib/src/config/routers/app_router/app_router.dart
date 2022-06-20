@@ -12,6 +12,7 @@ import 'package:nanoshop/src/presentation/ui/choose_transport/sc_choose_transpor
 import 'package:nanoshop/src/presentation/ui/detail_post/sc_detail_post.dart';
 import 'package:nanoshop/src/presentation/ui/filter_product/sc_filter_product.dart';
 import 'package:nanoshop/src/presentation/ui/home/sc_home.dart';
+import 'package:nanoshop/src/presentation/ui/list_notifcation/sc_list_notification.dart';
 import 'package:nanoshop/src/presentation/ui/list_order/sc_list_order.dart';
 import 'package:nanoshop/src/presentation/ui/list_product/sc_list_product.dart';
 import 'package:nanoshop/src/presentation/ui/list_shop/sc_list_shop.dart';
@@ -24,6 +25,7 @@ import 'package:nanoshop/src/presentation/ui/shopping_cart/sc_shopping_cart.dart
 import 'package:nanoshop/src/presentation/ui/sign_up/sc_sign_up.dart';
 import 'package:nanoshop/src/presentation/ui/update_information/sc_update_information.dart';
 
+import '../../../domain/entities/notification/type_notification.dart';
 import '../../../presentation/ui/detail_shop/sc_detail_shop.dart';
 import '../../../presentation/ui/list_category/sc_list_category.dart';
 import '../../../presentation/ui/send_comment/sc_send_comment.dart';
@@ -39,6 +41,12 @@ class AppRouters {
         return _materialRoute(
           const ScHome(),
           direction: AxisDirection.up,
+        );
+      case AppRouterEndPoint.LISTNOTIFICATION:
+        return _materialRoute(
+          ScListNotification(
+              typeNotification: settings.arguments as TypeNotification),
+          direction: AxisDirection.left,
         );
       case AppRouterEndPoint.LISTORDER:
         return _materialRoute(

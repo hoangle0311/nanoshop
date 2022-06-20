@@ -15,12 +15,18 @@ import 'package:nanoshop/src/presentation/ui/detail_product/widgets/detail_stats
 import 'package:nanoshop/src/presentation/ui/detail_product/widgets/name_product_container.dart';
 import 'package:nanoshop/src/presentation/ui/detail_product/widgets/rating_detail_product.dart';
 import 'package:nanoshop/src/presentation/views/components/comment_widget/comment_list_tile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../chat/list_chat.dart';
+import '../../../chat/models/data_model.dart';
+import '../../../chat/screen_chat.dart';
 import '../../../core/assets/image_path.dart';
 import '../../../core/constant/strings/strings.dart';
 import '../../../core/params/related_product_param.dart';
 import '../../../core/params/token_param.dart';
 import '../../../domain/entities/product/product.dart';
+import '../../../domain/entities/user_login/user_login.dart';
+import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../cubits/detail_product_cubit/detail_product_cubit.dart';
 import '../../cubits/get_list_comment_cubit/get_list_comment_cubit.dart';
 import '../../cubits/related_list_product_cubit/related_list_product_cubit.dart';
@@ -386,7 +392,39 @@ class _BottomNavigationBar extends StatelessWidget {
                     child: _iconWithText(
                       'Chat ngay',
                       Icons.message,
-                      onTap: () {},
+                      onTap: () async {
+                        var authBloc = context.read<AuthenticationBloc>();
+                        var authState = authBloc.state;
+
+                        if (authState.user != UserLogin.empty) {
+                          DataModel dataModel =
+                              DataModel(authState.user.userId);
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          if (authState.user.type == '3') {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ListChat(
+                                id: 'Admin',
+                              ),
+                            ));
+                          } else {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ScreenChat(
+                                arguments: ModelChatScreen(
+                                  name: "Admin",
+                                  currentUserNo: authState.user.userId!,
+                                  peerNo: "Admin",
+                                  prefs: prefs,
+                                  model: dataModel,
+                                ),
+                              ),
+                            ));
+                          }
+                        } else {
+                          Navigator.of(context)
+                              .pushNamed(AppRouterEndPoint.LOGIN);
+                        }
+                      },
                     ),
                   ),
                   Container(

@@ -45,7 +45,13 @@ class ScLogin extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              const LoginForm(),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: const LoginForm(),
+              ),
             ],
           ),
         ),
@@ -79,7 +85,6 @@ class LoginForm extends StatelessWidget {
               );
             }
             if (state.status == FormzStatus.submissionSuccess) {
-
               context.read<AuthenticationBloc>().add(
                     AuthenticationUserRequest(
                       userId: state.userLogin.userId!,
@@ -101,63 +106,66 @@ class LoginForm extends StatelessWidget {
         ),
         BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
-            if(state.status == AuthenticationStatus.authenticated){
+            if (state.status == AuthenticationStatus.authenticated) {
               Navigator.of(context).pop();
               Navigator.of(context).pop(true);
             }
 
-            if(state.status == AuthenticationStatus.unauthenticated){
+            if (state.status == AuthenticationStatus.unauthenticated) {
               Navigator.of(context).pop();
             }
           },
         ),
       ],
       child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 10,
               ),
-              alignment: Alignment.centerRight,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Quay lại',
-                  style: TextStyleApp.textStyle1.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Quay lại',
+                    style: TextStyleApp.textStyle1.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Column(
+              Column(
                 children: [
-                  Expanded(
-                    child: Container(
-                      width: size.width / 3,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: AssetImage(
-                            ImagePath.appIcon,
-                          ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Container(
+                    width: size.width / 3,
+                    height: size.width / 3,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: AssetImage(
+                          ImagePath.appIcon,
                         ),
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 50,
+                  ),
                 ],
               ),
-            ),
-            Expanded(
-              child: Container(
+              Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -184,9 +192,7 @@ class LoginForm extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            Expanded(
-              child: Container(
+              Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -256,8 +262,8 @@ class LoginForm extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -5,7 +5,7 @@ import '../../../../config/styles/app_text_style.dart';
 
 class TextFieldInput extends StatelessWidget {
   final String? hint;
-  final TextEditingController? controller;
+  final TextEditingController controller = TextEditingController();
   final TextInputType keyboardType;
   final Function(String value)? onChanged;
   final String? errorText;
@@ -16,11 +16,13 @@ class TextFieldInput extends StatelessWidget {
   final bool showIcon;
   final String labelText;
   final double radiusBorder;
+  final String? initialText;
 
-  const TextFieldInput({
+   TextFieldInput({
     Key? key,
     this.iconData,
     this.hint,
+    this.initialText,
     this.errorText,
     required this.labelText,
     this.radiusBorder = 5,
@@ -28,7 +30,6 @@ class TextFieldInput extends StatelessWidget {
     this.backgroundColor = Colors.transparent,
     this.maxLine = 1,
     this.obscureText = false,
-    this.controller,
     this.keyboardType = TextInputType.text,
     this.onChanged,
   }) : super(
@@ -44,10 +45,11 @@ class TextFieldInput extends StatelessWidget {
       child: TextField(
         maxLines: maxLine,
         // onTap: onTap,
+
         // readOnly: readOnly,
         onChanged: onChanged,
         obscureText: obscureText,
-        controller: controller,
+        controller: controller..text = initialText ?? '',
         keyboardType: keyboardType,
         // onChanged: onChanged,
         // style: StyleTextApp.textStyle400(color: Colors.black),

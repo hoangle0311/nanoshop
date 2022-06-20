@@ -468,6 +468,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  flutter_localizations:
+    dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_math_fork:
     dependency: transitive
     description:
@@ -948,7 +953,7 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"

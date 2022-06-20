@@ -8,6 +8,7 @@ import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/data/data_source/local/product_local_service/product_local_service.dart';
 import 'package:nanoshop/src/data/data_source/local/user_service/user_local_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/auth_service/auth_service.dart';
+import 'package:nanoshop/src/data/data_source/remote/notification_service/notification_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/payment_service/payment_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/post_service/post_remote_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/product_service/product_service.dart';
@@ -20,6 +21,7 @@ import 'package:nanoshop/src/domain/usecases/auth_usecase/get_user_usecase.dart'
 import 'package:nanoshop/src/domain/usecases/auth_usecase/login_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/remove_user_local_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/sign_up_usecase.dart';
+import 'package:nanoshop/src/domain/usecases/notification_usecase/get_type_notification_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/payment_usecase/get_discount_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/post_usecase/get_list_post_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/add_comment_usecase.dart';
@@ -39,8 +41,10 @@ import 'package:nanoshop/src/presentation/cubits/city_cubit/city_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/detail_product_cubit/detail_product_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/district_cubit/district_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_comment_cubit/get_list_comment_cubit.dart';
+import 'package:nanoshop/src/presentation/cubits/get_list_notification_cubit/get_list_notification_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_order_cubit/get_list_order_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_shop_cubit/get_list_shop_cubit.dart';
+import 'package:nanoshop/src/presentation/cubits/get_type_notification/get_type_notification_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/manufacturer_cubit/manufacturer_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/payment_cubit/payment_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/range_cubit/range_cubit.dart';
@@ -50,6 +54,7 @@ import 'package:nanoshop/src/presentation/cubits/sex_cubit/sex_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/time_cubit/time_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/transport_cubit/transport_cubit.dart';
+import 'package:nanoshop/src/presentation/cubits/update_user_cubit/update_user_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/voucher_cubit/voucher_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/ward_cubit/ward_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,11 +65,14 @@ import 'data/data_source/remote/remote_service.dart';
 import 'data/repositories/auth_repository_impl.dart';
 import 'data/repositories/data_layer_repository.dart';
 import 'data/repositories/location_repository_impl.dart';
+import 'data/repositories/notification_repository_impl.dart';
 import 'data/repositories/payment_repository_impl.dart';
+import 'domain/usecases/auth_usecase/update_user_remote_usecase.dart';
 import 'domain/usecases/domain_layer_usecase.dart';
 import 'domain/usecases/location_usecase/get_list_city_usecase.dart';
 import 'domain/usecases/location_usecase/get_list_district_usecase.dart';
 import 'domain/usecases/location_usecase/get_list_ward_usecase.dart';
+import 'domain/usecases/notification_usecase/get_list_notification_usecase.dart';
 import 'domain/usecases/payment_usecase/checkout_usecase.dart';
 import 'domain/usecases/payment_usecase/get_bank_usecase.dart';
 import 'domain/usecases/payment_usecase/get_list_order_usecase.dart';
@@ -86,8 +94,8 @@ Future<void> initializeDependencies() async {
   // Lay token cho toan app
   _dependencyToken();
 
-  _dependencyUseCase();
   _dependencyService();
+  _dependencyUseCase();
   _dependencyRepository();
   _dependencyBloc();
   _dependencyCubit();
@@ -102,6 +110,21 @@ _dependencyExternal() async {
 }
 
 _dependencyUseCase() {
+  injector.registerLazySingleton<GetListNotificationUsecase>(
+        () => GetListNotificationUsecase(
+      injector<NotificationRepositoryImpl>(),
+    ),
+  );
+  injector.registerLazySingleton<GetTypeNotificationUsecase>(
+    () => GetTypeNotificationUsecase(
+      injector<NotificationRepositoryImpl>(),
+    ),
+  );
+  injector.registerLazySingleton<UpdateUserRemoteUsecase>(
+    () => UpdateUserRemoteUsecase(
+      injector<AuthRepositoryImpl>(),
+    ),
+  );
   injector.registerLazySingleton<GetListManufacturerUsecase>(
     () => GetListManufacturerUsecase(
       injector<GetListProductRepositoryImpl>(),
@@ -265,6 +288,12 @@ _dependencyUseCase() {
 }
 
 _dependencyService() {
+  injector.registerLazySingleton<NotificationService>(
+    () => NotificationService(
+      injector<Dio>(),
+      baseUrl: Environment.domain,
+    ),
+  );
   injector.registerLazySingleton<ShopService>(
     () => ShopService(
       injector<Dio>(),
@@ -333,6 +362,11 @@ _dependencyService() {
 }
 
 _dependencyRepository() {
+  injector.registerLazySingleton<NotificationRepositoryImpl>(
+    () => NotificationRepositoryImpl(
+      injector<NotificationService>(),
+    ),
+  );
   injector.registerLazySingleton<GetListShopRepositoryImpl>(
     () => GetListShopRepositoryImpl(
       injector<ShopService>(),
@@ -454,6 +488,21 @@ _dependencyBloc() {
 }
 
 _dependencyCubit() {
+  injector.registerFactory<GetListNotificationCubit>(
+        () => GetListNotificationCubit(
+      injector<GetListNotificationUsecase>(),
+    ),
+  );
+  injector.registerFactory<GetTypeNotificationCubit>(
+    () => GetTypeNotificationCubit(
+      injector<GetTypeNotificationUsecase>(),
+    ),
+  );
+  injector.registerFactory<UpdateUserCubit>(
+    () => UpdateUserCubit(
+      injector<UpdateUserRemoteUsecase>(),
+    ),
+  );
   injector.registerFactory<ManufacturerCubit>(
     () => ManufacturerCubit(
       injector<GetListManufacturerUsecase>(),

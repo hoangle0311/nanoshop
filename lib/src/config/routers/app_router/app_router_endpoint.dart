@@ -22,4 +22,5 @@ abstract class AppRouterEndPoint {
   static const String FilterProduct = '/filter_product';
   static const String NOTIFICATION = '/notification';
   static const String UPDATEINFORMATION = '/update_information';
+  static const String LISTNOTIFICATION = '/sc_listnotification';
 }

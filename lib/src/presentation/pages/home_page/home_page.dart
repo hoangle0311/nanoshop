@@ -14,10 +14,16 @@ import 'package:nanoshop/src/presentation/views/components/buttons/button_with_t
 import 'package:nanoshop/src/presentation/views/components/loading_widget/banner_loading.dart';
 import 'package:nanoshop/src/presentation/views/components/loading_widget/list_horizontal_category_loading.dart';
 import 'package:nanoshop/src/presentation/views/components/product_widget/list_vertical_product_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../chat/list_chat.dart';
+import '../../../chat/models/data_model.dart';
+import '../../../chat/screen_chat.dart';
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/hooks/go_to_list_product_screen.dart';
 import '../../../core/params/token_param.dart';
+import '../../../domain/entities/user_login/user_login.dart';
+import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../blocs/blocs.dart';
 import '../../blocs/local_product_bloc/local_product_bloc.dart';
 import '../../cubits/time_cubit/time_cubit.dart';
@@ -579,7 +585,40 @@ class HomeAppBar extends StatelessWidget {
             SizedBox(
               width: 16,
             ),
-            Image.asset(ImagePath.appBarMessageIcon),
+            InkWell(
+              onTap: () async {
+                var authBloc = context.read<AuthenticationBloc>();
+                var authState = authBloc.state;
+
+                if (authState.user != UserLogin.empty) {
+                  DataModel dataModel = DataModel(authState.user.userId);
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  if (authState.user.type == '3') {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ListChat(
+                        id: 'Admin',
+                      ),
+                    ));
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ScreenChat(
+                        arguments: ModelChatScreen(
+                          name: "Admin",
+                          currentUserNo: authState.user.userId!,
+                          peerNo: "Admin",
+                          prefs: prefs,
+                          model: dataModel,
+                        ),
+                      ),
+                    ));
+                  }
+                } else {
+                  Navigator.of(context).pushNamed(AppRouterEndPoint.LOGIN);
+                }
+              },
+              child: Image.asset(ImagePath.appBarMessageIcon),
+            ),
           ],
         ),
       ),

@@ -30,6 +30,16 @@ import '../../cubits/transport_cubit/transport_cubit.dart';
 import '../../cubits/voucher_cubit/voucher_cubit.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
 
+class ResultPayment {
+  final Payment? payment;
+  final Bank? bank;
+
+  ResultPayment({
+    this.bank,
+    this.payment,
+  });
+}
+
 class ScPaymentShoppingCart extends StatelessWidget {
   final List<Cart> listCart;
 
@@ -121,9 +131,9 @@ class ScPaymentShoppingCart extends StatelessWidget {
                     context.read<ShoppingCartCubit>().onClearShoppingCart();
 
                     Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRouterEndPoint.HOME,
-                        (router) => false,
+                      context,
+                      AppRouterEndPoint.HOME,
+                      (router) => false,
                     );
                   }
 
@@ -350,10 +360,10 @@ class _Payment extends StatelessWidget {
                   )
                       .then((value) {
                     if (value != null) {
-                      if (value is Payment) {
-                        _paymentCubit.onChoosePayment(
-                          value,
-                          injector<TokenParam>(),
+                      if (value is ResultPayment) {
+                        _paymentCubit.onGetResult(
+                          payment: value.payment,
+                          bank: value.bank,
                         );
                       }
                     }
@@ -383,7 +393,7 @@ class _Payment extends StatelessWidget {
                     ),
                   ],
                 ),
-              if (state.bank != Bank.empty)
+              if (state.bank != Bank.empty && state.payment.id == 12)
                 Column(
                   children: [
                     Row(

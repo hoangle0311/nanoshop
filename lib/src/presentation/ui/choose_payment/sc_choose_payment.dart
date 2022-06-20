@@ -14,6 +14,7 @@ import '../../../core/params/token_param.dart';
 import '../../../domain/entities/transport/transport.dart';
 import '../../cubits/payment_cubit/payment_cubit.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
+import '../payment_shopping_cart/sc_payment_shopping_cart.dart';
 
 class ScChoosePayment extends StatelessWidget {
   final Payment payment;
@@ -31,11 +32,10 @@ class ScChoosePayment extends StatelessWidget {
           ..onGetListPayment(injector<TokenParam>())
           ..onChoosePayment(
             payment,
-            injector<TokenParam>(),
           );
       },
       child: Scaffold(
-        appBar: PageAppBar(
+        appBar: const PageAppBar(
           title: Strings.choosePayment,
         ),
         body: BlocBuilder<PaymentCubit, PaymentState>(
@@ -81,7 +81,10 @@ class ScChoosePayment extends StatelessWidget {
                 title: Strings.apply,
                 onTap: () {
                   Navigator.of(context).pop(
-                    state.payment,
+                    ResultPayment(
+                      payment: state.payment,
+                      bank: state.bank,
+                    ),
                   );
                 },
               );
@@ -109,7 +112,6 @@ class _PaymentListTile extends StatelessWidget {
       onTap: () {
         context.read<PaymentCubit>().onChoosePayment(
               payment,
-              injector<TokenParam>(),
             );
       },
       child: Container(
@@ -122,46 +124,180 @@ class _PaymentListTile extends StatelessWidget {
             ),
           ),
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              padding: const EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: context.read<PaymentCubit>().state.payment == payment
-                      ? AppColors.primaryColor
-                      : AppColors.grey,
-                ),
-              ),
-              child: Container(
-                width: 9,
-                height: 9,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: context.read<PaymentCubit>().state.payment == payment
-                      ? AppColors.primaryColor
-                      : AppColors.white,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 12,
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    payment.name ?? '',
-                    style: TextStyleApp.textStyle1.copyWith(
-                      color: AppColors.black,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color:
+                          context.read<PaymentCubit>().state.payment == payment
+                              ? AppColors.primaryColor
+                              : AppColors.grey,
                     ),
                   ),
-                ],
-              ),
+                  child: Container(
+                    width: 9,
+                    height: 9,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color:
+                          context.read<PaymentCubit>().state.payment == payment
+                              ? AppColors.primaryColor
+                              : AppColors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 12,
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        payment.name ?? '',
+                        style: TextStyleApp.textStyle1.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+            if (payment.listBank.isNotEmpty &&
+                context.read<PaymentCubit>().state.payment == payment)
+              ...List.generate(
+                payment.listBank.length,
+                (index) => InkWell(
+                  onTap: () {
+                    context.read<PaymentCubit>().onChooseBank(
+                          payment.listBank[index],
+                        );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: context.read<PaymentCubit>().state.bank ==
+                                      payment.listBank[index]
+                                  ? AppColors.primaryColor
+                                  : AppColors.grey,
+                            ),
+                          ),
+                          child: Container(
+                            width: 9,
+                            height: 9,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: context.read<PaymentCubit>().state.bank ==
+                                      payment.listBank[index]
+                                  ? AppColors.primaryColor
+                                  : AppColors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Tên ngân hàng: ',
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    payment.listBank[index].bankName ?? '',
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Số tài khoản: ',
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    payment.listBank[index].number ?? '',
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Chủ tài khoản: ',
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    payment.listBank[index].name ?? '',
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Chi nhánh: ',
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    payment.listBank[index].id ?? '',
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

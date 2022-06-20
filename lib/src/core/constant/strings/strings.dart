@@ -12,6 +12,7 @@ class Strings {
   static const labelAQPageConfig = "Hỏi đáp";
   static const labelChangePasswordPageConfig = "Đổi mật khẩu";
   static const labelLogoutPageConfig = "Đăng xuất";
+  static const update = "Cập nhật";
   static const shoppingCart = "Giỏ hàng";
   static const payment = "Thanh toán";
   static const buyNow = "Mua ngay";

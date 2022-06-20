@@ -50,7 +50,7 @@ class SearchListProductCubit extends Cubit<SearchListProductState> {
         emit(
           state.copyWith(
             status: SearchListProductStatus.success,
-            products: products,
+            products: state.products..addAll(products),
             param: param,
             hasMore: products.length >= _postPerPage,
           ),
