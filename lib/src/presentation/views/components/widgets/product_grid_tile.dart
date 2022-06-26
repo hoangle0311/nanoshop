@@ -22,9 +22,8 @@ class ProductGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imageUrl =
-        "http://plpharma.nanoweb.vn/mediacenter/" +
-            ((product.avatarPath ?? '') + (product.avatarName ?? ''));
+    var imageUrl = "http://plpharma.nanoweb.vn/mediacenter/" +
+        ((product.avatarPath ?? '') + (product.avatarName ?? ''));
 
     return InkWell(
       onTap: () {
@@ -47,6 +46,7 @@ class ProductGridTile extends StatelessWidget {
               children: [
                 LoadImageFromUrlWidget(
                   imageUrl: imageUrl,
+                  height: MediaQuery.of(context).size.width / 3,
                 ),
                 const SizedBox(
                   height: 10,
@@ -99,7 +99,11 @@ class ProductGridTile extends StatelessWidget {
                         height: 10,
                       ),
                       StarWithRateCount(
-                        rateCount: double.parse(product.productInfo != null ? product.productInfo!.totalRating ?? '0.0' : '0').round().toString(),
+                        rateCount: double.parse(product.productInfo != null
+                                ? product.productInfo!.totalRating ?? '0.0'
+                                : '0')
+                            .round()
+                            .toString(),
                       ),
                     ],
                   ),

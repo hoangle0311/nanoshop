@@ -13,6 +13,7 @@ import '../../../core/toast/toast.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
 import '../../views/components/text_field/text_field_input.dart';
+import '../../views/components/text_field/text_field_input_with_inital_text.dart';
 import '../../views/dialog/dialog_loading.dart';
 
 class ScUpdateInformation extends StatelessWidget {
@@ -161,7 +162,7 @@ class _UpdateNameInputWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        return TextFieldInput(
+        return TextFieldInputWithInitialText(
           key: const Key('passwordForm_usernameInput_textField'),
 
           labelText: Strings.labelPassword,
@@ -184,7 +185,7 @@ class _EmailInputWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        return TextFieldInput(
+        return TextFieldInputWithInitialText(
           labelText: Strings.labelPassword,
           initialText: state.user.email,
           onChanged: context.read<UpdateUserCubit>().onChangeEmail,
@@ -205,7 +206,7 @@ class _AddressInputWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        return TextFieldInput(
+        return TextFieldInputWithInitialText(
           labelText: Strings.labelPassword,
           initialText: state.user.address,
           onChanged: context.read<UpdateUserCubit>().onChangeAddress,

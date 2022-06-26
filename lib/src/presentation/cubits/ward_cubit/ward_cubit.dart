@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nanoshop/src/core/params/ward_param.dart';
-import 'package:nanoshop/src/data/models/location_response_model/ward_response_model.dart';
 import 'package:nanoshop/src/domain/usecases/location_usecase/get_list_ward_usecase.dart';
 
 import '../../../core/resource/data_state.dart';
+import '../../../data/responses/location_response_model/ward_response_model.dart';
 import '../../../domain/entities/filter_model/filter_model.dart';
 import '../../../domain/entities/location/ward.dart';
 

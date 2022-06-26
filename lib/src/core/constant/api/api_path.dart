@@ -21,6 +21,7 @@ class ApiPath {
   static const String product = '/api/home/getProduct';
   static const String detailProduct = '/api/home/getDetail';
   static const String post = '/api/home/getNews';
+  static const String detailPost = '/api/home/getDetail';
   static const String login = '/api/home/login';
   static const String getUser = '/api/app/profile/getUser';
   static const String updateUser = '/api/app/profile/updateUser';

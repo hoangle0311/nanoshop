@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/params/get_list_notification_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/notification_response_model/notification_response_model.dart';
 import 'package:nanoshop/src/domain/entities/notification/notification.dart';
 import 'package:nanoshop/src/domain/usecases/notification_usecase/get_list_notification_usecase.dart';
+
+import '../../../data/responses/notification_response_model/notification_response_model.dart';
 
 part 'get_list_notification_state.dart';
 

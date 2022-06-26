@@ -7,11 +7,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
-import 'package:nanoshop/src/data/models/token_response_model/token_response_model.dart';
 import 'package:nanoshop/src/domain/entities/token/token.dart';
 import 'package:nanoshop/src/domain/usecases/token_usecase/get_token_usecase.dart';
 
 import '../../../core/resource/data_state.dart';
+import '../../../data/responses/token_response_model/token_response_model.dart';
 
 part 'get_token_event.dart';
 

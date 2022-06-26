@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nanoshop/src/core/page_route/custom_page_route.dart';
-import 'package:nanoshop/src/data/models/cart/cart.dart';
 import 'package:nanoshop/src/domain/entities/payment/payment.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
 import 'package:nanoshop/src/domain/entities/shop/shop.dart';
@@ -25,6 +24,7 @@ import 'package:nanoshop/src/presentation/ui/shopping_cart/sc_shopping_cart.dart
 import 'package:nanoshop/src/presentation/ui/sign_up/sc_sign_up.dart';
 import 'package:nanoshop/src/presentation/ui/update_information/sc_update_information.dart';
 
+import '../../../data/responses/cart/cart.dart';
 import '../../../domain/entities/notification/type_notification.dart';
 import '../../../presentation/ui/detail_shop/sc_detail_shop.dart';
 import '../../../presentation/ui/list_category/sc_list_category.dart';

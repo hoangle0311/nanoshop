@@ -6,52 +6,62 @@ part 'post.g.dart';
 @JsonSerializable()
 class Post extends Equatable {
   @JsonKey(name: "news_id")
-  String? newsId;
+  final String? newsId;
   @JsonKey(name: "news_category_id")
-  String? newsCategoryId;
+  final String? newsCategoryId;
   @JsonKey(name: "news_title")
-  String? newsTitle;
+  final String? newsTitle;
   @JsonKey(name: "news_sortdesc")
-  String? newsSortdesc;
-  String? alias;
-  String? status;
+  final String? newsSortdesc;
+  @JsonKey(name: "news_desc")
+  final String? newsDesc;
+  final String? alias;
+  final String? status;
   @JsonKey(name: "user_id")
-  String? userId;
+  final String? userId;
   @JsonKey(name: "image_path")
-  String? imagePath;
+  final String? imagePath;
   @JsonKey(name: "image_name")
-  String? imageName;
+  final String? imageName;
   @JsonKey(name: "created_time")
-  String? createdTime;
+  final String? createdTime;
   @JsonKey(name: "news_hot")
-  String? newsHot;
+  final String? newsHot;
   @JsonKey(name: "public_date")
-  String? publicdate;
-  String? viewed;
-  String? poster;
-  String? link;
+  final String? publicdate;
+  final String? viewed;
+  final String? poster;
+  final String? link;
 
-  Post(
-      {this.newsId,
-      this.newsCategoryId,
-      this.newsTitle,
-      this.newsSortdesc,
-      this.alias,
-      this.status,
-      this.userId,
-      this.imagePath,
-      this.imageName,
-      this.createdTime,
-      this.newsHot,
-      this.publicdate,
-      this.viewed,
-      this.poster,
-      this.link});
+  const Post({
+    this.newsDesc,
+    this.newsId,
+    this.newsCategoryId,
+    this.newsTitle,
+    this.newsSortdesc,
+    this.alias,
+    this.status,
+    this.userId,
+    this.imagePath,
+    this.imageName,
+    this.createdTime,
+    this.newsHot,
+    this.publicdate,
+    this.viewed,
+    this.poster,
+    this.link,
+  });
+
+  static const empty = Post(
+    newsId: '-',
+  );
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
   Map<String, dynamic> toJson() => _$PostToJson(this);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        newsId,
+      ];
 }

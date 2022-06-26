@@ -8,19 +8,18 @@ import 'package:nanoshop/src/core/params/product_param.dart';
 import 'package:nanoshop/src/core/params/related_product_param.dart';
 import 'package:nanoshop/src/core/params/search_product_param.dart';
 import 'package:nanoshop/src/data/data_source/local/product_local_service/product_local_service.dart';
-import 'package:nanoshop/src/data/models/add_comment_response/add_comment_response_model.dart';
-import 'package:nanoshop/src/data/models/comment_response_model/comment_response_model.dart';
-import 'package:nanoshop/src/data/models/manufacturer_response_model/manufacturer_response_model.dart';
-import 'package:nanoshop/src/data/models/product_response_model/detail_product_response_model.dart';
-import 'package:nanoshop/src/data/models/product_response_model/product_response_model.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../core/resource/data_state.dart';
-import '../../core/utils/log/log.dart';
 import '../../domain/entities/product/product.dart';
 import '../../domain/repositories/product_repository/product_repository.dart';
 import '../data_source/remote/product_service/product_service.dart';
-import '../models/flash_sale_response_model/flash_sale_response_model.dart';
+import '../responses/add_comment_response/add_comment_response_model.dart';
+import '../responses/comment_response_model/comment_response_model.dart';
+import '../responses/flash_sale_response_model/flash_sale_response_model.dart';
+import '../responses/manufacturer_response_model/manufacturer_response_model.dart';
+import '../responses/product_response_model/detail_product_response_model.dart';
+import '../responses/product_response_model/product_response_model.dart';
 
 class GetListProductRepositoryImpl extends ProductRepository {
   final ProductRemoteService _productRemoteService;

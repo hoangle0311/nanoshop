@@ -62,11 +62,15 @@ class SignUpForm extends StatelessWidget {
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess) {
+          Toast.showText(
+            state.message,
+            iconData: Icons.favorite,
+          );
           Navigator.of(context).pop(true);
         }
         if (state.status == FormzStatus.submissionFailure) {
           Toast.showText(
-            "Đăng nhập thất bại",
+            state.message,
             iconData: Icons.sms_failed,
           );
         }

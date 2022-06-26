@@ -34,10 +34,10 @@ class Notifications extends Equatable {
   });
 
   factory Notifications.fromJson(Map<String, dynamic> json) {
-    return _$NotificationFromJson(json);
+    return _$NotificationsFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$NotificationToJson(this);
+  Map<String, dynamic> toJson() => _$NotificationsToJson(this);
 
   @override
   // TODO: implement props

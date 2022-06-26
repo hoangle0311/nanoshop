@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nanoshop/src/data/models/post_response_model/group_data_post.dart';
+
+import 'group_data_post.dart';
 
 part 'post_response_model.g.dart';
 

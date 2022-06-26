@@ -14,7 +14,6 @@ class NotificationResponseModel {
   NotificationResponseModel({this.code, this.data, this.message, this.error});
 
   factory NotificationResponseModel.fromJson(Map<String, dynamic> json) {
-    Log.i(json.toString());
     return _$NotificationResponseModelFromJson(json);
   }
 

@@ -8,7 +8,7 @@ import 'package:nanoshop/src/presentation/pages/pages.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 
 import '../../../core/constant/strings/strings.dart';
-import '../../../data/models/cart/cart.dart';
+import '../../../data/responses/cart/cart.dart';
 import '../../../domain/entities/user_login/user_login.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';

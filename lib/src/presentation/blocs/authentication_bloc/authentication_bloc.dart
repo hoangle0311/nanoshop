@@ -8,11 +8,12 @@ import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/get_user_local_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/get_user_usecase.dart';
+import 'package:nanoshop/src/domain/usecases/auth_usecase/remove_user_local_usecase.dart';
 
 import '../../../core/resource/data_state.dart';
 import '../../../core/utils/log/log.dart';
-import '../../../data/models/user/user_login_response_model.dart';
 import '../../../data/repositories/auth_repository_impl.dart';
+import '../../../data/responses/user/user_login_response_model.dart';
 
 part 'authentication_event.dart';
 
@@ -22,10 +23,11 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final GetUserUsecase _getUserUsecase;
   final GetUserLocalUsecase _getUserLocalUsecase;
+  final RemoveUserLocalUsecase _removeUserLocalUsecase;
 
   AuthenticationBloc(
     this._getUserUsecase,
-    this._getUserLocalUsecase,
+    this._getUserLocalUsecase, this._removeUserLocalUsecase,
   ) : super(
           const AuthenticationState.unknown(),
         ) {
@@ -132,6 +134,7 @@ class AuthenticationBloc
     AuthenticationLogoutRequested event,
     emit,
   ) {
+    _removeUserLocalUsecase.call(null);
     emit(
       const AuthenticationState.unknown(),
     );

@@ -1,12 +1,10 @@
-import 'package:nanoshop/src/core/params/district_param.dart';
 import 'package:nanoshop/src/core/params/ward_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/core/usecases/usecase_with_future.dart';
-import 'package:nanoshop/src/data/models/location_response_model/district_response_model.dart';
-import 'package:nanoshop/src/data/models/location_response_model/ward_response_model.dart';
 import 'package:nanoshop/src/domain/repositories/location_repository/location_repository.dart';
 
-import '../../../core/utils/log/log.dart';
+import '../../../data/responses/location_response_model/ward_response_model.dart';
+
 
 class GetListWardUsecase
     extends UseCaseWithFuture<DataState<WardResponseModel>, WardParam> {

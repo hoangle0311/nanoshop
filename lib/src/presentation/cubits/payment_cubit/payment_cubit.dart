@@ -1,15 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/utils/log/log.dart';
-import 'package:nanoshop/src/data/models/bank_response_model/bank_response_model.dart';
-import 'package:nanoshop/src/data/models/payment_method_response_model/payment_method_response_model.dart';
 import 'package:nanoshop/src/domain/entities/bank/bank.dart';
 import 'package:nanoshop/src/domain/entities/payment/payment.dart';
 import 'package:nanoshop/src/domain/usecases/payment_usecase/get_payment_usecase.dart';
 
 import '../../../core/params/token_param.dart';
 import '../../../core/resource/data_state.dart';
+import '../../../data/responses/bank_response_model/bank_response_model.dart';
+import '../../../data/responses/payment_method_response_model/payment_method_response_model.dart';
 import '../../../domain/usecases/payment_usecase/get_bank_usecase.dart';
 
 part 'payment_state.dart';

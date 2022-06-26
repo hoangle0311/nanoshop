@@ -1,9 +1,11 @@
-import 'package:nanoshop/src/core/constant/api/api_path.dart';
-import 'package:nanoshop/src/data/models/location_response_model/city_response_model.dart';
-import 'package:nanoshop/src/data/models/location_response_model/district_response_model.dart';
-import 'package:nanoshop/src/data/models/location_response_model/ward_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+
+import 'package:nanoshop/src/core/constant/api/api_path.dart';
+
+import '../../../responses/location_response_model/city_response_model.dart';
+import '../../../responses/location_response_model/district_response_model.dart';
+import '../../../responses/location_response_model/ward_response_model.dart';
 
 part 'location_service.g.dart';
 

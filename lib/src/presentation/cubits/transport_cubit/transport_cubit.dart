@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/transport_response_model/transport_response_model.dart';
 import 'package:nanoshop/src/domain/entities/transport/transport.dart';
 
+import '../../../data/responses/transport_response_model/transport_response_model.dart';
 import '../../../domain/usecases/payment_usecase/get_transport_usecase.dart';
 
 part 'transport_state.dart';

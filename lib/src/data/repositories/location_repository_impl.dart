@@ -1,20 +1,18 @@
 import 'dart:io';
 
+import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
-import 'package:nanoshop/src/core/params/district_param.dart';
 
+import 'package:nanoshop/src/core/params/district_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/data/data_source/remote/location_service/location_service.dart';
-import 'package:nanoshop/src/data/models/location_response_model/city_response_model.dart';
-import 'package:nanoshop/src/data/models/location_response_model/district_response_model.dart';
-import 'package:nanoshop/src/data/models/location_response_model/ward_response_model.dart';
 import 'package:nanoshop/src/domain/repositories/location_repository/location_repository.dart';
-import 'package:retrofit/dio.dart';
-
 import 'package:nanoshop/src/core/resource/data_state.dart';
-
 import '../../core/params/ward_param.dart';
 import '../../core/utils/log/log.dart';
+import '../responses/location_response_model/city_response_model.dart';
+import '../responses/location_response_model/district_response_model.dart';
+import '../responses/location_response_model/ward_response_model.dart';
 
 class LocationRepositoryImpl extends LocationRepository {
   final LocationService _locationService;

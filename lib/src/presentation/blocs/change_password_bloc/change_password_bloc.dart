@@ -5,11 +5,12 @@ import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:nanoshop/src/core/params/change_password_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/default_response_model/default_response_model.dart';
+import 'package:nanoshop/src/core/utils/log/log.dart';
 
 import '../../../core/form_model/login/password_input.dart';
 import '../../../core/form_model/sign_up/confirm_password_input.dart';
 import '../../../core/params/token_param.dart';
+import '../../../data/responses/default_response_model/default_response_model.dart';
 import '../../../domain/usecases/auth_usecase/change_password_usecase.dart';
 
 part 'change_password_event.dart';
@@ -51,6 +52,7 @@ class ChangePasswordBloc
       );
 
       if (dataState is DataSuccess) {
+        Log.i(dataState.data!.code.toString());
         if (dataState.data!.code == 1) {
           emit(
             state.copyWith(

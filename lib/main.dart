@@ -18,8 +18,7 @@ import 'src/injector.dart';
 Future<void> firebaseMessagingBackgroundHandler(
     RemoteMessage message,
     ) async {
-  await Firebase.initializeApp();
-}
+  }
 
 Future<Uint8List> getByteArrayFromUrl(String url) async {
   final http.Response response = await http.get(Uri.parse(url));

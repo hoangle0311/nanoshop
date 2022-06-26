@@ -1,12 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/params/voucher_param.dart';
 import 'package:nanoshop/src/domain/usecases/payment_usecase/get_discount_usecase.dart';
 
 import '../../../core/resource/data_state.dart';
-import '../../../data/models/discount_response_model/discount_response_model.dart';
+import '../../../data/responses/discount_response_model/discount_response_model.dart';
 
 part 'voucher_state.dart';
 

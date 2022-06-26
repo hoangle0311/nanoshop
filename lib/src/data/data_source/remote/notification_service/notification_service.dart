@@ -1,11 +1,9 @@
 import 'package:nanoshop/src/core/constant/api/api_path.dart';
-import 'package:nanoshop/src/data/models/location_response_model/city_response_model.dart';
-import 'package:nanoshop/src/data/models/location_response_model/district_response_model.dart';
-import 'package:nanoshop/src/data/models/location_response_model/ward_response_model.dart';
-import 'package:nanoshop/src/data/models/notification_response_model/notification_response_model.dart';
-import 'package:nanoshop/src/data/models/type_notification_response_model/type_notification_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+
+import '../../../responses/notification_response_model/notification_response_model.dart';
+import '../../../responses/type_notification_response_model/type_notification_response_model.dart';
 
 part 'notification_service.g.dart';
 

@@ -1,12 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/constant/message/message.dart';
 import 'package:nanoshop/src/core/params/checkout_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/default_response_model/default_response_model.dart';
-import 'package:nanoshop/src/domain/entities/address/address.dart';
 import 'package:nanoshop/src/domain/usecases/payment_usecase/checkout_usecase.dart';
+
+import '../../../data/responses/default_response_model/default_response_model.dart';
 
 part 'checkout_state.dart';
 

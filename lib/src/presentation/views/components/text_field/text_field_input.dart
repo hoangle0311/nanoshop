@@ -49,7 +49,7 @@ class TextFieldInput extends StatelessWidget {
         // readOnly: readOnly,
         onChanged: onChanged,
         obscureText: obscureText,
-        controller: controller..text = initialText ?? '',
+        // controller: controller..text = initialText ?? '',
         keyboardType: keyboardType,
         // onChanged: onChanged,
         // style: StyleTextApp.textStyle400(color: Colors.black),

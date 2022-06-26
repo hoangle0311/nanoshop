@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/params/update_user_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/default_response_model/default_response_model.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/update_user_remote_usecase.dart';
+
+import '../../../data/responses/default_response_model/default_response_model.dart';
 
 part 'update_user_state.dart';
 

@@ -178,11 +178,18 @@ class LoginForm extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "Quên mật khẩu?",
-                      textAlign: TextAlign.end,
-                      style: TextStyleApp.textStyle2.copyWith(
-                        color: AppColors.yellow,
+                    InkWell(
+                      onTap: () {
+                        Toast.showText(
+                          'Chức năng này đang được phát triển',
+                        );
+                      },
+                      child: Text(
+                        "Quên mật khẩu?",
+                        textAlign: TextAlign.end,
+                        style: TextStyleApp.textStyle2.copyWith(
+                          color: AppColors.yellow,
+                        ),
                       ),
                     ),
                     SizedBox(

@@ -43,11 +43,12 @@ class ScChangePassword extends StatelessWidget {
           if (state.status == FormzStatus.submissionSuccess) {
             Navigator.of(context).pop();
             Toast.showText(state.message);
+            Navigator.of(context).pop();
           }
 
           if (state.status == FormzStatus.submissionFailure) {
             Navigator.of(context).pop();
-            Toast.showText(state.message);
+            Toast.showText("Mật khẩu cũ không chính xác");
           }
         },
         child: RemoveFocusWidget(
@@ -128,7 +129,7 @@ class _OldPasswordInputWidget extends StatelessWidget {
           previous.oldPassword != current.oldPassword,
       builder: ((context, state) {
         return TextFieldInput(
-          key: const Key('passwordForm_usernameInput_textField'),
+          // key: const Key('passwordForm_usernameInput_textField'),
           onChanged: (password) => context.read<ChangePasswordBloc>().add(
                 OldPasswordChanged(
                   password,
@@ -187,7 +188,7 @@ class _NewPasswordInputWidget extends StatelessWidget {
           previous.newPassword != current.newPassword,
       builder: ((context, state) {
         return TextFieldInput(
-          key: const Key('passwordForm_usernameInput_textField'),
+          // key: const Key('passwordForm_usernameInput_textField'),
           onChanged: (password) => context.read<ChangePasswordBloc>().add(
                 NewPasswordChanged(
                   password,
@@ -216,7 +217,7 @@ class _ConfirmPasswordInputWidget extends StatelessWidget {
           previous.newPassword != current.newPassword,
       builder: ((context, state) {
         return TextFieldInput(
-          key: const Key('confirmPasswordForm_usernameInput_textField'),
+          // key: const Key('confirmPasswordForm_usernameInput_textField'),
           onChanged: (password) => context.read<ChangePasswordBloc>().add(
                 ConfirmPasswordChanged(
                   password,

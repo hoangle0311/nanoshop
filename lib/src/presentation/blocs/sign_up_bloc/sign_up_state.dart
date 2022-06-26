@@ -3,6 +3,7 @@ part of 'sign_up_bloc.dart';
 class SignUpState extends Equatable {
   const SignUpState({
     this.status = FormzStatus.pure,
+    this.message = "Lỗi",
     this.username = const UsernameInput.pure(),
     this.password = const PasswordInput.pure(),
     this.fullname = const FullNameInput.pure(),
@@ -16,6 +17,7 @@ class SignUpState extends Equatable {
   final FullNameInput fullname;
   final ConfirmPolicyCheck policy;
   final ConfirmPasswordInput confirmPassword;
+  final String message;
 
   SignUpState copyWith({
     FormzStatus? status,
@@ -24,6 +26,7 @@ class SignUpState extends Equatable {
     ConfirmPasswordInput? confirmPassword,
     PasswordInput? password,
     ConfirmPolicyCheck? policy,
+    String? message,
   }) {
     return SignUpState(
       status: status ?? this.status,
@@ -32,6 +35,7 @@ class SignUpState extends Equatable {
       fullname: fullname ?? this.fullname,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       policy: policy ?? this.policy,
+      message: message ?? this.message,
     );
   }
 
@@ -43,5 +47,6 @@ class SignUpState extends Equatable {
         fullname,
         confirmPassword,
         policy,
+        message,
       ];
 }

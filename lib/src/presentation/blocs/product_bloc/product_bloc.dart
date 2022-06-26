@@ -1,19 +1,15 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:nanoshop/src/core/bloc/bloc_with_state.dart';
 import 'package:nanoshop/src/core/params/filter_param.dart';
 import 'package:nanoshop/src/core/params/product_param.dart';
-import 'package:nanoshop/src/core/utils/log/log.dart';
-import 'package:nanoshop/src/data/models/product_response_model/product_response_model.dart';
 import 'package:nanoshop/src/domain/entities/manufacture/manufacturer.dart';
 import 'package:nanoshop/src/domain/usecases/domain_layer_usecase.dart';
 
 import '../../../core/params/token_param.dart';
 import '../../../core/resource/data_state.dart';
+import '../../../data/responses/product_response_model/product_response_model.dart';
 import '../../../domain/entities/product/product.dart';
 
 part 'product_event.dart';

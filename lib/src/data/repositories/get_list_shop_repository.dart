@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:nanoshop/src/core/params/get_list_shop_param.dart';
-import 'package:nanoshop/src/data/models/shop_response_model/shop_response_model.dart';
-import 'package:nanoshop/src/domain/repositories/get_list_shop_repository/get_list_shop_repository.dart';
 import 'package:retrofit/dio.dart';
+
+import 'package:nanoshop/src/core/params/get_list_shop_param.dart';
+import 'package:nanoshop/src/domain/repositories/get_list_shop_repository/get_list_shop_repository.dart';
 
 import 'package:nanoshop/src/core/resource/data_state.dart';
 
 import '../data_source/remote/shop_service/shop_service.dart';
+import '../responses/shop_response_model/shop_response_model.dart';
 
 class GetListShopRepositoryImpl extends GetListShopRepository {
   final ShopService _shopService;

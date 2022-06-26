@@ -26,8 +26,7 @@ class ScListCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-      injector<GetCategoryBloc>()
+      create: (_) => injector<GetCategoryBloc>()
         ..add(
           GetListCategoryEvent(
             tokenParam: injector<TokenParam>(),
@@ -45,10 +44,9 @@ class ScListCategory extends StatelessWidget {
                 child: Column(
                   children: List.generate(
                     state.categories.length,
-                        (index) =>
-                        ItemCategory(
-                          model: state.categories[index],
-                        ),
+                    (index) => ItemCategory(
+                      model: state.categories[index],
+                    ),
                   ),
                   // children: (arguments.categories as List)
                   //     .map(
@@ -99,17 +97,28 @@ class ItemCategory extends StatefulWidget {
 class _ItemCategoryState extends State<ItemCategory> {
   bool _showChildren = false;
 
-  Future<String> _getCount() async {
-    http.Response response = await http.post(
-      Uri.parse(
-        Environment.domain + '/api/home/getCountInCategory',
-      ),
-      headers: {
-        "token": injector<TokenParam>().token,
-      },
-    );
+  Future<String> _getCount(
+    String categoryId,
+  ) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(
+          Environment.domain + '/api/home/getCountInCategory',
+        ),
+        headers: {
+          "Content-Type": "application/json",
+          "token": injector<TokenParam>().token,
+        },
+        body: json.encode({
+          "category_id": categoryId,
+          "type": "product",
+        }),
+      );
 
-    return json.decode(response.body)['data']['count'];
+      return json.decode(utf8.decode(response.bodyBytes))['data']['count'];
+    } catch (e) {
+      return '';
+    }
   }
 
   @override
@@ -223,53 +232,57 @@ class _ItemCategoryState extends State<ItemCategory> {
                       if (widget.model.children != null)
                         ...List.generate(
                           widget.model.children.length,
-                              (index) =>
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                    AppRouterEndPoint.LISTPRODUCT,
-                                    arguments: ScListProductArgument(
-                                      title: widget.model.children[index]
-                                          .catName ??
-                                          '',
-                                      categoryId:
+                          (index) => InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                AppRouterEndPoint.LISTPRODUCT,
+                                arguments: ScListProductArgument(
+                                  title: widget.model.children[index].catName ??
+                                      '',
+                                  categoryId:
                                       widget.model.children[index].catId,
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(top: 12),
-                                  child: Row(
-                                    mainAxisAlignment:
+                                ),
+                              );
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 12),
+                              child: Row(
+                                mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        widget.model.children[index].catName,
+                                children: [
+                                  Text(
+                                    widget.model.children[index].catName,
+                                    style: TextStyleApp.textStyle2.copyWith(
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                  FutureBuilder<String>(
+                                    future: _getCount(
+                                        widget.model.children[index].catId),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<String> snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          "(${snapshot.data})",
+                                          style: TextStyleApp.textStyle2.copyWith(
+                                            color: AppColors.black,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        );
+                                      }
+                                      return Text(
+                                        "(0)",
                                         style: TextStyleApp.textStyle2.copyWith(
                                           color: AppColors.black,
+                                          fontStyle: FontStyle.italic,
                                         ),
-                                      ),
-                                      FutureBuilder<String>(
-                                        future: _getCount(),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<dynamic> snapshot) {
-                                          if(snapshot.hasData){
-                                            return Text("(${snapshot.data})");
-                                          }
-                                          return Text(
-                                            "(0)",
-                                            style: TextStyleApp.textStyle2
-                                                .copyWith(
-                                              color: AppColors.black,
-                                              fontStyle: FontStyle.italic,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
+                                      );
+                                    },
                                   ),
-                                ),
+                                ],
                               ),
+                            ),
+                          ),
                         ),
                     ],
                   ),

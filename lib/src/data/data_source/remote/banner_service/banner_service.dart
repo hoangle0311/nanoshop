@@ -1,9 +1,10 @@
-import 'package:nanoshop/src/core/constant/api/api_path.dart';
-import 'package:nanoshop/src/data/models/banner_response_model.dart/banner_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
+import 'package:nanoshop/src/core/constant/api/api_path.dart';
+
 import '../../../../domain/entities/banner/banner.dart';
+import '../../../responses/banner_response_model.dart/banner_response_model.dart';
 
 part 'banner_service.g.dart';
 

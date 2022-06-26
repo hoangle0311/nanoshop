@@ -6,14 +6,15 @@ import 'package:nanoshop/src/core/form_model/sign_up/confirm_policy_checkbox.dar
 import 'package:nanoshop/src/core/form_model/sign_up/fullname_input.dart';
 import 'package:nanoshop/src/core/params/sign_up_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
-import 'package:nanoshop/src/data/models/sign_up_response_model/sign_up_response_model.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/sign_up_usecase.dart';
 
 import '../../../core/form_model/login/password_input.dart';
 import '../../../core/form_model/login/username_input.dart';
 import '../../../core/resource/data_state.dart';
+import '../../../data/responses/sign_up_response_model/sign_up_response_model.dart';
 
 part 'sign_up_event.dart';
+
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
@@ -45,17 +46,27 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         SignUpParam(
           username: state.username.value,
           password: state.password.value,
-          fullname: state.password.value,
+          fullname: state.fullname.value,
           token: event.tokenParam.token,
         ),
       );
 
       if (dataState is DataSuccess) {
-        emit(
-          state.copyWith(
-            status: FormzStatus.submissionSuccess,
-          ),
-        );
+        if (dataState.data!.code == 1) {
+          emit(
+            state.copyWith(
+              message: dataState.data!.message,
+              status: FormzStatus.submissionSuccess,
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              status: FormzStatus.submissionFailure,
+              message: dataState.data!.message,
+            ),
+          );
+        }
       }
 
       if (dataState is DataFailed) {

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nanoshop/src/config/environment/app_environment.dart';
+import 'package:nanoshop/src/core/utils/helper/convert_date_from_millisecond.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,10 +43,18 @@ class ScListNotification extends StatelessWidget {
               return SingleChildScrollView(
                 child: Column(
                   children: List.generate(
-                      state.notifications.length,
-                      (index) => _ItemNoti(
-                            notification: state.notifications[index],
-                          )),
+                    state.notifications.length,
+                    (index) {
+                      if (typeNotification.id == 1) {
+                        return _ItemNotiType1(
+                          notification: state.notifications[index],
+                        );
+                      }
+                      return _ItemNotiType2(
+                        notification: state.notifications[index],
+                      );
+                    },
+                  ),
                 ),
               );
             }
@@ -72,10 +81,10 @@ class ScListNotification extends StatelessWidget {
   }
 }
 
-class _ItemNoti extends StatelessWidget {
+class _ItemNotiType1 extends StatelessWidget {
   final Notifications notification;
 
-  const _ItemNoti({
+  const _ItemNotiType1({
     Key? key,
     required this.notification,
   }) : super(key: key);
@@ -99,7 +108,106 @@ class _ItemNoti extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Mã đơn hàng :',
+                    'Khuyến mãi :',
+                    style: TextStyleApp.textStyle2.copyWith(
+                      color: AppColors.black,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      notification.title ?? '',
+                      textAlign: TextAlign.end,
+                      style: TextStyleApp.textStyle2.copyWith(
+                        color: AppColors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Mô tả :',
+                    style: TextStyleApp.textStyle2.copyWith(
+                      color: AppColors.black,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      notification.description ?? '',
+                      textAlign: TextAlign.end,
+                      style: TextStyleApp.textStyle2.copyWith(
+                        color: AppColors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ngày bắt đầu :',
+                    style: TextStyleApp.textStyle2.copyWith(
+                      color: AppColors.black,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      convertDateFromMilliseconds(
+                        notification.updatedAt ?? '',
+                      ),
+                      textAlign: TextAlign.end,
+                      style: TextStyleApp.textStyle2.copyWith(
+                        color: AppColors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ItemNotiType2 extends StatelessWidget {
+  final Notifications notification;
+
+  const _ItemNotiType2({
+    Key? key,
+    required this.notification,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        launchUrl(Uri.parse(Environment.domain + (notification.link ?? '')));
+      },
+      child: Card(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Mã :',
                     style: TextStyleApp.textStyle2.copyWith(
                       color: AppColors.black,
                     ),

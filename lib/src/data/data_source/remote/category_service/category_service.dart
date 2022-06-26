@@ -2,8 +2,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
 import '../../../../core/constant/api/api_path.dart';
-import '../../../../domain/entities/category/category.dart';
-import '../../../models/category_response_model/category_response_model.dart';
+import '../../../responses/category_response_model/category_response_model.dart';
 
 part 'category_service.g.dart';
 

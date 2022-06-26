@@ -3,8 +3,8 @@ import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/core/usecases/usecase_with_future.dart';
 import 'package:nanoshop/src/domain/repositories/auth_repository/auth_repository.dart';
 
-import '../../../data/models/user/user_login_response_model.dart';
-import '../../entities/user_login/user_login.dart';
+import '../../../data/responses/user/user_login_response_model.dart';
+
 
 class GetUserUsecase
     extends UseCaseWithFuture<DataState<UserLoginResponseModel>, GetUserParam> {

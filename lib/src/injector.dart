@@ -23,6 +23,7 @@ import 'package:nanoshop/src/domain/usecases/auth_usecase/remove_user_local_usec
 import 'package:nanoshop/src/domain/usecases/auth_usecase/sign_up_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/notification_usecase/get_type_notification_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/payment_usecase/get_discount_usecase.dart';
+import 'package:nanoshop/src/domain/usecases/post_usecase/detail_post_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/post_usecase/get_list_post_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/add_comment_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/get_detail_product_remote_usecase.dart';
@@ -40,6 +41,7 @@ import 'package:nanoshop/src/presentation/cubits/checkout_cubit/checkout_cubit.d
 import 'package:nanoshop/src/presentation/cubits/city_cubit/city_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/detail_product_cubit/detail_product_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/district_cubit/district_cubit.dart';
+import 'package:nanoshop/src/presentation/cubits/get_detail_post_cubit/get_detail_post_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_comment_cubit/get_list_comment_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_notification_cubit/get_list_notification_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_order_cubit/get_list_order_cubit.dart';
@@ -280,6 +282,11 @@ _dependencyUseCase() {
       injector<GetListProductRepositoryImpl>(),
     ),
   );
+  injector.registerLazySingleton<DetailPostUsecase>(
+        () => DetailPostUsecase(
+      injector<PostRepositoryImpl>(),
+    ),
+  );
   injector.registerLazySingleton<GetListPostUsecase>(
     () => GetListPostUsecase(
       injector<PostRepositoryImpl>(),
@@ -438,6 +445,7 @@ _dependencyBloc() {
     () => AuthenticationBloc(
       injector<GetUserUsecase>(),
       injector<GetUserLocalUsecase>(),
+      injector<RemoveUserLocalUsecase>(),
     ),
   );
   injector.registerFactory(
@@ -470,6 +478,11 @@ _dependencyBloc() {
   injector.registerFactory(
     () => GetBannerBloc(
       injector<GetBannerUsecase>(),
+    ),
+  );
+  injector.registerFactory(
+        () => GetDetailPostCubit(
+      injector<DetailPostUsecase>(),
     ),
   );
   injector.registerFactory(

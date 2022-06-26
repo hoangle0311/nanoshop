@@ -1,22 +1,18 @@
 import 'dart:io';
 
-import 'package:nanoshop/src/core/params/get_list_notification_param.dart';
-import 'package:nanoshop/src/core/params/get_type_notification_param.dart';
-import 'package:nanoshop/src/core/params/token_param.dart';
-import 'package:nanoshop/src/data/data_source/remote/notification_service/notification_service.dart';
-import 'package:nanoshop/src/data/models/notification_response_model/notification_response_model.dart';
-import 'package:nanoshop/src/data/models/type_notification_response_model/type_notification_response_model.dart';
-import 'package:nanoshop/src/domain/repositories/notification_repository/notification_repository.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
 
+import 'package:nanoshop/src/core/params/get_list_notification_param.dart';
+import 'package:nanoshop/src/core/params/get_type_notification_param.dart';
+import 'package:nanoshop/src/data/data_source/remote/notification_service/notification_service.dart';
+import 'package:nanoshop/src/domain/repositories/notification_repository/notification_repository.dart';
+
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/data_source/remote/get_token_service/get_token_service.dart';
-import 'package:nanoshop/src/domain/entities/token/token.dart';
-import 'package:nanoshop/src/domain/repositories/get_token_repository/get_token_repository.dart';
 
 import '../../core/utils/log/log.dart';
-import '../models/token_response_model/token_response_model.dart';
+import '../responses/notification_response_model/notification_response_model.dart';
+import '../responses/type_notification_response_model/type_notification_response_model.dart';
 
 class NotificationRepositoryImpl extends NotificationRepository {
   final NotificationService _notificationService;
@@ -56,7 +52,6 @@ class NotificationRepositoryImpl extends NotificationRepository {
   @override
   Future<DataState<NotificationResponseModel>> getListNotification(
       GetListNotificationParam param) async {
-    Log.i(param.toJson().toString());
     try {
       final HttpResponse<NotificationResponseModel> response =
       await _notificationService.getListNotification(
