@@ -2,21 +2,21 @@ part of 'flash_sale_bloc.dart';
 
 enum FlashSaleStatus {
   initial,
-  running,
+    running,
   complete,
 }
 
 class FlashSaleState extends Equatable {
-  final FlashSale? flashSale;
+  final List<FlashSale> flashSale;
   final FlashSaleStatus status;
 
   const FlashSaleState({
-    this.flashSale,
+    this.flashSale = const [],
     this.status = FlashSaleStatus.initial,
   });
 
   FlashSaleState copyWith({
-    FlashSale? flashSale,
+    List<FlashSale>? flashSale,
     FlashSaleStatus? status,
   }) {
     return FlashSaleState(

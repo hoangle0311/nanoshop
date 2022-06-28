@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nanoshop/src/config/styles/app_color.dart';
+import 'package:nanoshop/src/config/styles/app_text_style.dart';
 
 class ButtonSeeMore extends StatelessWidget {
   final bool isActive;
@@ -23,6 +25,9 @@ class ButtonSeeMore extends StatelessWidget {
             Container(
               child: Text(
                 isActive ? "Rút gọn" : 'Xem thêm',
+                style: TextStyleApp.textStyle2.copyWith(
+                  color: AppColors.black,
+                ),
               ),
             ),
             Icon(

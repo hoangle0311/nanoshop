@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:dio/dio.dart';
 import 'package:nanoshop/src/core/params/category_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
-import 'package:nanoshop/src/data/models/category_response_model/category_response_model.dart';
 
 import '../../../core/resource/data_state.dart';
+import '../../../data/responses/category_response_model/category_response_model.dart';
 import '../../../domain/entities/category/category.dart';
 import '../../../domain/usecases/category_usecase/get_list_category_usecase.dart';
 

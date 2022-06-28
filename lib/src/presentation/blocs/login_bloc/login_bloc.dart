@@ -1,16 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/core/form_model/login/password_input.dart';
 import 'package:nanoshop/src/core/form_model/login/username_input.dart';
 import 'package:nanoshop/src/core/params/login_user_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/user/user_login_response_model.dart';
 import 'package:nanoshop/src/domain/entities/user_login/user_login.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/login_usecase.dart';
 
 import '../../../chat/firebase/firebase_account.dart';
+import '../../../data/responses/user/user_login_response_model.dart';
 import '../../../domain/usecases/auth_usecase/add_user_local_usecase.dart';
 
 part 'login_event.dart';
@@ -102,6 +103,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           name: dataState.data!.data!.type! == '3'
               ? 'Admin'
               : dataState.data!.data!.name,
+          avatar: Environment.domain + (dataState.data!.data!.avatarPath ?? '') + (dataState.data!.data!.avatarName ?? ''),
+        );
+
+        FireBaseAccount.addToken(
+          dataState.data!.data!.type! == '3'
+              ? "Admin"
+              : dataState.data!.data!.userId,
         );
 
         if (dataState is DataSuccess) {

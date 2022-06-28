@@ -6,8 +6,8 @@ import 'package:nanoshop/src/core/params/banner_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/banner_response_model.dart/banner_response_model.dart';
 
+import '../../../data/responses/banner_response_model.dart/banner_response_model.dart';
 import '../../../domain/entities/banner/banner.dart';
 import '../../../domain/usecases/banner_usecase/get_banner_usecase.dart';
 

@@ -134,13 +134,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
 
 // LocationCityChanged
   _onCityChanged(LocationCityChanged event, emit) {
-    Log.i(
-      event.city!.toString(),
-    );
     final city = LocationFormModel.dirty(
       event.city,
     );
-
     emit(
       state.copyWith(
         city: city,

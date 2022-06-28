@@ -6,11 +6,10 @@ import 'package:dio/dio.dart';
 
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/data/data_source/remote/get_token_service/get_token_service.dart';
-import 'package:nanoshop/src/domain/entities/token/token.dart';
 import 'package:nanoshop/src/domain/repositories/get_token_repository/get_token_repository.dart';
 
-import '../../core/utils/log/log.dart';
-import '../models/token_response_model/token_response_model.dart';
+import '../responses/token_response_model/token_response_model.dart';
+
 
 class GetTokenRepositoryImpl extends GetTokenRepository {
   final GetTokenService _getTokenService;

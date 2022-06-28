@@ -4,6 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
+import 'package:nanoshop/src/chat/text_style_chat.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../main.dart';
@@ -18,12 +20,12 @@ class FirebaseSendNotifi {
     required id_send,
   }) async {
     var url = "https://fcm.googleapis.com/fcm/send";
-    var tokenSendTo = await FireBaseAccount.getData(id_send);
+    var tokenSendTo =
+    await FireBaseAccount.getData(id_send);
     Map<String, String> headers = new Map();
     Map<String, dynamic> body_req = new Map();
     Map<String, dynamic> body_data = new Map();
-    String key =
-        "AAAAbXHIOuI:APA91bHob-SdlK9QJIm4D98inKZ_-Ndo_YjFXfggSyvqvKS3ZwfAqkAn0n01ya3q7XRgMCVvjYeVRZQDLebLvHuW169AjICE53xH4TCicp2MrirHEcp4xQ-eCGG5jPt063lfITKD9Z_Z";
+    String key = "AAAAbXHIOuI:APA91bHob-SdlK9QJIm4D98inKZ_-Ndo_YjFXfggSyvqvKS3ZwfAqkAn0n01ya3q7XRgMCVvjYeVRZQDLebLvHuW169AjICE53xH4TCicp2MrirHEcp4xQ-eCGG5jPt063lfITKD9Z_Z";
 
     headers = {"Authorization": "key=$key", "Content-Type": "application/json"};
     body_req['registration_ids'] = tokenSendTo.data()["notificationTokens"];
@@ -71,21 +73,21 @@ class FirebaseSendNotifi {
 
   static showNotification(RemoteMessage message) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-            'full screen channel id', 'full screen channel name',
-            channelDescription: 'full screen channel description',
-            priority: Priority.high,
-            importance: Importance.high,
-            ticker: 'ticker',
-            fullScreenIntent: false);
+    AndroidNotificationDetails(
+        'full screen channel id', 'full screen channel name',
+        channelDescription: 'full screen channel description',
+        priority: Priority.high,
+        importance: Importance.high,
+        ticker: 'ticker',
+        fullScreenIntent: false);
     const IOSNotificationDetails iOSPlatformChannelSpecifics =
-        IOSNotificationDetails(
+    IOSNotificationDetails(
       presentAlert: true,
       // Present an alert when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
       presentBadge: true,
       // Present the badge number when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
       presentSound:
-          true, // Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
+      true, // Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
     );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
@@ -106,35 +108,36 @@ class FirebaseSendNotifi {
         await getByteArrayFromUrl(message.data['image_url']));
 
     final BigPictureStyleInformation bigPictureStyleInformation =
-        BigPictureStyleInformation(bigPicture,
-            largeIcon: largeIcon,
-            contentTitle: message.data['title'],
-            htmlFormatContentTitle: true,
-            summaryText: message.data['body'],
-            htmlFormatSummaryText: true);
+    BigPictureStyleInformation(bigPicture,
+        largeIcon: largeIcon,
+        contentTitle: message.data['title'],
+        htmlFormatContentTitle: true,
+        summaryText: message.data['body'],
+        htmlFormatSummaryText: true);
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-            'big text channel id', 'big text channel name',
-            channelDescription: 'big text channel description',
-            styleInformation: bigPictureStyleInformation);
+    AndroidNotificationDetails(
+        'big text channel id', 'big text channel name',
+        channelDescription: 'big text channel description',
+        styleInformation: bigPictureStyleInformation);
     IOSNotificationDetails(
       presentAlert: true,
       // Present an alert when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
       presentBadge: true,
       // Present the badge number when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
       presentSound:
-          true, // Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
+      true, // Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
     );
     final NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(0, message.data['title'],
         message.data['body'], platformChannelSpecifics,
         payload: json.encode(message.data));
   }
 
+
   static nextPageNotifi(BuildContext context, res) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    DataModel model = DataModel(res['from_send']);
+    DataModel model =  DataModel(res['from_send']);
     if (res['to'] != null) {
       flutterLocalNotificationsPlugin.cancelAll();
     }
@@ -142,26 +145,74 @@ class FirebaseSendNotifi {
 
   static init(BuildContext context) async {
     AndroidInitializationSettings initializationSettingsAndroid =
-        new AndroidInitializationSettings('@mipmap/ic_launcher');
+    new AndroidInitializationSettings('@mipmap/ic_launcher');
     final IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
+    IOSInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
     final InitializationSettings initializationSettings =
-        InitializationSettings(
+    InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {
-      if (payload != null) {
-        var res = await json.decode(payload);
-        if (res['chat'] == "1") {
-          nextPageNotifi(context, res);
-        }
-      }
-    });
+          if (payload != null) {
+            var res = await json.decode(payload);
+            if (res['chat'] == "1") {
+              nextPageNotifi(context, res);
+            }
+          }
+        });
+  }
+  static buildShowNotifi(RemoteMessage message, BuildContext context){
+    var height = MediaQuery.of(context).padding.top;
+    showOverlayNotification((context) {
+      return Container(
+        padding: EdgeInsets.all(15),
+        margin: EdgeInsets.only(top: height, left: 7, right: 7),
+        alignment: Alignment.centerLeft,
+        //height: 65,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x1f0c9359),
+                blurRadius: 22.79,
+                offset: Offset(0, 7.60),
+              ),
+            ]),
+        child: GestureDetector(
+          onTap: () async {
+            OverlaySupportEntry.of(context)!.dismiss(animate: true);
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                message.data["title"],
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyleApp.textStyle700(),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                message.data["body"],
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                style: TextStyleApp.textStyle400(),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+      duration: Duration(seconds: 1),);
   }
 }

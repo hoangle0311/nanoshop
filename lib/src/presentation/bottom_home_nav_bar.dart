@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 
-import 'package:nanoshop/src/core/data/nav_data/nav_data_dev.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 
 import '../config/styles/app_color.dart';
 import '../config/styles/app_text_style.dart';
 import '../core/data/nav_data/nav_data_prod.dart';
-import '../data/models/user/user_login_response_model.dart';
 import '../domain/entities/user_login/user_login.dart';
 import 'cubits/bottom_nav_cubit/bottom_nav_cubit.dart';
 

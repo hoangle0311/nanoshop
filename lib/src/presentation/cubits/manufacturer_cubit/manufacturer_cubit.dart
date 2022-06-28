@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/manufacturer_response_model/manufacturer_response_model.dart';
 import 'package:nanoshop/src/domain/entities/manufacture/manufacturer.dart';
 
-import '../../../core/utils/log/log.dart';
+import '../../../data/responses/manufacturer_response_model/manufacturer_response_model.dart';
 import '../../../domain/usecases/product_usecase/get_list_manufacture_usecase.dart';
 
 part 'manufacturer_state.dart';

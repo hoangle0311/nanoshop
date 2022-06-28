@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
@@ -93,6 +96,30 @@ class ItemCategory extends StatefulWidget {
 
 class _ItemCategoryState extends State<ItemCategory> {
   bool _showChildren = false;
+
+  Future<String> _getCount(
+    String categoryId,
+  ) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(
+          Environment.domain + '/api/home/getCountInCategory',
+        ),
+        headers: {
+          "Content-Type": "application/json",
+          "token": injector<TokenParam>().token,
+        },
+        body: json.encode({
+          "category_id": categoryId,
+          "type": "product",
+        }),
+      );
+
+      return json.decode(utf8.decode(response.bodyBytes))['data']['count'];
+    } catch (e) {
+      return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,8 +237,10 @@ class _ItemCategoryState extends State<ItemCategory> {
                               Navigator.of(context).pushNamed(
                                 AppRouterEndPoint.LISTPRODUCT,
                                 arguments: ScListProductArgument(
-                                  title: widget.model.children[index].catName ?? '',
-                                  categoryId: widget.model.children[index].catId,
+                                  title: widget.model.children[index].catName ??
+                                      '',
+                                  categoryId:
+                                      widget.model.children[index].catId,
                                 ),
                               );
                             },
@@ -227,12 +256,28 @@ class _ItemCategoryState extends State<ItemCategory> {
                                       color: AppColors.black,
                                     ),
                                   ),
-                                  Text(
-                                    "(25)",
-                                    style: TextStyleApp.textStyle2.copyWith(
-                                      color: AppColors.black,
-                                      fontStyle: FontStyle.italic,
-                                    ),
+                                  FutureBuilder<String>(
+                                    future: _getCount(
+                                        widget.model.children[index].catId),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<String> snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          "(${snapshot.data})",
+                                          style: TextStyleApp.textStyle2.copyWith(
+                                            color: AppColors.black,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        );
+                                      }
+                                      return Text(
+                                        "(0)",
+                                        style: TextStyleApp.textStyle2.copyWith(
+                                          color: AppColors.black,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),

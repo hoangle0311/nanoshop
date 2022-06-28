@@ -1,13 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/params/get_list_shop_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/shop_response_model/shop_response_model.dart';
 import 'package:nanoshop/src/domain/entities/shop/shop.dart';
 import 'package:nanoshop/src/domain/usecases/shop_usecase/get_list_shop_usecase.dart';
 
+import '../../../data/responses/shop_response_model/shop_response_model.dart';
 import '../../../domain/entities/filter_model/filter_model.dart';
 
 part 'get_list_shop_state.dart';

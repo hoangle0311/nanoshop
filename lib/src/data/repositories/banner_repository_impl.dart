@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:nanoshop/src/core/params/banner_param.dart';
-import 'package:nanoshop/src/data/models/banner_response_model.dart/banner_response_model.dart';
 import 'package:retrofit/dio.dart';
 
 import 'package:nanoshop/src/data/data_source/remote/banner_service/banner_service.dart';
-import 'package:nanoshop/src/domain/entities/banner/banner.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/domain/repositories/banner_repository/banner_repository.dart';
 
-import '../models/category_response_model/category_response_model.dart';
+import '../responses/banner_response_model.dart/banner_response_model.dart';
+
 
 class BannerRepositoryImpl extends BannerRepository {
   final BannerService _bannerService;

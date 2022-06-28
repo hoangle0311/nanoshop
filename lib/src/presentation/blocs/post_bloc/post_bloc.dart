@@ -1,16 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:nanoshop/src/core/bloc/bloc_with_state.dart';
 import 'package:nanoshop/src/core/params/post_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/core/utils/log/log.dart';
-import 'package:nanoshop/src/data/models/post_response_model/post_response_model.dart';
 import 'package:nanoshop/src/domain/usecases/post_usecase/get_list_post_usecase.dart';
 
+import '../../../data/responses/post_response_model/post_response_model.dart';
 import '../../../domain/entities/post/post.dart';
 
 part 'post_event.dart';
@@ -79,28 +75,37 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
       ),
     );
     _page++;
-
-    DataState<PostResponseModel> dataState = await _getListPostUsecase.call(
-      PostParam(
-        page: _page,
-        limit: postPerPage,
-        token: event.tokenParam.token,
-      ),
-    );
-
-    if (dataState is DataSuccess) {
-      List<Post> posts = dataState.data!.data!.data!;
-
-      emit(
-        state.copyWith(
-          status: PostStatus.success,
-          posts: List.of(state.posts)..addAll(posts),
-          hasMore: posts.length >= postPerPage,
+    try{
+      DataState<PostResponseModel> dataState = await _getListPostUsecase.call(
+        PostParam(
+          page: _page,
+          limit: postPerPage,
+          token: event.tokenParam.token,
         ),
       );
-    }
 
-    if (dataState is DataFailed) {
+      if (dataState is DataSuccess) {
+        List<Post> posts = dataState.data!.data!.data!;
+
+        emit(
+          state.copyWith(
+            status: PostStatus.success,
+            posts: List.of(state.posts)..addAll(posts),
+            hasMore: posts.length >= postPerPage,
+          ),
+        );
+      }
+
+      if (dataState is DataFailed) {
+        emit(
+          state.copyWith(
+            status: PostStatus.success,
+            hasMore: false,
+          ),
+        );
+      }
+
+    }catch (e){
       emit(
         state.copyWith(
           status: PostStatus.success,
@@ -108,6 +113,7 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
         ),
       );
     }
+
 
     // if (state is PostDone) {
     //   _page++;

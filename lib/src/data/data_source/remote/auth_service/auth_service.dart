@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:nanoshop/src/core/constant/api/api_path.dart';
-import 'package:nanoshop/src/data/models/sign_up_response_model/sign_up_response_model.dart';
-import 'package:nanoshop/src/data/models/user/user_login_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+
+import '../../../responses/default_response_model/default_response_model.dart';
+import '../../../responses/sign_up_response_model/sign_up_response_model.dart';
+import '../../../responses/user/user_login_response_model.dart';
 
 part 'auth_service.g.dart';
 
@@ -25,6 +29,18 @@ abstract class AuthService {
     @Part(name: "user_id") required String userId,
   });
 
+  @POST(ApiPath.updateUser)
+  @MultiPart()
+  Future<HttpResponse<DefaultResponseModel>> updateUser({
+    @Header("token") required String token,
+    @Part(name: "avatar") File? file,
+    @Part(name: "user_id") required String userId,
+    @Part(name: "name") String? name,
+    @Part(name: "email") String? email,
+    @Part(name: "address") String? address,
+    // @Body() required Map<String, dynamic> body,
+  });
+
   // @GET(ApiPath.signUp)
   @POST(ApiPath.signUp)
   Future<HttpResponse<SignUpResponseModel>> signUpUser({
@@ -36,7 +52,7 @@ abstract class AuthService {
   });
 
   @POST(ApiPath.changePassword)
-  Future<HttpResponse<SignUpResponseModel>> changePasswordUser({
+  Future<HttpResponse<DefaultResponseModel>> changePasswordUser({
     @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });

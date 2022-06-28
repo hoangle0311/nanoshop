@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/domain/entities/post/post.dart';
 import 'package:nanoshop/src/presentation/views/components/image_widget/load_image_form_url_widget.dart';
@@ -96,7 +97,8 @@ class PostListTile extends StatelessWidget {
                           ),
                           _buildToolBar(
                             onTap: () {
-                              Share.share(post.link ?? "không xác định");
+                              Share.share(
+                                  Environment.domain + (post.link ?? ''));
                             },
                             title: 'Share',
                             iconSource: ImagePath.shareIcon,

@@ -5,7 +5,8 @@ import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/domain/entities/flash_sale/flash_sale.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/get_flash_sale_product_usecase.dart';
 
-import '../../../data/models/flash_sale_response_model/flash_sale_response_model.dart';
+import '../../../data/responses/flash_sale_response_model/flash_sale_response_model.dart';
+
 
 part 'flash_sale_event.dart';
 
@@ -43,7 +44,7 @@ class FlashSaleBloc extends Bloc<FlashSaleEvent, FlashSaleState> {
 
       emit(
         state.copyWith(
-          flashSale: _listFlashSale[0],
+          flashSale: _listFlashSale,
           status: FlashSaleStatus.running,
         ),
       );

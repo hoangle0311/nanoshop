@@ -10,29 +10,34 @@ class Toast {
         onlyOne: true,
         toastBuilder: (textCancel) => Align(
               alignment: const Alignment(0, 0.8),
-              child: Card(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                        icon: Icon(
-                          iconData,
-                          color: Colors.redAccent,
-                        ),
-                        onPressed: () {
-                          textCancel();
-                        }),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          text,
-                        ),
-                      ),
-                    )
-                  ],
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: Text(
+                  text,
                 ),
               ),
+              // child: Card(
+              //   child: Row(
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: <Widget>[
+              //       Expanded(
+              //         child: Padding(
+              //           padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //           child: Text(
+              //             text,
+              //           ),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
             ));
   }
 }

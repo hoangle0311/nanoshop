@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/core/constant/strings/strings.dart';
-import 'package:nanoshop/src/data/models/cart/cart.dart';
 import 'package:nanoshop/src/presentation/views/components/image_widget/load_image_form_url_widget.dart';
 
 import '../../../../config/styles/app_color.dart';
 import '../../../../config/styles/app_text_style.dart';
 import '../../../../core/utils/helper/convert_price.dart';
+import '../../../../data/responses/cart/cart.dart';
 
 class PaymentCartListTile extends StatelessWidget {
   final Cart cart;

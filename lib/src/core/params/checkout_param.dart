@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:nanoshop/src/data/models/cart/cart.dart';
 import 'package:nanoshop/src/domain/entities/address/address.dart';
 import 'package:nanoshop/src/domain/entities/payment/payment.dart';
-import 'package:nanoshop/src/domain/entities/product/product.dart';
 import 'package:nanoshop/src/domain/entities/transport/transport.dart';
 
+import '../../data/responses/cart/cart.dart';
 import '../../domain/entities/bank/bank.dart';
 
 class CheckoutParam extends Equatable {
@@ -45,9 +44,7 @@ class CheckoutParam extends Equatable {
       data['discount_code'] = discountCode;
     }
     data['user_id'] = userId;
-    if (bank != Bank.empty) {
-      data['bank_id'] = bank.id;
-    }
+
     data['Billing'] = {
       'sex': address.sex,
       'name': address.name,
@@ -68,10 +65,18 @@ class CheckoutParam extends Equatable {
       'address': address.address,
     };
 
-    data['Orders'] = {
-      'payment_method': payment.id,
-      'transport_method': transport.id,
-    };
+    if (bank != Bank.empty) {
+      data['Orders'] = {
+        'payment_method': payment.id,
+        'transport_method': transport.id,
+        'bank_id': bank.id,
+      };
+    } else {
+      data['Orders'] = {
+        'payment_method': payment.id,
+        'transport_method': transport.id,
+      };
+    }
 
     return data;
   }

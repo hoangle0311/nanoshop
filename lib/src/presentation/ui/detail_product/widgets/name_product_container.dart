@@ -4,7 +4,9 @@ import 'package:nanoshop/src/config/styles/app_text_style.dart';
 import 'package:nanoshop/src/core/utils/helper/convert_price.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
 import 'package:nanoshop/src/presentation/views/components/rating_star_widget/rating_star_widget.dart';
+import 'package:share/share.dart';
 
+import '../../../../config/environment/app_environment.dart';
 import '../../../../core/constant/strings/strings.dart';
 
 class NameProductContainer extends StatelessWidget {
@@ -100,6 +102,15 @@ class NameProductContainer extends StatelessWidget {
                             ],
                           ),
                         ),
+                        InkWell(
+                          onTap: () {
+                            Share.share((product.link ?? ''));
+                          },
+                          child: Icon(
+                            Icons.share,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
                         // Container(
                         //   padding: const EdgeInsets.symmetric(
                         //       horizontal: 6, vertical: 4),
@@ -139,7 +150,6 @@ class NameProductContainer extends StatelessWidget {
                               child: Text(
                                 double.parse(
                                         product.productInfo!.totalRating ?? "0")
-                                    .round()
                                     .toString(),
                                 style: TextStyleApp.textStyle2,
                               ),

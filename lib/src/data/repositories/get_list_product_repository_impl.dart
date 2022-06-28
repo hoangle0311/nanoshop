@@ -4,23 +4,24 @@ import 'package:dio/dio.dart';
 import 'package:nanoshop/src/core/params/add_comment_param.dart';
 import 'package:nanoshop/src/core/params/detail_product_param.dart';
 import 'package:nanoshop/src/core/params/get_list_comment_param.dart';
+import 'package:nanoshop/src/core/params/list_flashsale_with_list_product_param.dart';
 import 'package:nanoshop/src/core/params/product_param.dart';
 import 'package:nanoshop/src/core/params/related_product_param.dart';
 import 'package:nanoshop/src/core/params/search_product_param.dart';
 import 'package:nanoshop/src/data/data_source/local/product_local_service/product_local_service.dart';
-import 'package:nanoshop/src/data/models/add_comment_response/add_comment_response_model.dart';
-import 'package:nanoshop/src/data/models/comment_response_model/comment_response_model.dart';
-import 'package:nanoshop/src/data/models/manufacturer_response_model/manufacturer_response_model.dart';
-import 'package:nanoshop/src/data/models/product_response_model/detail_product_response_model.dart';
-import 'package:nanoshop/src/data/models/product_response_model/product_response_model.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../core/resource/data_state.dart';
-import '../../core/utils/log/log.dart';
 import '../../domain/entities/product/product.dart';
 import '../../domain/repositories/product_repository/product_repository.dart';
 import '../data_source/remote/product_service/product_service.dart';
-import '../models/flash_sale_response_model/flash_sale_response_model.dart';
+import '../responses/add_comment_response/add_comment_response_model.dart';
+import '../responses/comment_response_model/comment_response_model.dart';
+import '../responses/flash_sale_response_model/flash_sale_response_model.dart';
+import '../responses/flash_sale_with_list_product_response_model/flash_sale_with_list_product_response_model.dart';
+import '../responses/manufacturer_response_model/manufacturer_response_model.dart';
+import '../responses/product_response_model/detail_product_response_model.dart';
+import '../responses/product_response_model/product_response_model.dart';
 
 class GetListProductRepositoryImpl extends ProductRepository {
   final ProductRemoteService _productRemoteService;
@@ -35,7 +36,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
   Future<DataState<ProductResponseModel>> getListProductRemote(
       ProductParam param) async {
     try {
-      Log.i(param.toJson().toString());
       final HttpResponse<ProductResponseModel> response =
           await _productRemoteService.getListProduct(
         token: param.token,
@@ -79,11 +79,11 @@ class GetListProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<DataState<FlashSaleResponseModel>> getListProductFlashSaleRemote(
+  Future<DataState<FlashSaleResponseModel>> getListFlashSaleRemote(
       String params) async {
     try {
       final HttpResponse<FlashSaleResponseModel> response =
-          await _productRemoteService.getListProductFlashSale(
+          await _productRemoteService.getListFlashSale(
         token: params,
       );
 
@@ -278,6 +278,35 @@ class GetListProductRepositoryImpl extends ProductRepository {
         ),
       );
     } on DioError catch (e) {
+      return DataFailed(
+        error: e,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<List<Product>>> getListFlashSaleWithListProductRemote(
+      ListFlashSaleWithListProductParam params) async {
+    try {
+      final HttpResponse<FlashSaleWithListProductResponseModel> response =
+          await _productRemoteService.getFlashSaleWithListProduct(
+        token: params.token,
+        body: params.toJson(),
+      );
+
+      if (response.response.statusCode == HttpStatus.ok) {
+        return DataSuccess(data: response.data.data!.data!);
+      }
+
+      return DataFailed(
+        error: DioError(
+          requestOptions: response.response.requestOptions,
+          error: response.data.message,
+          type: DioErrorType.response,
+        ),
+      );
+    } on DioError catch (e) {
+      print(e);
       return DataFailed(
         error: e,
       );

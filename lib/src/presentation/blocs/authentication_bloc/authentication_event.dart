@@ -31,3 +31,7 @@ class AuthenticationCheckLocalRequested extends AuthenticationEvent {
 }
 
 class AuthenticationLogoutRequested extends AuthenticationEvent {}
+
+class AddMessageUserLocal extends AuthenticationEvent {}
+
+class RemoveCountMessageLocal extends AuthenticationEvent {}

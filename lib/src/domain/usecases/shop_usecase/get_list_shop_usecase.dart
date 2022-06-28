@@ -1,8 +1,8 @@
 import 'package:nanoshop/src/core/params/get_list_shop_param.dart';
 import 'package:nanoshop/src/core/usecases/usecase_with_future.dart';
-import 'package:nanoshop/src/data/models/shop_response_model/shop_response_model.dart';
 
 import '../../../core/resource/data_state.dart';
+import '../../../data/responses/shop_response_model/shop_response_model.dart';
 import '../../repositories/get_list_shop_repository/get_list_shop_repository.dart';
 
 class GetListShopUsecase

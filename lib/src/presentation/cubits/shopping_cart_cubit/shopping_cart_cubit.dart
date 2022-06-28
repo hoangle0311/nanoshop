@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:nanoshop/src/core/utils/log/log.dart';
-import 'package:nanoshop/src/data/models/cart/cart.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
+
+import '../../../data/responses/cart/cart.dart';
 
 part 'shopping_cart_state.dart';
 

@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:nanoshop/src/core/params/category_param.dart';
-import 'package:nanoshop/src/data/models/category_response_model/category_response_model.dart';
 import 'package:retrofit/dio.dart';
+import 'package:dio/dio.dart';
+
+import 'package:nanoshop/src/core/params/category_param.dart';
 
 import 'package:nanoshop/src/core/resource/data_state.dart';
 
-import '../../domain/entities/category/category.dart';
 import '../../domain/repositories/category_repository/category_repository.dart';
 import '../data_source/remote/remote_service.dart';
+import '../responses/category_response_model/category_response_model.dart';
 
 class CategoryRepositoryImpl extends CategoryRepository {
   final CategoryService _categoryService;

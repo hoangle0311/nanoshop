@@ -23,8 +23,8 @@ class ScNotification extends StatelessWidget {
               count: 50,
             ),
             NotificationItem(
-              url: ImagePath.appIcon,
-              sub: "Cập nhật Jk Audio",
+              url: ImagePath.updateIconNotificationScreen,
+              sub: "Cập nhật TATRA Pharmacy",
               title: "Cập nhật",
               count: 50,
             ),

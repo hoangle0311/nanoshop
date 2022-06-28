@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nanoshop/src/core/page_route/custom_page_route.dart';
-import 'package:nanoshop/src/data/models/cart/cart.dart';
+import 'package:nanoshop/src/domain/entities/flash_sale/flash_sale.dart';
 import 'package:nanoshop/src/domain/entities/payment/payment.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
 import 'package:nanoshop/src/domain/entities/shop/shop.dart';
@@ -9,9 +9,13 @@ import 'package:nanoshop/src/presentation/ui/add_address/sc_add_address.dart';
 import 'package:nanoshop/src/presentation/ui/change_password/sc_change_password.dart';
 import 'package:nanoshop/src/presentation/ui/choose_payment/sc_choose_payment.dart';
 import 'package:nanoshop/src/presentation/ui/choose_transport/sc_choose_transport.dart';
+import 'package:nanoshop/src/presentation/ui/detail_comment/sc_detail_comment.dart';
+import 'package:nanoshop/src/presentation/ui/detail_flash_sale/sc_detail_flash_sale.dart';
 import 'package:nanoshop/src/presentation/ui/detail_post/sc_detail_post.dart';
 import 'package:nanoshop/src/presentation/ui/filter_product/sc_filter_product.dart';
 import 'package:nanoshop/src/presentation/ui/home/sc_home.dart';
+import 'package:nanoshop/src/presentation/ui/list_coupon/list_coupon.dart';
+import 'package:nanoshop/src/presentation/ui/list_notifcation/sc_list_notification.dart';
 import 'package:nanoshop/src/presentation/ui/list_order/sc_list_order.dart';
 import 'package:nanoshop/src/presentation/ui/list_product/sc_list_product.dart';
 import 'package:nanoshop/src/presentation/ui/list_shop/sc_list_shop.dart';
@@ -24,6 +28,8 @@ import 'package:nanoshop/src/presentation/ui/shopping_cart/sc_shopping_cart.dart
 import 'package:nanoshop/src/presentation/ui/sign_up/sc_sign_up.dart';
 import 'package:nanoshop/src/presentation/ui/update_information/sc_update_information.dart';
 
+import '../../../data/responses/cart/cart.dart';
+import '../../../domain/entities/notification/type_notification.dart';
 import '../../../presentation/ui/detail_shop/sc_detail_shop.dart';
 import '../../../presentation/ui/list_category/sc_list_category.dart';
 import '../../../presentation/ui/send_comment/sc_send_comment.dart';
@@ -39,6 +45,12 @@ class AppRouters {
         return _materialRoute(
           const ScHome(),
           direction: AxisDirection.up,
+        );
+      case AppRouterEndPoint.LISTNOTIFICATION:
+        return _materialRoute(
+          ScListNotification(
+              typeNotification: settings.arguments as TypeNotification),
+          direction: AxisDirection.left,
         );
       case AppRouterEndPoint.LISTORDER:
         return _materialRoute(
@@ -58,6 +70,12 @@ class AppRouters {
       case AppRouterEndPoint.FilterProduct:
         return _materialRoute(
           const ScFilterProduct(),
+        );
+      case AppRouterEndPoint.DETAILCOMMENT:
+        return _materialRoute(
+          ScDetailComment(
+            product: settings.arguments as Product,
+          ),
         );
       case AppRouterEndPoint.NOTIFICATION:
         return _materialRoute(
@@ -130,6 +148,14 @@ class AppRouters {
           ScSendComment(
             product: settings.arguments as Product,
           ),
+        );
+      case AppRouterEndPoint.LISTCOUPON:
+        return _materialRoute(
+          const ListCoupon(),
+        );
+      case AppRouterEndPoint.DETAILFLASHSALE:
+        return _materialRoute(
+          ScDetailFlashSale(flashSale: settings.arguments as FlashSale),
         );
       default:
         return _materialRoute(

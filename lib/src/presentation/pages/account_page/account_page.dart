@@ -1,21 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 import 'package:nanoshop/src/core/assets/image_path.dart';
 import 'package:nanoshop/src/core/constant/message/message.dart';
 import 'package:nanoshop/src/data/repositories/auth_repository_impl.dart';
+import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/cubits/bottom_nav_cubit/bottom_nav_cubit.dart';
 import 'package:nanoshop/src/presentation/views/components/icon/icon_with_text.dart';
 import 'package:nanoshop/src/presentation/views/dialog/custom_dialog_with_icon.dart';
 
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/constant/strings/strings.dart';
+import '../../../core/params/token_param.dart';
 import '../../../core/toast/toast.dart';
 import '../../../domain/entities/user_login/user_login.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
+import '../../cubits/update_user_cubit/update_user_cubit.dart';
+import '../../views/dialog/dialog_loading.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -23,61 +30,126 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        return Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Image.asset(
-                ImagePath.backgroundAccountPage,
-                width: double.infinity,
-                fit: BoxFit.fill,
-                height: size.height * 0.5,
-              ),
-            ),
-            Positioned(
-              top: size.height * 0.4,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: HexColor("#F5F5F5"),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              ),
-            ),
-            if (state.status == AuthenticationStatus.authenticated)
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            return injector<UpdateUserCubit>();
+          },
+        ),
+      ],
+      child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          return Stack(
+            children: [
               Positioned(
                 top: 0,
+                left: 0,
+                right: 0,
+                child: Image.asset(
+                  ImagePath.backgroundAccountPage,
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                  height: size.height * 0.5,
+                ),
+              ),
+              Positioned(
+                top: size.height * 0.4,
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: AccountFragment(
-                  user: state.user,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: HexColor("#F5F5F5"),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                 ),
               ),
-            if (state.status == AuthenticationStatus.authenticating)
-              const Center(
-                child: CupertinoActivityIndicator(),
-              ),
-          ],
-        );
-      },
+              if (state.status == AuthenticationStatus.authenticated)
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: MultiBlocListener(
+                    listeners: [
+                      BlocListener<UpdateUserCubit, UpdateUserState>(
+                        listener: (context, state) async {
+                          if (state.status == UpdateUserStatus.loading) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Dialog(
+                                  elevation: 0,
+                                  backgroundColor: Colors.transparent,
+                                  child: DialogLoading(),
+                                );
+                              },
+                            );
+                          }
+                          if (state.status == UpdateUserStatus.success) {
+                            Navigator.of(context).pop();
+                            context
+                                .read<AuthenticationBloc>()
+                                .add(AuthenticationUserRequest(
+                                  tokenParam: injector<TokenParam>(),
+                                  userId: context
+                                      .read<AuthenticationBloc>()
+                                      .state
+                                      .user
+                                      .userId!,
+                                ));
+                            Toast.showText(state.message);
+                          }
+
+                          if (state.status == UpdateUserStatus.fail) {
+                            Navigator.of(context).pop();
+                            Toast.showText(state.message);
+                          }
+                        },
+                      ),
+                    ],
+                    child: AccountFragment(
+                      user: state.user,
+                    ),
+                  ),
+                ),
+              if (state.status == AuthenticationStatus.authenticating)
+                const Center(
+                  child: CupertinoActivityIndicator(),
+                ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
 
 class AccountFragment extends StatelessWidget {
   final UserLogin user;
+  static final ImagePicker _picker = ImagePicker();
 
   const AccountFragment({
     Key? key,
     required this.user,
   }) : super(key: key);
+
+  Future<File?> captureImage(ImageSource captureMode) async {
+    File? imageFile;
+    try {
+      PickedFile? pickedImage = await (_picker.getImage(source: captureMode));
+      if (pickedImage != null) {
+        imageFile = File(pickedImage.path);
+      } else {
+        imageFile = File(imageFile!.path);
+      }
+
+      return imageFile;
+    } catch (e) {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +166,114 @@ class AccountFragment extends StatelessWidget {
               ),
               InformationHeader(
                 user: user,
+                onTap: () async {
+                  showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(25.0)),
+                      ),
+                      builder: (BuildContext context) {
+                        // return your layout
+                        return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    child: Column(
+                                      children: [
+                                        RawMaterialButton(
+                                          disabledElevation: 0,
+                                          onPressed: () async {
+                                            File? imageFile =
+                                                await captureImage(
+                                                    ImageSource.camera);
+
+                                            Navigator.of(context)
+                                                .pop(imageFile);
+                                          },
+                                          elevation: .5,
+                                          fillColor: Colors.indigo,
+                                          child: Icon(
+                                            Icons.camera_alt_outlined,
+                                            size: 25.0,
+                                            color: Colors.white,
+                                          ),
+                                          padding: EdgeInsets.all(15.0),
+                                          shape: CircleBorder(),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          "Máy ảnh",
+                                          style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontSize: 14),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    child: Column(
+                                      children: [
+                                        RawMaterialButton(
+                                          disabledElevation: 0,
+                                          onPressed: () async {
+                                            File? imageFile =
+                                                await captureImage(
+                                                    ImageSource.gallery);
+
+                                            Navigator.of(context)
+                                                .pop(imageFile);
+                                          },
+                                          elevation: .5,
+                                          fillColor: Colors.pink[600],
+                                          child: Icon(
+                                            Icons.image_rounded,
+                                            size: 25.0,
+                                            color: Colors.white,
+                                          ),
+                                          padding: EdgeInsets.all(15.0),
+                                          shape: CircleBorder(),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          "Thư viện",
+                                          style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontSize: 14),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                            ]);
+                      }).then((value) {
+                    if (value != null) {
+                      context.read<UpdateUserCubit>().updateUser(
+                            tokenParam: injector<TokenParam>(),
+                            avatar: value,
+                            userId: injector<AuthenticationBloc>()
+                                .state
+                                .user
+                                .userId!,
+                          );
+                    }
+                  });
+                },
               ),
               const SizedBox(
                 height: 15,
@@ -128,8 +308,9 @@ class UserConfigWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ItemConfig(
-            onTap: (){
-              Navigator.of(context).pushNamed(AppRouterEndPoint.UPDATEINFORMATION);
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(AppRouterEndPoint.UPDATEINFORMATION);
             },
             title: Strings.labelAccountPageConfig,
             pathIcons: ImagePath.accountPageIconUser,
@@ -173,7 +354,7 @@ class UserConfigWidget2 extends StatelessWidget {
             pathIcons: ImagePath.accountPageIconHelp,
           ),
           ItemConfig(
-            onTap: (){
+            onTap: () {
               Navigator.of(context).pushNamed(AppRouterEndPoint.CHANGEPASSWORD);
             },
             title: Strings.labelChangePasswordPageConfig,
@@ -299,19 +480,24 @@ class InformationHeader extends StatelessWidget {
                   color: AppColors.white,
                   width: 5,
                 ),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    Environment.domain +
-                        (user.avatarPath ?? '') +
-                        (user.avatarName ?? ''),
-                  ),
-                  fit: BoxFit.cover,
-                ),
               ),
-              child: Center(
-                child: Icon(
-                  Icons.person,
-                  color: AppColors.dividerColor,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.network(
+                  Environment.domain +
+                      '/mediacenter/' +
+                      (user.avatarPath ?? '') +
+                      (user.avatarName ?? ''),
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, _, __) {
+                    return const Center(
+                      child: Icon(
+                        Icons.person,
+                        size: 32,
+                        color: Colors.grey,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

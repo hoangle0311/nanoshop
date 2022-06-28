@@ -6,7 +6,6 @@ import 'package:nanoshop/src/config/styles/app_text_style.dart';
 import 'package:nanoshop/src/core/assets/image_path.dart';
 import 'package:nanoshop/src/core/params/checkout_param.dart';
 import 'package:nanoshop/src/core/params/voucher_param.dart';
-import 'package:nanoshop/src/data/models/cart/cart.dart';
 import 'package:nanoshop/src/domain/entities/payment/payment.dart';
 import 'package:nanoshop/src/domain/entities/transport/transport.dart';
 import 'package:nanoshop/src/injector.dart';
@@ -19,9 +18,12 @@ import 'package:nanoshop/src/presentation/views/dialog/dialog_loading.dart';
 import '../../../core/constant/strings/strings.dart';
 import '../../../core/params/token_param.dart';
 import '../../../core/toast/toast.dart';
+import '../../../core/utils/helper/check_value_price.dart';
 import '../../../core/utils/helper/convert_price.dart';
+import '../../../data/responses/cart/cart.dart';
 import '../../../domain/entities/address/address.dart';
 import '../../../domain/entities/bank/bank.dart';
+import '../../../domain/entities/discount/discount_data.dart';
 import '../../blocs/address_bloc/address_bloc.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../cubits/checkout_cubit/checkout_cubit.dart';
@@ -29,6 +31,16 @@ import '../../cubits/payment_cubit/payment_cubit.dart';
 import '../../cubits/transport_cubit/transport_cubit.dart';
 import '../../cubits/voucher_cubit/voucher_cubit.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
+
+class ResultPayment {
+  final Payment? payment;
+  final Bank? bank;
+
+  ResultPayment({
+    this.bank,
+    this.payment,
+  });
+}
 
 class ScPaymentShoppingCart extends StatelessWidget {
   final List<Cart> listCart;
@@ -121,9 +133,9 @@ class ScPaymentShoppingCart extends StatelessWidget {
                     context.read<ShoppingCartCubit>().onClearShoppingCart();
 
                     Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRouterEndPoint.HOME,
-                        (router) => false,
+                      context,
+                      AppRouterEndPoint.HOME,
+                      (router) => false,
                     );
                   }
 
@@ -300,23 +312,59 @@ class _TotalPriceShoppingCart extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Tổng cộng :',
-                    style: TextStyleApp.textStyle1.copyWith(
-                      color: AppColors.black,
-                    ),
-                  ),
-                  Text(
-                    convertPrice(getTotalPriceShoppingCart() +
-                        (state.transport.price ?? 0)),
-                    style: TextStyleApp.textStyle1.copyWith(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ],
+              BlocBuilder<VoucherCubit, VoucherState>(
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Tiền khuyến mãi :',
+                        style: TextStyleApp.textStyle2.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      Text(
+                        convertPrice(double.parse(
+                            state.discountData.couponValue ?? '0')),
+                        style: TextStyleApp.textStyle2.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<VoucherCubit, VoucherState>(
+                builder: (context, voucherState) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Tổng cộng :',
+                        style: TextStyleApp.textStyle1.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      Text(
+                        convertPrice(
+                          checkValuePrice(
+                            (getTotalPriceShoppingCart() +
+                                (state.transport.price ?? 0) -
+                                double.parse(
+                                    voucherState.discountData.couponValue ??
+                                        '0')),
+                          ),
+                        ),
+                        style: TextStyleApp.textStyle1.copyWith(
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
@@ -350,10 +398,10 @@ class _Payment extends StatelessWidget {
                   )
                       .then((value) {
                     if (value != null) {
-                      if (value is Payment) {
-                        _paymentCubit.onChoosePayment(
-                          value,
-                          injector<TokenParam>(),
+                      if (value is ResultPayment) {
+                        _paymentCubit.onGetResult(
+                          payment: value.payment,
+                          bank: value.bank,
                         );
                       }
                     }
@@ -383,7 +431,7 @@ class _Payment extends StatelessWidget {
                     ),
                   ],
                 ),
-              if (state.bank != Bank.empty)
+              if (state.bank != Bank.empty && state.payment.id == 12)
                 Column(
                   children: [
                     Row(
@@ -642,7 +690,26 @@ class _VoucherState extends State<_Voucher> {
           _TitleInformation(
             stringChoosing: 'Chọn hoặc nhập mã',
             title: Strings.chooseVoucher,
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(AppRouterEndPoint.LISTCOUPON)
+                  .then(
+                (value) {
+                  if (value != null) {
+                    if (value is DiscountData) {
+                      context.read<VoucherCubit>().onApplyVoucher(
+                            param: VoucherParam(
+                              voucherString: value.discountCode ?? '',
+                              token: injector<TokenParam>().token,
+                            ),
+                          );
+                      // context.read<VoucherCubit>().onChooseCoupon(value);
+                      _voucherEditingController.text = value.discountCode ?? "";
+                    }
+                  }
+                },
+              );
+            },
             imageSource: ImagePath.voucherIconPaymentScreen,
           ),
           const SizedBox(

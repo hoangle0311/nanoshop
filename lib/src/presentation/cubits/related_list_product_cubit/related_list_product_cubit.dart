@@ -2,9 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nanoshop/src/core/params/related_product_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/product_response_model/product_response_model.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/get_related_list_product_usecase.dart';
+
+import '../../../data/responses/product_response_model/product_response_model.dart';
 
 part 'related_list_product_state.dart';
 

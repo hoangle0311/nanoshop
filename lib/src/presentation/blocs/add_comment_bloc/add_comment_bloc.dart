@@ -1,18 +1,13 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/form_model/add_comment/content_input.dart';
-import 'package:nanoshop/src/core/form_model/sign_up/fullname_input.dart';
 import 'package:nanoshop/src/core/params/add_comment_param.dart';
-import 'package:nanoshop/src/data/models/add_comment_response/add_comment_response_model.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/add_comment_usecase.dart';
 
-import '../../../core/form_model/login/username_input.dart';
 import '../../../core/params/token_param.dart';
 import '../../../core/resource/data_state.dart';
+import '../../../data/responses/add_comment_response/add_comment_response_model.dart';
 
 part 'add_comment_event.dart';
 

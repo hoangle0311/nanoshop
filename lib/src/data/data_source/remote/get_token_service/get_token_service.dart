@@ -1,7 +1,9 @@
-import 'package:nanoshop/src/core/constant/api/api_path.dart';
-import 'package:nanoshop/src/data/models/token_response_model/token_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+
+import 'package:nanoshop/src/core/constant/api/api_path.dart';
+
+import '../../../responses/token_response_model/token_response_model.dart';
 
 part 'get_token_service.g.dart';
 

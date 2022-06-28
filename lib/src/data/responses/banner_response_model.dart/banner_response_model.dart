@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nanoshop/src/data/models/banner_response_model.dart/group_banner.dart';
+
+import 'group_banner.dart';
 
 part 'banner_response_model.g.dart';
 

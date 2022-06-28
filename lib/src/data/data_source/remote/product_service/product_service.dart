@@ -1,16 +1,14 @@
-import 'dart:convert';
-
-import 'package:nanoshop/src/data/models/comment_response_model/comment_response_model.dart';
+import 'package:nanoshop/src/data/responses/flash_sale_with_list_product_response_model/flash_sale_with_list_product_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
 import '../../../../core/constant/api/api_path.dart';
-import '../../../../core/utils/log/log.dart';
-import '../../../models/add_comment_response/add_comment_response_model.dart';
-import '../../../models/flash_sale_response_model/flash_sale_response_model.dart';
-import '../../../models/manufacturer_response_model/manufacturer_response_model.dart';
-import '../../../models/product_response_model/detail_product_response_model.dart';
-import '../../../models/product_response_model/product_response_model.dart';
+import '../../../responses/add_comment_response/add_comment_response_model.dart';
+import '../../../responses/comment_response_model/comment_response_model.dart';
+import '../../../responses/flash_sale_response_model/flash_sale_response_model.dart';
+import '../../../responses/manufacturer_response_model/manufacturer_response_model.dart';
+import '../../../responses/product_response_model/detail_product_response_model.dart';
+import '../../../responses/product_response_model/product_response_model.dart';
 
 part 'product_service.g.dart';
 
@@ -63,8 +61,14 @@ abstract class ProductRemoteService {
   });
 
   @GET(ApiPath.flashSale)
-  Future<HttpResponse<FlashSaleResponseModel>> getListProductFlashSale({
+  Future<HttpResponse<FlashSaleResponseModel>> getListFlashSale({
     @Header("token") required String token,
+  });
+
+  @POST(ApiPath.flashSaleWithListProduct)
+  Future<HttpResponse<FlashSaleWithListProductResponseModel>> getFlashSaleWithListProduct({
+    @Header("token") required String token,
+    @Body() required Map<String, dynamic> body,
   });
 
   @GET(ApiPath.getManufacturer)

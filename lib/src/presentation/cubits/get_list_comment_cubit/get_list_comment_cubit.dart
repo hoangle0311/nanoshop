@@ -1,12 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/params/get_list_comment_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/data/models/comment_response_model/comment_response_model.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/get_list_comment_usecase.dart';
 
+import '../../../data/responses/comment_response_model/comment_response_model.dart';
 import '../../../domain/entities/comment/comment.dart';
 import '../../../domain/entities/product/product.dart';
 
@@ -61,6 +60,7 @@ class GetListCommentCubit extends Cubit<GetListCommentState> {
             limit: state.limit,
             param: param,
             comments: comments,
+            hasMore: comments.length > state.limit,
           ),
         );
       }
