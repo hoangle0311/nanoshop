@@ -16,9 +16,10 @@ import 'src/config/environment/app_environment.dart';
 import 'src/injector.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(
-    RemoteMessage message,
-    ) async {
-  }
+  RemoteMessage message,
+) async {
+  print("Handling a background message: ${message.messageId}");
+}
 
 Future<Uint8List> getByteArrayFromUrl(String url) async {
   final http.Response response = await http.get(Uri.parse(url));
@@ -26,16 +27,16 @@ Future<Uint8List> getByteArrayFromUrl(String url) async {
 }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   AndroidInitializationSettings initializationSettingsAndroid =
-  new AndroidInitializationSettings('@mipmap/ic_launcher');
+      new AndroidInitializationSettings('@mipmap/ic_launcher');
   final IOSInitializationSettings initializationSettingsIOS =
-  IOSInitializationSettings(
+      IOSInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
@@ -46,12 +47,10 @@ void main() async {
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String? payload) async {
-        if (payload != null) {}
-      });
+    if (payload != null) {}
+  });
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-  FireBaseAccount.addToken("1234");
 
   await dotenv.load(
     fileName: Environment.getEnvironmentFile,
@@ -59,13 +58,12 @@ void main() async {
 
   await initializeDependencies();
 
-  injector<GetTokenBloc>()
-    .add(
-      GetToken(
-        injector<TokenParam>().string,
-        injector<TokenParam>().token,
-      ),
-    );
+  injector<GetTokenBloc>().add(
+    GetToken(
+      injector<TokenParam>().string,
+      injector<TokenParam>().token,
+    ),
+  );
 
   await Future.delayed(const Duration(milliseconds: 200));
 

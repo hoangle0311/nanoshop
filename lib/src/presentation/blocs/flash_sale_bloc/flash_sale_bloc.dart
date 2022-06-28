@@ -44,7 +44,7 @@ class FlashSaleBloc extends Bloc<FlashSaleEvent, FlashSaleState> {
 
       emit(
         state.copyWith(
-          flashSale: _listFlashSale[0],
+          flashSale: _listFlashSale,
           status: FlashSaleStatus.running,
         ),
       );

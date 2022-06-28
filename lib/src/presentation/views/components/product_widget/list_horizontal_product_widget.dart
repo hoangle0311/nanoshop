@@ -113,7 +113,7 @@ class ListHorizontalProductWidget extends StatelessWidget {
                           height: 10,
                         ),
                         StarWithRateCount(
-                          rateCount: double.parse(product.productInfo != null ? product.productInfo!.totalRating ?? '0.0' : '0').round().toString(),
+                          rateCount: double.parse(product.totalRating != null ? product.totalRating ?? '0.0' : '0').toString(),
                         ),
                       ],
                     ),

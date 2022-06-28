@@ -17,7 +17,6 @@ class DefaultResponseModel {
   });
 
   factory DefaultResponseModel.fromJson(Map<String, dynamic> json) {
-    Log.i(json.toString());
     return _$DefaultResponseModelFromJson(json);
   }
 

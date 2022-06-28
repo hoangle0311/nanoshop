@@ -41,8 +41,10 @@ import 'package:nanoshop/src/presentation/cubits/checkout_cubit/checkout_cubit.d
 import 'package:nanoshop/src/presentation/cubits/city_cubit/city_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/detail_product_cubit/detail_product_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/district_cubit/district_cubit.dart';
+import 'package:nanoshop/src/presentation/cubits/flash_sale_with_list_product_cubit/flash_sale_with_list_product_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_detail_post_cubit/get_detail_post_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_comment_cubit/get_list_comment_cubit.dart';
+import 'package:nanoshop/src/presentation/cubits/get_list_coupon/get_list_coupon_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_notification_cubit/get_list_notification_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_order_cubit/get_list_order_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_shop_cubit/get_list_shop_cubit.dart';
@@ -69,6 +71,9 @@ import 'data/repositories/data_layer_repository.dart';
 import 'data/repositories/location_repository_impl.dart';
 import 'data/repositories/notification_repository_impl.dart';
 import 'data/repositories/payment_repository_impl.dart';
+import 'domain/usecases/auth_usecase/add_message_count_local.dart';
+import 'domain/usecases/auth_usecase/get_count_message_local.dart';
+import 'domain/usecases/auth_usecase/remove_count_message_local_usecase.dart';
 import 'domain/usecases/auth_usecase/update_user_remote_usecase.dart';
 import 'domain/usecases/domain_layer_usecase.dart';
 import 'domain/usecases/location_usecase/get_list_city_usecase.dart';
@@ -77,9 +82,11 @@ import 'domain/usecases/location_usecase/get_list_ward_usecase.dart';
 import 'domain/usecases/notification_usecase/get_list_notification_usecase.dart';
 import 'domain/usecases/payment_usecase/checkout_usecase.dart';
 import 'domain/usecases/payment_usecase/get_bank_usecase.dart';
+import 'domain/usecases/payment_usecase/get_list_discount_usecase.dart';
 import 'domain/usecases/payment_usecase/get_list_order_usecase.dart';
 import 'domain/usecases/payment_usecase/get_payment_usecase.dart';
 import 'domain/usecases/payment_usecase/get_transport_usecase.dart';
+import 'domain/usecases/product_usecase/get_flashsale_with_list_product_usecase.dart';
 import 'domain/usecases/product_usecase/get_list_manufacture_usecase.dart';
 import 'domain/usecases/product_usecase/get_related_list_product_usecase.dart';
 import 'domain/usecases/product_usecase/search_list_product_usecase.dart';
@@ -113,7 +120,7 @@ _dependencyExternal() async {
 
 _dependencyUseCase() {
   injector.registerLazySingleton<GetListNotificationUsecase>(
-        () => GetListNotificationUsecase(
+    () => GetListNotificationUsecase(
       injector<NotificationRepositoryImpl>(),
     ),
   );
@@ -145,6 +152,11 @@ _dependencyUseCase() {
   injector.registerLazySingleton<GetListShopUsecase>(
     () => GetListShopUsecase(
       injector<GetListShopRepositoryImpl>(),
+    ),
+  );
+  injector.registerLazySingleton<GetListDiscountUsecase>(
+    () => GetListDiscountUsecase(
+      injector<PaymentRepositoryImpl>(),
     ),
   );
   injector.registerLazySingleton<GetListOrderUsecase>(
@@ -232,6 +244,21 @@ _dependencyUseCase() {
       injector<AuthRepositoryImpl>(),
     ),
   );
+  injector.registerLazySingleton<GetCountMessageLocalUsecase>(
+    () => GetCountMessageLocalUsecase(
+      injector<AuthRepositoryImpl>(),
+    ),
+  );
+  injector.registerLazySingleton<RemoveCountMessageLocalUsecase>(
+    () => RemoveCountMessageLocalUsecase(
+      injector<AuthRepositoryImpl>(),
+    ),
+  );
+  injector.registerLazySingleton<AddMessageCountLocalUsecase>(
+    () => AddMessageCountLocalUsecase(
+      injector<AuthRepositoryImpl>(),
+    ),
+  );
   injector.registerLazySingleton<GetUserUsecase>(
     () => GetUserUsecase(
       injector<AuthRepositoryImpl>(),
@@ -272,6 +299,11 @@ _dependencyUseCase() {
       injector<GetListProductRepositoryImpl>(),
     ),
   );
+  injector.registerLazySingleton<GetFlashSaleWithListProductRemoteUsecase>(
+    () => GetFlashSaleWithListProductRemoteUsecase(
+      injector<GetListProductRepositoryImpl>(),
+    ),
+  );
   injector.registerLazySingleton<AddFavouriteProductLocalUsecase>(
     () => AddFavouriteProductLocalUsecase(
       injector<GetListProductRepositoryImpl>(),
@@ -283,7 +315,7 @@ _dependencyUseCase() {
     ),
   );
   injector.registerLazySingleton<DetailPostUsecase>(
-        () => DetailPostUsecase(
+    () => DetailPostUsecase(
       injector<PostRepositoryImpl>(),
     ),
   );
@@ -446,6 +478,9 @@ _dependencyBloc() {
       injector<GetUserUsecase>(),
       injector<GetUserLocalUsecase>(),
       injector<RemoveUserLocalUsecase>(),
+      injector<GetCountMessageLocalUsecase>(),
+      injector<AddMessageCountLocalUsecase>(),
+      injector<RemoveCountMessageLocalUsecase>(),
     ),
   );
   injector.registerFactory(
@@ -481,7 +516,7 @@ _dependencyBloc() {
     ),
   );
   injector.registerFactory(
-        () => GetDetailPostCubit(
+    () => GetDetailPostCubit(
       injector<DetailPostUsecase>(),
     ),
   );
@@ -501,8 +536,18 @@ _dependencyBloc() {
 }
 
 _dependencyCubit() {
+  injector.registerFactory<FlashSaleWithListProductCubit>(
+    () => FlashSaleWithListProductCubit(
+      injector<GetFlashSaleWithListProductRemoteUsecase>(),
+    ),
+  );
+  injector.registerFactory<GetListCouponCubit>(
+    () => GetListCouponCubit(
+      injector<GetListDiscountUsecase>(),
+    ),
+  );
   injector.registerFactory<GetListNotificationCubit>(
-        () => GetListNotificationCubit(
+    () => GetListNotificationCubit(
       injector<GetListNotificationUsecase>(),
     ),
   );

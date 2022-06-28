@@ -102,7 +102,6 @@ class ProductGridTile extends StatelessWidget {
                         rateCount: double.parse(product.productInfo != null
                                 ? product.productInfo!.totalRating ?? '0.0'
                                 : '0')
-                            .round()
                             .toString(),
                       ),
                     ],

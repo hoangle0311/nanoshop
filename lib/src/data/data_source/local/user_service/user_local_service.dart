@@ -20,6 +20,12 @@ class UserLocalService {
     }
   }
 
+  int getCountMessageLocal() {
+    final messageCount = _sharedPreferences.getInt(SharedPaths.message) ?? 0;
+
+    return messageCount;
+  }
+
   Future<void> addUserLocal(UserLogin userLogin) async {
     await _sharedPreferences.setString(
       SharedPaths.userId,
@@ -27,9 +33,31 @@ class UserLocalService {
     );
   }
 
+  Future<void> addCountMessageLocal() async {
+    try {
+      final messageCount = _sharedPreferences.getInt(SharedPaths.message) ?? 0;
+
+      await _sharedPreferences.setInt(
+        SharedPaths.message,
+        messageCount + 1,
+      );
+    } catch (e) {
+      return;
+    }
+  }
+
+  Future<void> removeCountMessageLocal() async {
+    await _sharedPreferences.remove(
+      SharedPaths.message,
+    );
+  }
+
   Future<void> removeUserLocal() async {
     await _sharedPreferences.remove(
       SharedPaths.userId,
+    );
+    await _sharedPreferences.remove(
+      SharedPaths.message,
     );
   }
 }

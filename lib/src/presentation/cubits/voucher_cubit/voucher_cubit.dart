@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nanoshop/src/core/params/voucher_param.dart';
+import 'package:nanoshop/src/domain/entities/discount/discount_data.dart';
 import 'package:nanoshop/src/domain/usecases/payment_usecase/get_discount_usecase.dart';
 
 import '../../../core/resource/data_state.dart';
@@ -16,6 +17,14 @@ class VoucherCubit extends Cubit<VoucherState> {
   ) : super(
           const VoucherState(),
         );
+
+  void onChooseCoupon(DiscountData coupon) {
+    emit(
+      state.copyWith(
+        discountData: coupon,
+      ),
+    );
+  }
 
   void onApplyVoucher({
     required VoucherParam param,
@@ -36,6 +45,7 @@ class VoucherCubit extends Cubit<VoucherState> {
         emit(
           state.copyWith(
             status: VoucherStatus.success,
+            discountData: dataState.data!.data,
             voucherString: param.voucherString,
             message: dataState.data!.message,
           ),

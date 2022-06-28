@@ -6,6 +6,7 @@ import 'package:nanoshop/src/core/constant/api/api_path.dart';
 import '../../../responses/bank_response_model/bank_response_model.dart';
 import '../../../responses/default_response_model/default_response_model.dart';
 import '../../../responses/discount_response_model/discount_response_model.dart';
+import '../../../responses/list_discount_response_model/list_discount_response_model.dart';
 import '../../../responses/order_response_model/order_response_model.dart';
 import '../../../responses/payment_method_response_model/payment_method_response_model.dart';
 import '../../../responses/transport_response_model/transport_response_model.dart';
@@ -20,6 +21,11 @@ abstract class PaymentService {
   Future<HttpResponse<DiscountResponseModel>> getDiscount({
     @Header("token") required String token,
     @Part(name: "code") required String code,
+  });
+
+  @POST(ApiPath.getListDiscount)
+  Future<HttpResponse<ListDiscountResponseModel>> getListDiscount({
+    @Header("token") required String token,
   });
 
   @GET(ApiPath.getTransport)

@@ -17,7 +17,7 @@ class CommentListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imageUrl = Environment.domain + '/mediacenter/';
+    var imageUrl = Environment.domain + '/mediacenter/' + (comment.avatarPath ?? '') + (comment.avatarName ?? '');
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12),

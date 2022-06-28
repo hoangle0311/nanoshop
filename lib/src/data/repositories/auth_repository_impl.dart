@@ -146,8 +146,23 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
+  Future<void> addCountMessageLocal() async {
+    await _userLocalService.addCountMessageLocal();
+  }
+
+  @override
   String? getUserIdLocal() {
     return _userLocalService.getUserIdLocal();
+  }
+
+  @override
+  int getMessageLocal() {
+    return _userLocalService.getCountMessageLocal();
+  }
+
+  @override
+  Future<void> removeCountMessageLocal() async {
+    return await _userLocalService.removeCountMessageLocal();
   }
 
   @override
@@ -158,7 +173,6 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<DataState<DefaultResponseModel>> changePassword(
       ChangePasswordParam param) async {
-    Log.i(param.toJson().toString());
     try {
       final HttpResponse response = await _authService.changePasswordUser(
         token: param.token,

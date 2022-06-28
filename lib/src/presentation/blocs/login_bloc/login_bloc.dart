@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/core/form_model/login/password_input.dart';
 import 'package:nanoshop/src/core/form_model/login/username_input.dart';
 import 'package:nanoshop/src/core/params/login_user_param.dart';
@@ -102,6 +103,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           name: dataState.data!.data!.type! == '3'
               ? 'Admin'
               : dataState.data!.data!.name,
+          avatar: Environment.domain + (dataState.data!.data!.avatarPath ?? '') + (dataState.data!.data!.avatarName ?? ''),
+        );
+
+        FireBaseAccount.addToken(
+          dataState.data!.data!.type! == '3'
+              ? "Admin"
+              : dataState.data!.data!.userId,
         );
 
         if (dataState is DataSuccess) {

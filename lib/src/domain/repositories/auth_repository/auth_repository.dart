@@ -33,9 +33,15 @@ abstract class AuthRepository {
 
   String? getUserIdLocal();
 
+  int getMessageLocal();
+
   Future<void> addUserLocal(
     UserLogin userLogin,
   );
 
   Future<void> removeUserLocal();
+
+  Future<void> removeCountMessageLocal();
+
+  Future<void> addCountMessageLocal();
 }

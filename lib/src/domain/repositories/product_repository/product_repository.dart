@@ -2,9 +2,9 @@ import 'package:nanoshop/src/core/params/add_comment_param.dart';
 import 'package:nanoshop/src/core/params/get_list_comment_param.dart';
 import 'package:nanoshop/src/core/params/product_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
-import 'package:nanoshop/src/domain/entities/flash_sale/flash_sale.dart';
 
 import '../../../core/params/detail_product_param.dart';
+import '../../../core/params/list_flashsale_with_list_product_param.dart';
 import '../../../core/params/related_product_param.dart';
 import '../../../core/params/search_product_param.dart';
 import '../../../data/responses/add_comment_response/add_comment_response_model.dart';
@@ -32,8 +32,12 @@ abstract class ProductRepository {
     DetailProductParam param,
   );
 
-  Future<DataState<FlashSaleResponseModel>> getListProductFlashSaleRemote(
+  Future<DataState<FlashSaleResponseModel>> getListFlashSaleRemote(
       String params);
+
+  Future<DataState<List<Product>>> getListFlashSaleWithListProductRemote(
+    ListFlashSaleWithListProductParam params,
+  );
 
   Future<DataState<AddCommentResponseModel>> addCommentRemote(
     AddCommentParam params,

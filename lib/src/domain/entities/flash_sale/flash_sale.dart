@@ -7,17 +7,19 @@ part 'flash_sale.g.dart';
 @JsonSerializable()
 class FlashSale {
   @JsonKey(name: "promotion_id")
-  String? promotionId;
-  String? enddate;
+  final String? promotionId;
+  final String? name;
+  final String? enddate;
   @JsonKey(name: "image_path")
-  String? imagePath;
+  final String? imagePath;
   @JsonKey(name: "image_name")
-  String? imageName;
-  List<Product>? products;
+  final String? imageName;
+  final List<Product>? products;
 
-  FlashSale({
+  const FlashSale({
     this.promotionId,
     this.enddate,
+    this.name,
     this.imagePath,
     this.imageName,
     this.products,

@@ -157,7 +157,9 @@ class _ScDetailProductState extends State<ScDetailProduct>
                         RatingDetailProduct(
                           product: state.product!,
                         ),
-                        const _RatingContainer(),
+                        _RatingContainer(
+                          product: state.product!,
+                        ),
                         const _HorizontalListProduct(),
                         // RatingProductFragment(
                         //   commentBloc: _commentBloc,
@@ -294,7 +296,12 @@ class _HorizontalListProduct extends StatelessWidget {
 }
 
 class _RatingContainer extends StatelessWidget {
-  const _RatingContainer({Key? key}) : super(key: key);
+  final Product product;
+
+  const _RatingContainer({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -305,12 +312,41 @@ class _RatingContainer extends StatelessWidget {
         builder: (context, state) {
           if (state.comments.isNotEmpty) {
             return Column(
-              children: List.generate(
-                state.comments.length,
-                (index) => CommentListTile(
-                  comment: state.comments[index],
+              children: [
+                ...List.generate(
+                  state.comments.length,
+                  (index) => CommentListTile(
+                    comment: state.comments[index],
+                  ),
                 ),
-              ),
+                if (state.comments.length >= 5)
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        AppRouterEndPoint.DETAILCOMMENT,
+                        arguments: product,
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Xem thêm',
+                            style: TextStyleApp.textStyle2.copyWith(
+                              color: AppColors.black,
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_outlined,
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             );
           } else {
             return Center(

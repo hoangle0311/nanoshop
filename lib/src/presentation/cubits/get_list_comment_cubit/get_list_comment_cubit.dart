@@ -60,6 +60,7 @@ class GetListCommentCubit extends Cubit<GetListCommentState> {
             limit: state.limit,
             param: param,
             comments: comments,
+            hasMore: comments.length > state.limit,
           ),
         );
       }

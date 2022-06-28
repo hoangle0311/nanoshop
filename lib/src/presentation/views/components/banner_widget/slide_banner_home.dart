@@ -30,13 +30,13 @@ class _SlideBannerHomeState extends State<SlideBannerHome> {
         CarouselSlider(
           carouselController: _carouselController,
           options: CarouselOptions(
-            height: 150,
-            enableInfiniteScroll: false,
+            height: 200,
+            enableInfiniteScroll: true,
             onPageChanged: (index, _) {
               _indexPage = index;
               setState(() {});
             },
-            autoPlay: false,
+            autoPlay: true,
             initialPage: 0,
             viewportFraction: 1,
           ),

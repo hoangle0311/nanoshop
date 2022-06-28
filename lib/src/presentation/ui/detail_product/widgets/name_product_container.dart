@@ -104,8 +104,7 @@ class NameProductContainer extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Share.share(
-                                 (product.link ?? ''));
+                            Share.share((product.link ?? ''));
                           },
                           child: Icon(
                             Icons.share,
@@ -151,7 +150,6 @@ class NameProductContainer extends StatelessWidget {
                               child: Text(
                                 double.parse(
                                         product.productInfo!.totalRating ?? "0")
-                                    .round()
                                     .toString(),
                                 style: TextStyleApp.textStyle2,
                               ),

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:nanoshop/src/core/params/add_comment_param.dart';
 import 'package:nanoshop/src/core/params/detail_product_param.dart';
 import 'package:nanoshop/src/core/params/get_list_comment_param.dart';
+import 'package:nanoshop/src/core/params/list_flashsale_with_list_product_param.dart';
 import 'package:nanoshop/src/core/params/product_param.dart';
 import 'package:nanoshop/src/core/params/related_product_param.dart';
 import 'package:nanoshop/src/core/params/search_product_param.dart';
@@ -17,6 +18,7 @@ import '../data_source/remote/product_service/product_service.dart';
 import '../responses/add_comment_response/add_comment_response_model.dart';
 import '../responses/comment_response_model/comment_response_model.dart';
 import '../responses/flash_sale_response_model/flash_sale_response_model.dart';
+import '../responses/flash_sale_with_list_product_response_model/flash_sale_with_list_product_response_model.dart';
 import '../responses/manufacturer_response_model/manufacturer_response_model.dart';
 import '../responses/product_response_model/detail_product_response_model.dart';
 import '../responses/product_response_model/product_response_model.dart';
@@ -77,11 +79,11 @@ class GetListProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<DataState<FlashSaleResponseModel>> getListProductFlashSaleRemote(
+  Future<DataState<FlashSaleResponseModel>> getListFlashSaleRemote(
       String params) async {
     try {
       final HttpResponse<FlashSaleResponseModel> response =
-          await _productRemoteService.getListProductFlashSale(
+          await _productRemoteService.getListFlashSale(
         token: params,
       );
 
@@ -276,6 +278,35 @@ class GetListProductRepositoryImpl extends ProductRepository {
         ),
       );
     } on DioError catch (e) {
+      return DataFailed(
+        error: e,
+      );
+    }
+  }
+
+  @override
+  Future<DataState<List<Product>>> getListFlashSaleWithListProductRemote(
+      ListFlashSaleWithListProductParam params) async {
+    try {
+      final HttpResponse<FlashSaleWithListProductResponseModel> response =
+          await _productRemoteService.getFlashSaleWithListProduct(
+        token: params.token,
+        body: params.toJson(),
+      );
+
+      if (response.response.statusCode == HttpStatus.ok) {
+        return DataSuccess(data: response.data.data!.data!);
+      }
+
+      return DataFailed(
+        error: DioError(
+          requestOptions: response.response.requestOptions,
+          error: response.data.message,
+          type: DioErrorType.response,
+        ),
+      );
+    } on DioError catch (e) {
+      print(e);
       return DataFailed(
         error: e,
       );

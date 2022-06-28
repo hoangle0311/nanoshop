@@ -24,26 +24,34 @@ class ScHome extends StatefulWidget {
 }
 
 class _ScHomeState extends State<ScHome> {
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    // FirebaseMessaging.instance.getToken().then((value) => print(value));
+    listenToNotification();
   }
 
   void listenToNotification() async {
-    // final chatProvider = Provider.of<ChatProvider>(context, listen: false);
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // chatProvider.setMessageCount();
-
       if (message.data["pay_load"] == "chat") {
-        flutterLocalNotificationsPlugin..cancelAll();
+        context.read<AuthenticationBloc>().add(
+              AddMessageUserLocal(),
+            );
+        FirebaseSendNotifi.showNotification(message);
+
+        FirebaseSendNotifi.buildShowNotifi(
+          message,
+          context,
+        );
       } else {
         if (message.data['image_url'] != null) {
           FirebaseSendNotifi.showImage(message);
         } else {
           FirebaseSendNotifi.showNotification(message);
+          FirebaseSendNotifi.buildShowNotifi(
+            message,
+            context,
+          );
         }
       }
       flutterLocalNotificationsPlugin.cancelAll();
@@ -52,6 +60,10 @@ class _ScHomeState extends State<ScHome> {
       // chatProvider.setMessageCount();
 
       if (message.data["pay_load"] == "chat") {
+        FirebaseSendNotifi.buildShowNotifi(
+          message,
+          context,
+        );
         FirebaseSendNotifi.nextPageNotifi(context, message.data);
       } else {}
       flutterLocalNotificationsPlugin.cancelAll();

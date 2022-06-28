@@ -80,7 +80,6 @@ class App extends StatelessWidget {
           onGenerateRoute: AppRouters.onGenerateRoutes,
           home: BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              // print(state);
             },
             child: const ScHome(),
           ),

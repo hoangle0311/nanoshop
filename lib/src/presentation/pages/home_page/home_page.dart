@@ -5,6 +5,7 @@ import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 
 import 'package:nanoshop/src/core/assets/image_path.dart';
+import 'package:nanoshop/src/domain/entities/flash_sale/flash_sale.dart';
 
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/blocs/flash_sale_bloc/flash_sale_bloc.dart';
@@ -90,7 +91,9 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          _body(context),
+          Builder(builder: (context) {
+            return _body(context);
+          }),
         ],
       ),
     );
@@ -104,48 +107,66 @@ class HomePage extends StatelessWidget {
         ),
         const HomeAppBar(),
         Expanded(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                _slideBanner(),
-                const SizedBox(
-                  height: 10,
-                ),
-                _horizontalCategory(),
-                const SizedBox(
-                  height: 10,
-                ),
-                const FlashSaleWidget(),
-                // BlocProvider(
-                //   create: (context) => injector<ProductBloc>()
-                //     ..add(
-                //       GetListProductEvent(),
-                //     ),
-                //   child: const HorizontalListProductHomePage(),
-                // ),
-                // Banner Home
-                // Container(
-                //   padding: const EdgeInsets.symmetric(
-                //     horizontal: 10,
-                //   ),
-                //   child: const Placeholder(
-                //     fallbackWidth: double.infinity,
-                //     fallbackHeight: 120,
-                //   ),
-                // ),
-                BlocProvider(
-                  create: (context) => injector<ProductBloc>()
-                    ..add(
-                      GetListProductEvent(
-                        tokenParam: injector<TokenParam>(),
-                      ),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              context
+                  .read<FlashSaleBloc>()
+                  .add(GetFlashSale(tokenParam: injector<TokenParam>()));
+              context.read<GetBannerBloc>().add(
+                    GetBannerByGroupId(
+                      groupId: _groupIdBanner,
+                      tokenParam: injector<TokenParam>(),
                     ),
-                  child: const VerticalListProductHomePage(),
-                ),
-                // _verticalListProductFavourite(),
-                ShopsWidget(),
-              ],
+                  );
+              context.read<GetCategoryBloc>().add(
+                    GetListCategoryEvent(
+                      tokenParam: injector<TokenParam>(),
+                    ),
+                  );
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  _slideBanner(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _horizontalCategory(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const FlashSaleWidget(),
+                  // BlocProvider(
+                  //   create: (context) => injector<ProductBloc>()
+                  //     ..add(
+                  //       GetListProductEvent(),
+                  //     ),
+                  //   child: const HorizontalListProductHomePage(),
+                  // ),
+                  // Banner Home
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(
+                  //     horizontal: 10,
+                  //   ),
+                  //   child: const Placeholder(
+                  //     fallbackWidth: double.infinity,
+                  //     fallbackHeight: 120,
+                  //   ),
+                  // ),
+                  BlocProvider(
+                    create: (context) => injector<ProductBloc>()
+                      ..add(
+                        GetListProductEvent(
+                          tokenParam: injector<TokenParam>(),
+                        ),
+                      ),
+                    child: const VerticalListProductHomePage(),
+                  ),
+                  // _verticalListProductFavourite(),
+                  ShopsWidget(),
+                ],
+              ),
             ),
           ),
         ),
@@ -582,7 +603,7 @@ class HomeAppBar extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
             InkWell(
@@ -594,6 +615,9 @@ class HomeAppBar extends StatelessWidget {
                   DataModel dataModel = DataModel(authState.user.userId);
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
+                  context.read<AuthenticationBloc>().add(
+                        RemoveCountMessageLocal(),
+                      );
                   if (authState.user.type == '3') {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ListChat(
@@ -617,7 +641,22 @@ class HomeAppBar extends StatelessWidget {
                   Navigator.of(context).pushNamed(AppRouterEndPoint.LOGIN);
                 }
               },
-              child: Image.asset(ImagePath.appBarMessageIcon),
+              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                builder: (context, state) {
+                  return Badge(
+                    showBadge: state.countMessage > 0,
+                    badgeContent: Text(
+                      state.countMessage.toString(),
+                      style: TextStyleApp.textStyle1.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    badgeColor: Colors.white,
+                    animationDuration: Duration.zero,
+                    child: Image.asset(ImagePath.appBarMessageIcon),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -633,63 +672,111 @@ class FlashSaleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FlashSaleBloc, FlashSaleState>(
       builder: (context, state) {
-        if (state.status == FlashSaleStatus.running) {
-          return Container(
-            height: 520,
-            color: Colors.white,
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Image.asset(
-                    ImagePath.flashSaleBackground,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                const Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: TimeFlashSaleWidget(),
-                ),
-                Positioned(
-                  top: 120,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Column(
+        if (state.status == FlashSaleStatus.running &&
+            state.flashSale.isNotEmpty) {
+          return Column(
+            children: List.generate(
+              state.flashSale.length,
+              (index) {
+                return Container(
+                  height: 600,
+                  width: double.infinity,
+                  color: Colors.white,
+                  child: Stack(
                     children: [
-                      ListHorizontalProductWidget(
-                        products: state.flashSale!.products!,
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Image.asset(
+                          ImagePath.flashSaleBackground,
+                          fit: BoxFit.fill,
+                        ),
                       ),
-                      // Expanded(
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: List.generate(
-                      //       state.listProduct.length,
-                      //       (index) {
-                      //         return IndicatorPageView(
-                      //           height: 4,
-                      //           isActive: _currentIndex == index ? true : false,
-                      //           onTap: () {
-                      //             // if (_indexPage != index) {
-                      //             //   // _pageController.animateToPage(index,
-                      //             //   //     duration: Duration(milliseconds: 1000),
-                      //             //   //     curve: Curves.fastOutSlowIn);
-                      //             // }
-                      //           },
-                      //         );
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: TimeFlashSaleWidget(
+                          flashSale: state.flashSale[index],
+                        ),
+                      ),
+                      Positioned(
+                        top: 120,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Column(
+                          children: [
+                            ListHorizontalProductWidget(
+                              products: state.flashSale[index].products!,
+                            ),
+                            // Expanded(
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.center,
+                            //     children: List.generate(
+                            //       state.listProduct.length,
+                            //       (index) {
+                            //         return IndicatorPageView(
+                            //           height: 4,
+                            //           isActive: _currentIndex == index ? true : false,
+                            //           onTap: () {
+                            //             // if (_indexPage != index) {
+                            //             //   // _pageController.animateToPage(index,
+                            //             //   //     duration: Duration(milliseconds: 1000),
+                            //             //   //     curve: Curves.fastOutSlowIn);
+                            //             // }
+                            //           },
+                            //         );
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 20,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                AppRouterEndPoint.DETAILFLASHSALE,
+                                arguments: state.flashSale[index],
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.primaryColor,
+                                    AppColors.yellow,
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                "Xem thêm",
+                                style: TextStyleApp.textStyle7.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
           );
         }
@@ -701,7 +788,12 @@ class FlashSaleWidget extends StatelessWidget {
 }
 
 class TimeFlashSaleWidget extends StatelessWidget {
-  const TimeFlashSaleWidget({Key? key}) : super(key: key);
+  final FlashSale flashSale;
+
+  const TimeFlashSaleWidget({
+    Key? key,
+    required this.flashSale,
+  }) : super(key: key);
 
   Widget _timeDeco({required int time}) {
     return ShaderMask(
@@ -737,14 +829,13 @@ class TimeFlashSaleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FlashSaleBloc flashSaleBloc = context.read<FlashSaleBloc>();
     DateTime dateTime = DateTime.now();
     Duration duration = Duration(
-      milliseconds:
-          (int.parse(flashSaleBloc.state.flashSale!.enddate ?? '0') * 1000 -
-              (dateTime.millisecondsSinceEpoch)),
+      milliseconds: (int.parse(flashSale.enddate ?? '0') * 1000 -
+          (dateTime.millisecondsSinceEpoch)),
     );
 
+    // TODO: Xóa flashsale khi complete
     return BlocBuilder<TimeCubit, TimeState>(
       bloc: injector<TimeCubit>()..running(totalTime: duration.inSeconds),
       builder: (context, state) {

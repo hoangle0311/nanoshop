@@ -1,3 +1,4 @@
+import 'package:nanoshop/src/data/responses/flash_sale_with_list_product_response_model/flash_sale_with_list_product_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -60,8 +61,14 @@ abstract class ProductRemoteService {
   });
 
   @GET(ApiPath.flashSale)
-  Future<HttpResponse<FlashSaleResponseModel>> getListProductFlashSale({
+  Future<HttpResponse<FlashSaleResponseModel>> getListFlashSale({
     @Header("token") required String token,
+  });
+
+  @POST(ApiPath.flashSaleWithListProduct)
+  Future<HttpResponse<FlashSaleWithListProductResponseModel>> getFlashSaleWithListProduct({
+    @Header("token") required String token,
+    @Body() required Map<String, dynamic> body,
   });
 
   @GET(ApiPath.getManufacturer)

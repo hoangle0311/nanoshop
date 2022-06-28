@@ -26,8 +26,10 @@ class ApiPath {
   static const String getUser = '/api/app/profile/getUser';
   static const String updateUser = '/api/app/profile/updateUser';
   static const String flashSale = '/api/home/getFlashSaleInHome';
+  static const String flashSaleWithListProduct = '/api/home/getFlashSale';
   static const String signUp = '/api/home/signup';
   static const String getDiscount = '/api/app/shopping/getdiscount';
+  static const String getListDiscount = '/api/home/getCoupon';
   static const String getTransport = '/api/app/shopping/getTransport';
   static const String addComment = '/api/app/product/rating';
   static const String getComment = '/api/home/getRating';

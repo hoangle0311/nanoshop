@@ -13,6 +13,6 @@ class GetListFlashSaleProductRemoteUsecase
 
   @override
   Future<DataState<FlashSaleResponseModel>> call(String params) {
-    return _productRepository.getListProductFlashSaleRemote(params);
+    return _productRepository.getListFlashSaleRemote(params);
   }
 }
