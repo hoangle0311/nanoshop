@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "337515841050-bf86d9k4ai04mfm3r8rc9f9beqe7ke2b.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "jkaudio.org",
-            "certificate_hash": "2fa9e9da97f87d5a58923e24ab9bc73810f8ff1f"
-          }
-        },
-        {
           "client_id": "337515841050-sodk8rvkjvnfcdebfbnc8qvanqhlqvis.apps.googleusercontent.com",
           "client_type": 3
         }
