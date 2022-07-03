@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -21,6 +22,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../domain/entities/user_login/user_login.dart';
 import '../injector.dart';
+import '../presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'config/Dbkeys.dart';
 import 'config/Dbpaths.dart';
 import 'config/Enum.dart';
@@ -48,15 +50,23 @@ import 'utils/save.dart';
 import 'utils/uploadMediaWithProgress.dart';
 import "package:collection/collection.dart";
 
-class ModelChatScreen{
+class ModelChatScreen {
   String name;
-  String currentUserNo,peerNo;
+  String currentUserNo, peerNo;
   DataModel? model;
   SharedPreferences? prefs;
   int count;
-  ModelChatScreen({required this.name,required this.currentUserNo,required this.peerNo, this.model, this.prefs, this.count = 0});
-}
+  bool hasBottom;
 
+  ModelChatScreen(
+      {this.hasBottom = false,
+      required this.name,
+      required this.currentUserNo,
+      required this.peerNo,
+      this.model,
+      this.prefs,
+      this.count = 0});
+}
 
 hidekeyboard(BuildContext context) {
   FocusScope.of(context).requestFocus(FocusNode());
@@ -87,7 +97,7 @@ class _ScreenChatState extends State<ScreenChat> with WidgetsBindingObserver {
   SeenState? seenState;
   dynamic lastSeen;
   List<Map<String, dynamic>> _savedMessageDocs =
-       List.from(<Map<String, dynamic>>[]);
+      List.from(<Map<String, dynamic>>[]);
   List<Message> messages = List.from(<Message>[]);
   TextEditingController textSend = TextEditingController();
 
@@ -199,15 +209,15 @@ class _ScreenChatState extends State<ScreenChat> with WidgetsBindingObserver {
     setStateIfMounted(() {
       int i = messages.indexWhere((msg) => msg.timestamp == ts);
       var child = BuildTempMessage(
-          context,
-          MessageType.text,
-          updateDoc[Dbkeys.content],
-          updateDoc[Dbkeys.timestamp],
-          true,
-          updateDoc,
-          currentUserNo,
-          seenState,
-          messages,
+        context,
+        MessageType.text,
+        updateDoc[Dbkeys.content],
+        updateDoc[Dbkeys.timestamp],
+        true,
+        updateDoc,
+        currentUserNo,
+        seenState,
+        messages,
         url,
       );
       var timestamp = messages[i].timestamp;
@@ -743,16 +753,13 @@ class _ScreenChatState extends State<ScreenChat> with WidgetsBindingObserver {
           Map<String, dynamic> _doc = Map.from(doc.data());
           int? ts = _doc[Dbkeys.timestamp];
           messages.add(Message(
-              BuildMessage(
-                context,
-                _doc,
-                cachedModel: _cachedModel,
-                seenState: seenState,
-                peerNo: peerNo,
-                messages: messages,
-                currentUserNo: currentUserNo,
-                urlAvatar: url
-              ),
+              BuildMessage(context, _doc,
+                  cachedModel: _cachedModel,
+                  seenState: seenState,
+                  peerNo: peerNo,
+                  messages: messages,
+                  currentUserNo: currentUserNo,
+                  urlAvatar: url),
               onDismiss: _doc[Dbkeys.from] == peerNo
                   ? () {
                       if (_doc.containsKey(Dbkeys.hasRecipientDeleted) &&
@@ -843,16 +850,13 @@ class _ScreenChatState extends State<ScreenChat> with WidgetsBindingObserver {
             // _doc[Dbkeys.content] = decryptWithCRC(_doc[Dbkeys.content]);
 
             messages.add(Message(
-              BuildMessage(
-                context,
-                _doc,
-                cachedModel: _cachedModel,
-                seenState: seenState,
-                peerNo: peerNo,
-                messages: messages,
-                currentUserNo: currentUserNo,
-              urlAvatar: url
-              ),
+              BuildMessage(context, _doc,
+                  cachedModel: _cachedModel,
+                  seenState: seenState,
+                  peerNo: peerNo,
+                  messages: messages,
+                  currentUserNo: currentUserNo,
+                  urlAvatar: url),
               onLongPress: () {
                 if (_doc.containsKey(Dbkeys.hasRecipientDeleted) &&
                     _doc.containsKey(Dbkeys.hasSenderDeleted)) {
@@ -1231,13 +1235,14 @@ class _ScreenChatState extends State<ScreenChat> with WidgetsBindingObserver {
           FirebaseSendNotifi.sendNotifi(
               title: "${_cachedModel.currentUser![Dbkeys.nickname]}",
               id_send: peerNo,
-              body:ConstChat.convertTypeMessage(typeMessage: type.index,content: content),
+              body: ConstChat.convertTypeMessage(
+                  typeMessage: type.index, content: content),
               data: tempDoc);
           setStateIfMounted(() {
             messages = List.from(messages)
               ..add(Message(
                 BuildTempMessage(context, type, content, timestamp, messaging,
-                    tempDoc, currentUserNo, seenState, messages,url),
+                    tempDoc, currentUserNo, seenState, messages, url),
                 onTap:
                     (tempDoc[Dbkeys.from] == widget.arguments.currentUserNo &&
                                 tempDoc[Dbkeys.hasSenderDeleted] == true) ==
@@ -1338,16 +1343,20 @@ class _ScreenChatState extends State<ScreenChat> with WidgetsBindingObserver {
       );
     }
     return Flexible(
-        child: messages.isNotEmpty ? ListView(
-      padding: EdgeInsets.all(10.0),
-      children: getGroupedMessages(),
-      controller: realtime,
-      reverse: true,
-    ) : Center(child: Text(
-          isLoading ? "" : "Danh sách trống",
-          textAlign: TextAlign.center,
-          style: TextStyleApp.textStyle600(),
-        ),)) ;
+        child: messages.isNotEmpty
+            ? ListView(
+                padding: EdgeInsets.all(10.0),
+                children: getGroupedMessages(),
+                controller: realtime,
+                reverse: true,
+              )
+            : Center(
+                child: Text(
+                  isLoading ? "" : "Danh sách trống",
+                  textAlign: TextAlign.center,
+                  style: TextStyleApp.textStyle600(),
+                ),
+              ));
   }
 
   List<Widget> getGroupedMessages() {
@@ -1534,99 +1543,120 @@ class _ScreenChatState extends State<ScreenChat> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     var _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
     final observer = Provider.of<Observer>(context, listen: true);
-    return KeyboardDismisser(
-      child: Fiberchat.getNTPWrappedWidget(
-        child: WillPopScope(
-          onWillPop: isgeneratingThumbnail == true
-              ? () async {
-                  return Future.value(false);
-                }
-              : isemojiShowing == true
-                  ? () {
-                      setState(() {
-                        isemojiShowing = false;
-                      });
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      buildWhen: (pre, cur){
+        return pre.user != cur.user;
+      },
+      builder: (context, state) {
+
+        if(state.user != UserLogin.empty){
+          _cachedModel = DataModel(state.user.userId);
+          currentUserNo = state.user.userId;
+
+          updateLocalUserData(_cachedModel);
+        }
+
+
+        return KeyboardDismisser(
+          child: Fiberchat.getNTPWrappedWidget(
+            child: WillPopScope(
+              onWillPop: isgeneratingThumbnail == true
+                  ? () async {
                       return Future.value(false);
                     }
-                  : () async {
-                      setLastSeen();
-                      WidgetsBinding.instance!
-                          .addPostFrameCallback((timeStamp) async {
-                        var currentpeer = Provider.of<CurrentChatPeer>(
-                            this.context,
-                            listen: false);
-                        currentpeer.setpeer(newpeerid: '');
-                        if (lastSeen == peerNo)
-                          await FirebaseFirestore.instance
-                              .collection(DbPaths.collectionusers)
-                              .doc(currentUserNo)
-                              .update(
-                            {Dbkeys.lastSeen: true},
-                          );
-                      });
+                  : isemojiShowing == true
+                      ? () {
+                          setState(() {
+                            isemojiShowing = false;
+                          });
+                          return Future.value(false);
+                        }
+                      : () async {
+                          setLastSeen();
+                          WidgetsBinding.instance!
+                              .addPostFrameCallback((timeStamp) async {
+                            var currentpeer = Provider.of<CurrentChatPeer>(
+                                this.context,
+                                listen: false);
+                            currentpeer.setpeer(newpeerid: '');
+                            if (lastSeen == peerNo)
+                              await FirebaseFirestore.instance
+                                  .collection(DbPaths.collectionusers)
+                                  .doc(currentUserNo)
+                                  .update(
+                                {Dbkeys.lastSeen: true},
+                              );
+                          });
 
-                      return Future.value(true);
-                    },
-          child: ScopedModel<DataModel>(
-              model: _cachedModel,
-              child: ScopedModelDescendant<DataModel>(
-                  builder: (context, child, _model) {
-                _cachedModel = _model;
-                updateLocalUserData(_model);
-                return Scaffold(
-                  appBar: PageAppBar(
-                    title: widget.arguments.name,
-                  ),
-                  body: Column(
-                    children: [
-                      Expanded(
-                          child: Stack(
-                        children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              // List of messages
-                              buildMessages(context),
-                              // Input content
-                              isBlocked()
-                                  ? Container()
-                                  : BuildInputChat(
-                                      context: context,
-                                      isemojiShowing: isemojiShowing,
-                                      refreshThisInput: refreshInput,
-                                      keyboardVisible: _keyboardVisible,
-                                      textSend: textSend,
-                                      chatStatus: chatStatus,
-                                      keyboardFocusNode: keyboardFocusNode,
-                                      onSendText: () {
-                                        if (textSend.text.isNotEmpty) {
-                                          onSendMessage(
-                                              context,
-                                              textSend.text,
-                                              MessageType.text,
-                                              DateTime.now()
-                                                  .millisecondsSinceEpoch);
-                                        }
-                                      },
-                                      onSendImageCamera: () async {
-                                        await showToastLock(
-                                            observer, 2, context);
-                                      },
-                                      onSendFile: () async {
-                                        await showToastLock(
-                                            observer, 2, context);
-                                      }),
+                          return Future.value(true);
+                        },
+              child: ScopedModel<DataModel>(
+                  model: _cachedModel,
+                  child: ScopedModelDescendant<DataModel>(
+                      builder: (context, child, _model) {
+                    _cachedModel = _model;
+                    updateLocalUserData(_model);
+                    return Scaffold(
+                      appBar: PageAppBar(
+                        title: widget.arguments.name,
+                      ),
+                      body: Column(
+                        children: [
+                          Expanded(
+                              child: Stack(
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  // List of messages
+                                  buildMessages(context),
+                                  // Input content
+                                  isBlocked()
+                                      ? Container()
+                                      : BuildInputChat(
+                                          context: context,
+                                          isemojiShowing: isemojiShowing,
+                                          refreshThisInput: refreshInput,
+                                          keyboardVisible: _keyboardVisible,
+                                          textSend: textSend,
+                                          chatStatus: chatStatus,
+                                          keyboardFocusNode: keyboardFocusNode,
+                                          onSendText: () {
+                                            if (textSend.text.isNotEmpty) {
+                                              onSendMessage(
+                                                  context,
+                                                  textSend.text,
+                                                  MessageType.text,
+                                                  DateTime.now()
+                                                      .millisecondsSinceEpoch);
+                                            }
+                                          },
+                                          onSendImageCamera: () async {
+                                            await showToastLock(
+                                                observer, 2, context);
+                                          },
+                                          onSendFile: () async {
+                                            await showToastLock(
+                                                observer, 2, context);
+                                          }),
+                                  widget.arguments.hasBottom
+                                      ? SizedBox(
+                                          height: 50,
+                                        )
+                                      : SizedBox()
+                                ],
+                              ),
+                              BuildLoadingChat(isLoading)
                             ],
-                          ),
-                          BuildLoadingChat(isLoading)
+                          )),
                         ],
-                      )),
-                    ],
-                  ),
-                );
-              })),
-        ),
-      ),
+                      ),
+                    );
+                  })),
+            ),
+          ),
+        );
+      },
     );
   }
 }

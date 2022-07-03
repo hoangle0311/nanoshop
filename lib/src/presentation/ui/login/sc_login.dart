@@ -132,6 +132,7 @@ class LoginForm extends StatelessWidget {
                   'Quay lại',
                   style: TextStyleApp.textStyle1.copyWith(
                     fontSize: 16,
+                    color: AppColors.primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

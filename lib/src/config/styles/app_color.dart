@@ -18,4 +18,6 @@ class AppColors {
   static Color get grey => HexColor("#E5E5E5");
 
   static Color get accentPrimaryColor => HexColor("#0080DB");
+
+  static Color get yellow => HexColor("#F9DF7B");
 }

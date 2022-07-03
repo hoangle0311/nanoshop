@@ -20,6 +20,8 @@ class ProductInfo {
   String? shopStore;
   @JsonKey(name: "product_note")
   String? productNote;
+  @JsonKey(name: "dynamic_field")
+  String? dynamicField;
 
   ProductInfo({
     this.productId,
@@ -30,6 +32,7 @@ class ProductInfo {
     this.totalVotes,
     this.shopStore,
     this.productNote,
+    this.dynamicField,
   });
 
   factory ProductInfo.fromJson(Map<String, dynamic> json) {

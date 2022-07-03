@@ -21,12 +21,12 @@ class BottomNavText extends StatelessWidget {
       height: 80,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            HexColor("#030102"),
-            HexColor("#3A3A3A"),
-          ],
-        ),
+        // gradient: LinearGradient(
+        //   colors: [
+        //     HexColor("#030102"),
+        //     HexColor("#3A3A3A"),
+        //   ],
+        // ),
       ),
       child: ButtonWithCenterTitle(
         title: title,

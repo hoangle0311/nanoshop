@@ -7,7 +7,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:nanoshop/src/chat/firebase/firebase_account.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/presentation/blocs/blocs.dart';
 
@@ -17,9 +16,7 @@ import 'src/injector.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(
   RemoteMessage message,
-) async {
-  print("Handling a background message: ${message.messageId}");
-}
+) async {}
 
 Future<Uint8List> getByteArrayFromUrl(String url) async {
   final http.Response response = await http.get(Uri.parse(url));
@@ -50,7 +47,7 @@ void main() async {
     if (payload != null) {}
   });
 
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   await dotenv.load(
     fileName: Environment.getEnvironmentFile,

@@ -5,6 +5,7 @@ import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 
 import 'package:nanoshop/src/core/assets/image_path.dart';
+import 'package:nanoshop/src/domain/entities/flash_sale/flash_sale.dart';
 
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/blocs/flash_sale_bloc/flash_sale_bloc.dart';
@@ -28,6 +29,7 @@ import '../../blocs/blocs.dart';
 import '../../blocs/local_product_bloc/local_product_bloc.dart';
 import '../../cubits/time_cubit/time_cubit.dart';
 import '../../views/components/category_widget/list_horizontal_categories_widget.dart';
+import '../../views/components/product_widget/list_flash_sale_widget.dart';
 import '../../views/components/product_widget/list_horizontal_product_widget.dart';
 import '../../views/components/widgets/home_title_container.dart';
 
@@ -35,7 +37,7 @@ class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   // Lay banner voi group bang 15350
-  static const _groupIdBanner = '15272';
+  static const _groupIdBanner = '15273';
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,9 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          _body(context),
+          Builder(builder: (context) {
+            return _body(context);
+          }),
         ],
       ),
     );
@@ -104,51 +108,69 @@ class HomePage extends StatelessWidget {
         ),
         const HomeAppBar(),
         Expanded(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                _slideBanner(),
-                const SizedBox(
-                  height: 10,
+          child: RefreshIndicator(
+            onRefresh: () async {
+              context
+                  .read<FlashSaleBloc>()
+                  .add(GetFlashSale(tokenParam: injector<TokenParam>()));
+              context.read<GetBannerBloc>().add(
+                GetBannerByGroupId(
+                  groupId: _groupIdBanner,
+                  tokenParam: injector<TokenParam>(),
                 ),
-                Container(
-                  color: HexColor("#F2F7FF"),
-                  child: _horizontalCategory(),
+              );
+              context.read<GetCategoryBloc>().add(
+                GetListCategoryEvent(
+                  tokenParam: injector<TokenParam>(),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const FlashSaleWidget(),
-                // BlocProvider(
-                //   create: (context) => injector<ProductBloc>()
-                //     ..add(
-                //       GetListProductEvent(),
-                //     ),
-                //   child: const HorizontalListProductHomePage(),
-                // ),
-                // Banner Home
-                // Container(
-                //   padding: const EdgeInsets.symmetric(
-                //     horizontal: 10,
-                //   ),
-                //   child: const Placeholder(
-                //     fallbackWidth: double.infinity,
-                //     fallbackHeight: 120,
-                //   ),
-                // ),
-                BlocProvider(
-                  create: (context) => injector<ProductBloc>()
-                    ..add(
-                      GetListProductEvent(
-                        tokenParam: injector<TokenParam>(),
+              );
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  _slideBanner(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _horizontalCategory(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const FlashSaleWidget(),
+                  // BlocProvider(
+                  //   create: (context) => injector<ProductBloc>()
+                  //     ..add(
+                  //       GetListProductEvent(),
+                  //     ),
+                  //   child: const HorizontalListProductHomePage(),
+                  // ),
+                  // Banner Home
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(
+                  //     horizontal: 10,
+                  //   ),
+                  //   child: const Placeholder(
+                  //     fallbackWidth: double.infinity,
+                  //     fallbackHeight: 120,
+                  //   ),
+                  // ),
+                  BlocProvider(
+                    create: (context) => injector<ProductBloc>()
+                      ..add(
+                        GetListProductEvent(
+                          tokenParam: injector<TokenParam>(),
+                        ),
                       ),
-                    ),
-                  child: const VerticalListProductHomePage(),
-                ),
-                // _verticalListProductFavourite(),
-                ShopsWidget(),
-              ],
+                    child: const VerticalListProductHomePage(),
+                  ),
+                  // _verticalListProductFavourite(),
+                  // ShopsWidget(),
+                 const SizedBox(
+                    height: 80,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -183,7 +205,7 @@ class HomePage extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: [
                       AppColors.primaryColor,
-                      AppColors.accentPrimaryColor,
+                      AppColors.yellow,
                     ],
                   ),
                 ),
@@ -234,7 +256,6 @@ class HomePage extends StatelessWidget {
                   ),
                   child: HomeTitleContainer(
                     title: "Danh mục",
-                    titleColor: AppColors.primaryColor,
                     onTap: () {
                       Navigator.of(context)
                           .pushNamed(AppRouterEndPoint.LISTCATEGORY);
@@ -396,7 +417,7 @@ class VerticalListProductHomePage extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         AppColors.primaryColor,
-                        AppColors.accentPrimaryColor,
+                        AppColors.yellow,
                       ],
                     ),
                     onTap: () {
@@ -466,7 +487,7 @@ class ShopsWidget extends StatelessWidget {
                         gradient: LinearGradient(
                           colors: [
                             AppColors.primaryColor,
-                            AppColors.accentPrimaryColor,
+                            AppColors.yellow,
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
@@ -526,7 +547,7 @@ class HomeAppBar extends StatelessWidget {
                   ),
                   child: Container(
                     margin:
-                        const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                    const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -586,7 +607,7 @@ class HomeAppBar extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
             InkWell(
@@ -597,7 +618,10 @@ class HomeAppBar extends StatelessWidget {
                 if (authState.user != UserLogin.empty) {
                   DataModel dataModel = DataModel(authState.user.userId);
                   SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                  await SharedPreferences.getInstance();
+                  context.read<AuthenticationBloc>().add(
+                    RemoveCountMessageLocal(),
+                  );
                   if (authState.user.type == '3') {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ListChat(
@@ -621,7 +645,22 @@ class HomeAppBar extends StatelessWidget {
                   Navigator.of(context).pushNamed(AppRouterEndPoint.LOGIN);
                 }
               },
-              child: Image.asset(ImagePath.appBarMessageIcon),
+              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                builder: (context, state) {
+                  return Badge(
+                    showBadge: state.countMessage > 0,
+                    badgeContent: Text(
+                      state.countMessage.toString(),
+                      style: TextStyleApp.textStyle1.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    badgeColor: Colors.white,
+                    animationDuration: Duration.zero,
+                    child: Image.asset(ImagePath.appBarMessageIcon),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -637,63 +676,111 @@ class FlashSaleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FlashSaleBloc, FlashSaleState>(
       builder: (context, state) {
-        if (state.status == FlashSaleStatus.running) {
-          return Container(
-            height: 480,
-            color: Colors.white,
-            child: Stack(
-              children: [
-                // Positioned(
-                //   top: 0,
-                //   left: 0,
-                //   right: 0,
-                //   bottom: 0,
-                //   child: Image.asset(
-                //     ImagePath.flashSaleBackground,
-                //     fit: BoxFit.fill,
-                //   ),
-                // ),
-                const Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: TimeFlashSaleWidget(),
-                ),
-                Positioned(
-                  top: 80,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Column(
+        if (state.status == FlashSaleStatus.running &&
+            state.flashSale.isNotEmpty) {
+          return Column(
+            children: List.generate(
+              state.flashSale.length,
+                  (index) {
+                return Container(
+                  height: 360,
+                  width: double.infinity,
+                  color: Colors.white,
+                  child: Stack(
                     children: [
-                      ListHorizontalProductWidget(
-                        products: state.flashSale!.products!,
-                      ),
-                      // Expanded(
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: List.generate(
-                      //       state.listProduct.length,
-                      //       (index) {
-                      //         return IndicatorPageView(
-                      //           height: 4,
-                      //           isActive: _currentIndex == index ? true : false,
-                      //           onTap: () {
-                      //             // if (_indexPage != index) {
-                      //             //   // _pageController.animateToPage(index,
-                      //             //   //     duration: Duration(milliseconds: 1000),
-                      //             //   //     curve: Curves.fastOutSlowIn);
-                      //             // }
-                      //           },
-                      //         );
-                      //       },
-                      //     ),
+                      // Positioned(
+                      //   top: 0,
+                      //   left: 0,
+                      //   right: 0,
+                      //   bottom: 0,
+                      //   child: Image.asset(
+                      //     ImagePath.flashSaleBackground,
+                      //     fit: BoxFit.fill,
                       //   ),
                       // ),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: TimeFlashSaleWidget(
+                          flashSale: state.flashSale[index],
+                        ),
+                      ),
+                      Positioned(
+                        top: 90,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Column(
+                          children: [
+                            ListFlashSaleWidget(
+                              products: state.flashSale[index].products!,
+                            ),
+                            // Expanded(
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.center,
+                            //     children: List.generate(
+                            //       state.listProduct.length,
+                            //       (index) {
+                            //         return IndicatorPageView(
+                            //           height: 4,
+                            //           isActive: _currentIndex == index ? true : false,
+                            //           onTap: () {
+                            //             // if (_indexPage != index) {
+                            //             //   // _pageController.animateToPage(index,
+                            //             //   //     duration: Duration(milliseconds: 1000),
+                            //             //   //     curve: Curves.fastOutSlowIn);
+                            //             // }
+                            //           },
+                            //         );
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 20,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                AppRouterEndPoint.DETAILFLASHSALE,
+                                arguments: state.flashSale[index],
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.primaryColor,
+                                    Colors.red,
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                "Xem thêm",
+                                style: TextStyleApp.textStyle7.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
           );
         }
@@ -705,7 +792,12 @@ class FlashSaleWidget extends StatelessWidget {
 }
 
 class TimeFlashSaleWidget extends StatelessWidget {
-  const TimeFlashSaleWidget({Key? key}) : super(key: key);
+  final FlashSale flashSale;
+
+  const TimeFlashSaleWidget({
+    Key? key,
+    required this.flashSale,
+  }) : super(key: key);
 
   Widget _timeDeco({required int time}) {
     return ShaderMask(
@@ -715,7 +807,7 @@ class TimeFlashSaleWidget extends StatelessWidget {
           end: Alignment.centerRight,
           colors: [
             AppColors.primaryColor,
-            AppColors.accentPrimaryColor,
+            AppColors.yellow,
           ],
         ).createShader(bounds);
       },
@@ -741,14 +833,13 @@ class TimeFlashSaleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FlashSaleBloc flashSaleBloc = context.read<FlashSaleBloc>();
     DateTime dateTime = DateTime.now();
     Duration duration = Duration(
-      milliseconds:
-          (int.parse(flashSaleBloc.state.flashSale!.enddate ?? '0') * 1000 -
-              (dateTime.millisecondsSinceEpoch)),
+      milliseconds: (int.parse(flashSale.enddate ?? '0') * 1000 -
+          (dateTime.millisecondsSinceEpoch)),
     );
 
+    // TODO: Xóa flashsale khi complete
     return BlocBuilder<TimeCubit, TimeState>(
       bloc: injector<TimeCubit>()..running(totalTime: duration.inSeconds),
       builder: (context, state) {
@@ -757,32 +848,79 @@ class TimeFlashSaleWidget extends StatelessWidget {
             seconds: state.time,
           );
 
-          return Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Image.asset(
-                  ImagePath.flashSaleDecor,
-                  fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width,
+          return Container(
+            height: 65,
+            child: Stack(
+              children: [
+                Container(
+                  color: Colors.white,
+                  height: 65,
+                  width: double.infinity,
                 ),
-              ),
-              Positioned(
-                top: 20,
-                left: 0,
-                right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(ImagePath.flashSaleText),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    if (runningTime.inDays > 0)
+                Positioned(
+                  left: 10,
+                  right: 10,
+                  child: Image.asset(
+                    ImagePath.flashSaleDecor2,
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                    height: 65,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.white,
+                    height: 20,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 15,
+                  right: 15,
+                  child: Image.asset(
+                    ImagePath.flashSaleDecor,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ),
+                Positioned(
+                  top: 20,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(ImagePath.flashSaleText),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      if (runningTime.inDays > 0)
+                        Row(
+                          children: [
+                            _timeDeco(
+                              time: runningTime.inDays,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              ":",
+                              style: TextStyleApp.textStyle2.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                          ],
+                        ),
                       Row(
                         children: [
                           _timeDeco(
-                            time: runningTime.inDays,
+                            time: runningTime.inHours.remainder(24),
                           ),
                           SizedBox(
                             width: 5,
@@ -798,78 +936,60 @@ class TimeFlashSaleWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                    Row(
-                      children: [
-                        _timeDeco(
-                          time: runningTime.inHours.remainder(24),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          ":",
-                          style: TextStyleApp.textStyle2.copyWith(
-                            color: Colors.white,
+                      Row(
+                        children: [
+                          _timeDeco(
+                            time: runningTime.inMinutes.remainder(60),
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        _timeDeco(
-                          time: runningTime.inMinutes.remainder(60),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          ":",
-                          style: TextStyleApp.textStyle2.copyWith(
-                            color: Colors.white,
+                          SizedBox(
+                            width: 5,
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        _timeDeco(
-                          time: runningTime.inSeconds.remainder(60),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Text(
+                            ":",
+                            style: TextStyleApp.textStyle2.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          _timeDeco(
+                            time: runningTime.inSeconds.remainder(60),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              // Positioned(
-              //   top: 0,
-              //   bottom: 0,
-              //   left: 20,
-              //   right: 20,
-              //   child: Container(
-              //     padding: const EdgeInsets.symmetric(vertical: 10),
-              //     decoration: BoxDecoration(
-              //       color: AppColor.color5,
-              //       borderRadius: BorderRadius.circular(50),
-              //       border: Border.all(
-              //         color: AppColor.color9,
-              //         width: 10,
-              //       ),
-              //     ),
-              //     child: Center(
-              //       child: Text(
-              //         'Sản phẩm mới'.toUpperCase(),
-              //         style: TextStyleApp.textStyle5,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-            ],
+                // Positioned(
+                //   top: 0,
+                //   bottom: 0,
+                //   left: 20,
+                //   right: 20,
+                //   child: Container(
+                //     padding: const EdgeInsets.symmetric(vertical: 10),
+                //     decoration: BoxDecoration(
+                //       color: AppColor.color5,
+                //       borderRadius: BorderRadius.circular(50),
+                //       border: Border.all(
+                //         color: AppColor.color9,
+                //         width: 10,
+                //       ),
+                //     ),
+                //     child: Center(
+                //       child: Text(
+                //         'Sản phẩm mới'.toUpperCase(),
+                //         style: TextStyleApp.textStyle5,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
           );
         }
 

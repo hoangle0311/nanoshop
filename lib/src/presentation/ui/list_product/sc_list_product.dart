@@ -35,7 +35,7 @@ class ScListProductArgument {
 class ScListProduct extends StatelessWidget {
   final ScListProductArgument argument;
 
-  static const _groupIdBanner = '15272';
+  static const _groupIdBanner = '15273';
 
   const ScListProduct({
     Key? key,

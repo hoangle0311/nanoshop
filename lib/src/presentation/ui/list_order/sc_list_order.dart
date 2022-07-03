@@ -397,36 +397,38 @@ class ItemTabOrder extends StatelessWidget {
           thickness: 1,
           color: AppColors.grey,
         ),
-        // Padding(
-        //   padding: EdgeInsets.symmetric(
-        //     vertical: 10,
-        //     horizontal: 15,
-        //   ),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Text(
-        //         "Phương thức vận chuyển:",
-        //         overflow: TextOverflow.ellipsis,
-        //         style: StyleTextApp.textStyle700(
-        //           color: colorGrey13,
-        //         ),
-        //       ),
-        //       SizedBox(height: 13,),
-        //       Text(
-        //         "Nhà cung cấp/Nhà sản xuất",overflow: TextOverflow.ellipsis,
-        //         textAlign: TextAlign.left,
-        //         style: StyleTextApp.textStyle400(
-        //           color: colorGrey13,
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // ),
-        // Divider(
-        //   thickness: 1,
-        //   color: colorGrey4,
-        // ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 15,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Phương thức vận chuyển:",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyleApp.textStyle7.copyWith(
+                  fontSize: 14,
+                  color: AppColors.black,
+                ),
+              ),
+              SizedBox(height: 13,),
+              Text(
+                order.transportMethodName ?? '',
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                style: TextStyleApp.textStyle2.copyWith(
+                  color: AppColors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          thickness: 1,
+          color: AppColors.grey,
+        ),
       ],
     );
   }

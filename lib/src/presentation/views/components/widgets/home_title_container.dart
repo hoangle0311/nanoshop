@@ -24,7 +24,7 @@ class HomeTitleContainer extends StatelessWidget {
         Text(
           title.toUpperCase(),
           style: TextStyleApp.textStyle5.copyWith(
-            color: titleColor,
+            color: titleColor ?? AppColors.black,
             fontSize: titleSize ?? 16,
           ),
         ),

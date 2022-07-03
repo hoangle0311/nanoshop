@@ -33,6 +33,7 @@ import '../../cubits/related_list_product_cubit/related_list_product_cubit.dart'
 import '../../views/bottom_sheet/bottom_sheet_product.dart';
 import '../../views/components/banner_widget/slide_detail_product_widget.dart';
 import '../../views/components/product_widget/list_horizontal_product_widget.dart';
+import 'widgets/detail_field_product_container.dart';
 
 class ScDetailProduct extends StatefulWidget {
   final Product product;
@@ -144,8 +145,8 @@ class _ScDetailProductState extends State<ScDetailProduct>
                         //   model: state.detailProductModel,
                         // ),
                         ScDetailProduct._sizedBoxh5,
-                        DetailWithTittleProductFragment(
-                          title: 'chi tiết sản phẩm',
+                        DetailFieldProductFragment(
+                          title: 'Thông số sản phẩm',
                           product: state.product!,
                         ),
                         ScDetailProduct._sizedBoxh5,

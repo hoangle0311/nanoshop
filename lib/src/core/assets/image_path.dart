@@ -11,11 +11,13 @@ class ImagePath {
   static const nameCompanyIcon = 'assets/images/name_company_icon.png';
   static const backgroundAppBar = "assets/images/background_app_bar.png";
   static const flashSaleDecor = 'assets/images/flash_sale_decor.png';
+  static const flashSaleDecor2 = 'assets/images/flash_sale_decor_2.png';
   static const flashSaleBackground = 'assets/images/background_flash_sale.png';
   static const flashSaleText = 'assets/images/flash_sale_text.png';
   static const facebookIcon = 'assets/images/facebook_icon.png';
   static const googleIcon = 'assets/images/google_icon.png';
   static const appIcon = 'assets/images/app_icon.png';
+  static const fire = 'assets/images/fire.png';
   static const tagIcon = 'assets/images/tag_icon.png';
   static const bottomIconAccount =
       'assets/images/bottom_navigation_bar_icon/account_icon.png';

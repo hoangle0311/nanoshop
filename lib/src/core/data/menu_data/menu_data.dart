@@ -25,7 +25,7 @@ var dummyMenu = [
     url: ImagePath.phoneMenuIcon,
   ),
   DummyMenu(
-    name: "Hỏi & đáp",
+    name: "Tin tức",
     url: ImagePath.attentionMenuIcon,
   ),
 ];

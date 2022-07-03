@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
+import 'package:nanoshop/src/core/utils/log/log.dart';
 import 'package:nanoshop/src/domain/entities/token/token.dart';
 import 'package:nanoshop/src/domain/usecases/token_usecase/get_token_usecase.dart';
 
@@ -36,6 +37,8 @@ class GetTokenBloc extends Bloc<GetTokenEvent, GetTokenState> {
         token: event.token,
       ),
     );
+
+    Log.i(dataState.toString());
 
     if (dataState is DataSuccess) {
       emit(

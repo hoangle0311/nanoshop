@@ -26,4 +26,5 @@ abstract class AppRouterEndPoint {
   static const String LISTCOUPON = '/sc_listCoupon';
   static const String DETAILFLASHSALE = '/sc_detailFlashSale';
   static const String DETAILCOMMENT = '/sc_detailComment';
+  static const String LISTNEWS = '/sc_listNews';
 }

@@ -10,7 +10,12 @@ import '../../views/components/app_bar/main_app_bar.dart';
 import '../../views/components/loading_widget/list_horizontal_category_loading.dart';
 
 class PostPage extends HookWidget {
-  const PostPage({Key? key}) : super(key: key);
+  final bool showAppBar;
+
+  const PostPage({
+    Key? key,
+    this.showAppBar = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +35,9 @@ class PostPage extends HookWidget {
 
     return Column(
       children: [
-        PageAppBar(
+        showAppBar ? PageAppBar(
           title: 'Tin tức',
-        ),
+        ) : SizedBox(),
         Expanded(
           child: _body(
             mainScrollController: _mainScrollController,
@@ -50,7 +55,6 @@ class PostPage extends HookWidget {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-
           _verticalListPost(),
         ],
       ),

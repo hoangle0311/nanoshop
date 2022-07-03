@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanoshop/src/core/data/nav_data/nav_data_dev.dart';
 import 'package:nanoshop/src/presentation/cubits/bottom_nav_cubit/bottom_nav_cubit.dart';
+import 'package:nanoshop/src/presentation/ui/search_product/sc_search_product.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main.dart';
 import '../../../chat/firebase/firebase_send_notifi.dart';
+import '../../../chat/list_chat.dart';
+import '../../../chat/models/data_model.dart';
+import '../../../chat/screen_chat.dart';
 import '../../../core/params/token_param.dart';
 import '../../../injector.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
@@ -15,6 +20,7 @@ import '../../blocs/post_bloc/post_bloc.dart';
 import '../../bottom_home_nav_bar.dart';
 import '../../pages/notification_page/notification_page.dart';
 import '../../pages/pages.dart';
+import '../../pages/search_page/search_page.dart';
 
 class ScHome extends StatefulWidget {
   const ScHome({Key? key}) : super(key: key);
@@ -108,15 +114,36 @@ class _ScHomeState extends State<ScHome> {
                         case 0:
                           return const HomePage();
                         case 1:
-                          return const PostPage();
+                          return const SearchPage();
                         case 2:
                           return const ShoppingCartPage(
                             isShow: true,
                           );
                         case 3:
-                          return const NotificationPage();
-                        case 4:
-                          return const AccountPage();
+                          return BlocBuilder<AuthenticationBloc,
+                              AuthenticationState>(
+                            builder: (context, authState) {
+                              DataModel dataModel =
+                                  DataModel(authState.user.userId);
+
+                              if (authState.user.type == '3') {
+                                return ListChat(
+                                  id: 'Admin',
+                                );
+                              }
+
+                              return ScreenChat(
+                                arguments: ModelChatScreen(
+                                  hasBottom: true,
+                                  name: "Trò chuyện với admin",
+                                  currentUserNo: authState.user.userId!,
+                                  peerNo: "Admin",
+                                  model: dataModel,
+                                ),
+                              );
+                            },
+                          );
+                        case 4 : return AccountPage();
                         default:
                           return HomePage();
                       }

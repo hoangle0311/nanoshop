@@ -101,48 +101,48 @@ class ScMenu extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: TextField(
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed(AppRouterEndPoint.SEARCHPRODUCT);
-              },
-              readOnly: true,
-              decoration: InputDecoration(
-                hintStyle: TextStyleApp.textStyle2.copyWith(
-                  color: AppColors.primaryColor,
-                ),
-                hintText: "Từ khóa tìm kiếm...",
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                suffixIcon: Container(
-                  height: 40,
-                  width: 40,
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  alignment: Alignment.center,
-                  child: Icon(
-                    CupertinoIcons.search,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          //   decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     borderRadius: BorderRadius.circular(5),
+          //   ),
+          //   child: TextField(
+          //     onTap: () {
+          //       Navigator.of(context)
+          //           .pushNamed(AppRouterEndPoint.SEARCHPRODUCT);
+          //     },
+          //     readOnly: true,
+          //     decoration: InputDecoration(
+          //       hintStyle: TextStyleApp.textStyle2.copyWith(
+          //         color: AppColors.primaryColor,
+          //       ),
+          //       hintText: "Từ khóa tìm kiếm...",
+          //       enabledBorder: OutlineInputBorder(
+          //         borderSide: BorderSide.none,
+          //         borderRadius: BorderRadius.circular(5),
+          //       ),
+          //       focusedBorder: OutlineInputBorder(
+          //         borderSide: BorderSide.none,
+          //         borderRadius: BorderRadius.circular(5),
+          //       ),
+          //       suffixIcon: Container(
+          //         height: 40,
+          //         width: 40,
+          //         margin: EdgeInsets.all(5),
+          //         decoration: BoxDecoration(
+          //           color: AppColors.primaryColor,
+          //           borderRadius: BorderRadius.circular(5),
+          //         ),
+          //         alignment: Alignment.center,
+          //         child: Icon(
+          //           CupertinoIcons.search,
+          //           color: Colors.white,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: SingleChildScrollView(
               child: Wrap(
@@ -177,6 +177,10 @@ class ScMenu extends StatelessWidget {
                               Navigator.of(context)
                                   .pushNamed(AppRouterEndPoint.LOGIN);
                             }
+                          }
+                          if (dummyMenu[index].name == "Tin tức") {
+                              Navigator.of(context)
+                                  .pushNamed(AppRouterEndPoint.LISTNEWS);
                           }
                         },
                         child: _itemMenu(

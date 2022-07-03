@@ -1,12 +1,17 @@
+import 'package:badges/badges.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
+import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
 
 import '../config/styles/app_color.dart';
 import '../config/styles/app_text_style.dart';
+import '../core/data/nav_data/nav_data_dev.dart';
 import '../core/data/nav_data/nav_data_prod.dart';
 import '../domain/entities/user_login/user_login.dart';
 import 'cubits/bottom_nav_cubit/bottom_nav_cubit.dart';
@@ -20,6 +25,109 @@ class BottomHomeNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavCubit, BottomNavState>(
       builder: (context, state) {
+        return Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(color: AppColors.primaryColor, width: 1),
+            ),
+          ),
+          child: Stack(
+            children: [
+              BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                currentIndex: state.index,
+                unselectedItemColor: AppColors.dividerColor,
+                fixedColor: AppColors.primaryColor,
+                selectedLabelStyle: TextStyleApp.textStyle1.copyWith(
+                  fontSize: 10,
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w700,
+                ),
+                unselectedLabelStyle: TextStyleApp.textStyle1.copyWith(
+                  fontSize: 10,
+                  color: AppColors.grey,
+                  fontWeight: FontWeight.w700,
+                ),
+                onTap: (index) {
+                  var authBloc = context.read<AuthenticationBloc>();
+                  var authState = authBloc.state;
+
+                  if (navDataItems[index].needUserAccess &&
+                      authState.user == UserLogin.empty) {
+                    Navigator.of(context)
+                        .pushNamed(AppRouterEndPoint.LOGIN)
+                        .then(
+                      (value) {
+                        if (value != null && value == true) {
+                          injector.get<BottomNavCubit>().onTapBottomNav(index);
+                        }
+                      },
+                    );
+
+                    return;
+                  }
+                  injector.get<BottomNavCubit>().onTapBottomNav(index);
+                },
+                items: [
+                  BottomNavigationBarItem(
+                    label: "Trang chủ",
+                    icon: Icon(
+                      CupertinoIcons.house_fill,
+                      size: 20,
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    label: "Tìm kiếm",
+                    icon: Icon(
+                      CupertinoIcons.search,
+                      size: 20,
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: BlocBuilder<ShoppingCartCubit, ShoppingCartState>(
+                      builder: (context, state) {
+                        return Badge(
+                          showBadge: state.listCart.isNotEmpty,
+                          badgeContent: Text(
+                            state.listCart.length.toString(),
+                            style: TextStyleApp.textStyle1.copyWith(
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                          position: BadgePosition(
+                            top: -15,
+                            end: -10,
+                          ),
+                          badgeColor: Colors.white,
+                          animationDuration: Duration.zero,
+                          child: Icon(
+                            CupertinoIcons.shopping_cart,
+                            size: 20,
+                          ),
+                        );
+                      },
+                    ),
+                    label: "Giỏ hàng",
+                  ),
+                  BottomNavigationBarItem(
+                    label: "Chat",
+                    icon: Icon(
+                      CupertinoIcons.chat_bubble_text,
+                      size: 20,
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    label: "Tài khoản",
+                    icon: Icon(
+                      CupertinoIcons.person,
+                      size: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
         return BottomNavigationBar(
           selectedItemColor: AppColors.primaryColor,
           unselectedItemColor: Colors.black,

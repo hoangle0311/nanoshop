@@ -80,10 +80,13 @@ dependencies:
   keyboard_dismisser: ^2.0.1
   percent_indicator: ^4.0.0
   provider: ^6.0.2
+  overlay_support: ^2.0.1
 
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to

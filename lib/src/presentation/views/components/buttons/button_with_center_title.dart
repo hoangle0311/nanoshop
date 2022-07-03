@@ -16,7 +16,7 @@ class ButtonWithCenterTitle extends StatelessWidget {
     this.onTap,
     this.gradient,
     this.borderColor = Colors.white,
-    this.textColor = Colors.white,
+    this.textColor = Colors.red,
   }) : super(key: key);
 
   @override

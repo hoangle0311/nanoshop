@@ -322,11 +322,11 @@ class UserConfigWidget extends StatelessWidget {
             title: Strings.labelOrderPageConfig,
             pathIcons: ImagePath.accountPageIconFile,
           ),
-          ItemConfig(
-            title: Strings.labelWalletPageConfig,
-            pathIcons: ImagePath.accountPageIconWallet,
-            hasBorder: false,
-          ),
+          // ItemConfig(
+          //   title: Strings.labelWalletPageConfig,
+          //   pathIcons: ImagePath.accountPageIconWallet,
+          //   hasBorder: false,
+          // ),
         ],
       ),
     );
@@ -349,10 +349,10 @@ class UserConfigWidget2 extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ItemConfig(
-            title: Strings.labelAQPageConfig,
-            pathIcons: ImagePath.accountPageIconHelp,
-          ),
+          // ItemConfig(
+          //   title: Strings.labelAQPageConfig,
+          //   pathIcons: ImagePath.accountPageIconHelp,
+          // ),
           ItemConfig(
             onTap: () {
               Navigator.of(context).pushNamed(AppRouterEndPoint.CHANGEPASSWORD);

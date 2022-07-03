@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nanoshop/src/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:nanoshop/src/presentation/blocs/blocs.dart';
 import 'package:nanoshop/src/presentation/blocs/local_product_bloc/local_product_bloc.dart';
 import 'package:nanoshop/src/presentation/blocs/post_bloc/post_bloc.dart';
+import 'package:nanoshop/src/presentation/cubits/get_type_notification/get_type_notification_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/shopping_cart_cubit/shopping_cart_cubit.dart';
 import 'package:nanoshop/src/presentation/ui/load_app/sc_load_app.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +50,9 @@ class App extends StatelessWidget {
                 ),
               ),
           ),
+          BlocProvider<GetTypeNotificationCubit>(
+            create: (context) => injector<GetTypeNotificationCubit>(),
+          ),
           BlocProvider<BottomNavCubit>(
             create: (context) => injector<BottomNavCubit>(),
           ),
@@ -75,10 +80,17 @@ class App extends StatelessWidget {
           onGenerateRoute: AppRouters.onGenerateRoutes,
           home: BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              // print(state);
             },
             child: const ScHome(),
           ),
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en'),
+            const Locale('vi'),
+          ],
           builder: BotToastInit(),
           navigatorObservers: [BotToastNavigatorObserver()],
         ),

@@ -32,6 +32,7 @@ import '../../../data/responses/cart/cart.dart';
 import '../../../domain/entities/notification/type_notification.dart';
 import '../../../presentation/ui/detail_shop/sc_detail_shop.dart';
 import '../../../presentation/ui/list_category/sc_list_category.dart';
+import '../../../presentation/ui/list_news/sc_list_news.dart';
 import '../../../presentation/ui/send_comment/sc_send_comment.dart';
 
 part 'app_router_endpoint.dart';
@@ -112,6 +113,10 @@ class AppRouters {
       case AppRouterEndPoint.LISTCATEGORY:
         return _materialRoute(
           const ScListCategory(),
+        );
+      case AppRouterEndPoint.LISTNEWS:
+        return _materialRoute(
+          const ScListNews(),
         );
       case AppRouterEndPoint.DETAILSHOP:
         return _materialRoute(
