@@ -204,8 +204,13 @@ class AuthenticationBloc
   _onLogout(
     AuthenticationLogoutRequested event,
     emit,
-  ) {
+  ) async {
+    try {
+      FireBaseAccount.removeToken(state.user.userId);
+    } catch (e) {}
+
     _removeUserLocalUsecase.call(null);
+
     emit(
       const AuthenticationState.unknown(),
     );

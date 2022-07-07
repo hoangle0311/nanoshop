@@ -45,4 +45,5 @@ class ApiPath {
   static const String getManufacturer = '/api/home/GetManufacturer';
   static const String getTypeNotification = '/api/app/profile/getTypeNotifications';
   static const String getNotification = '/api/app/profile/getNotifications';
+  static const String pageContent = '/api/home/getDetail';
 }

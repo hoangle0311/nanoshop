@@ -83,13 +83,14 @@ class App extends StatelessWidget {
             },
             child: const ScHome(),
           ),
-          localizationsDelegates: [
+          localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          supportedLocales: [
-            const Locale('en'),
-            const Locale('vi'),
+          supportedLocales: const [
+            Locale('en'),
+            Locale('vi'),
           ],
           builder: BotToastInit(),
           navigatorObservers: [BotToastNavigatorObserver()],

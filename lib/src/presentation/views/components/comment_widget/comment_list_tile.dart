@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
+import 'package:nanoshop/src/domain/entities/comment/answer_comment.dart';
 
 import '../../../../config/styles/app_text_style.dart';
 import '../../../../domain/entities/comment/comment.dart';
@@ -17,7 +18,10 @@ class CommentListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imageUrl = Environment.domain + '/mediacenter/' + (comment.avatarPath ?? '') + (comment.avatarName ?? '');
+    var imageUrl = Environment.domain +
+        '/mediacenter/' +
+        (comment.avatarPath ?? '') +
+        (comment.avatarName ?? '');
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -128,15 +132,98 @@ class CommentListTile extends StatelessWidget {
                   // CommentToolbar(
                   //   like: int.parse(model.liked),
                   // ),
-                  // if (model.listComment != null)
-                  //   Column(
-                  //     children: List.generate(
-                  //       model.listComment.take(4).length,
-                  //       (index) => CommentChildItem(
-                  //         model: model.listComment[index],
-                  //       ),
-                  //     ),
-                  //   ),
+                  if (comment.answers != null)
+                    if (comment.answers!.isNotEmpty)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: List.generate(
+                          comment.answers!.length,
+                          (index) => _CommentChildItem(
+                            answer: comment.answers![index],
+                          ),
+                        ),
+                      ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CommentChildItem extends StatelessWidget {
+  final AnswerComment answer;
+
+  const _CommentChildItem({
+    Key? key,
+    required this.answer,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var imageUrl = "";
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Container(
+        padding: const EdgeInsets.only(top: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              backgroundColor: AppColors.grey,
+              radius: 26,
+              child: Icon(
+                Icons.person,
+                color: AppColors.white,
+              ),
+              foregroundImage: NetworkImage(
+                imageUrl,
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                answer.name ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyleApp.textStyle5.copyWith(
+                                  fontSize: 14,
+                                  color: AppColors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    answer.content ?? '',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyleApp.textStyle2.copyWith(
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                  // CommentToolbar(
+                  //   like: int.parse(model.liked),
+                  // ),
                 ],
               ),
             ),

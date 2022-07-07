@@ -82,11 +82,14 @@ class Product extends Equatable {
   final String? productQty;
   @JsonKey(name: "total_rating")
   final String? totalRating;
+  @JsonKey(name: "total_buy")
+  final String? totalBuy;
   final List<ImageProduct>? images;
 
   const Product({
     this.id,
     this.totalRating,
+    this.totalBuy,
     this.productQty,
     this.productInfo,
     this.images,

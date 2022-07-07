@@ -106,7 +106,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           avatar: Environment.domain + (dataState.data!.data!.avatarPath ?? '') + (dataState.data!.data!.avatarName ?? ''),
         );
 
-        FireBaseAccount.addToken(
+       await FireBaseAccount.addToken(
           dataState.data!.data!.type! == '3'
               ? "Admin"
               : dataState.data!.data!.userId,

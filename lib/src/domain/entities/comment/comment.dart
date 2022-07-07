@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'answer_comment.dart';
+
 part 'comment.g.dart';
 
 @JsonSerializable()
@@ -34,6 +36,7 @@ class Comment {
   String? avatarPath;
   @JsonKey(name: "avatar_name")
   String? avatarName;
+  List<AnswerComment>? answers;
 
   // List<Null>? images;
   String? items;

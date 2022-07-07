@@ -12,6 +12,7 @@ import 'package:nanoshop/src/core/constant/message/message.dart';
 import 'package:nanoshop/src/data/repositories/auth_repository_impl.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/cubits/bottom_nav_cubit/bottom_nav_cubit.dart';
+import 'package:nanoshop/src/presentation/ui/page_content/sc_page_content.dart';
 import 'package:nanoshop/src/presentation/views/components/icon/icon_with_text.dart';
 import 'package:nanoshop/src/presentation/views/dialog/custom_dialog_with_icon.dart';
 
@@ -350,7 +351,39 @@ class UserConfigWidget2 extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ItemConfig(
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRouterEndPoint.PAGECONTENT,
+                  arguments: const PageContentArgument(
+                    id: '16878',
+                    type: "page_content",
+                    title: Strings.labelAQPageConfig,
+                  ));
+            },
             title: Strings.labelAQPageConfig,
+            pathIcons: ImagePath.accountPageIconHelp,
+          ),
+          ItemConfig(
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRouterEndPoint.PAGECONTENT,
+                  arguments: const PageContentArgument(
+                    id: '16879',
+                    type: "page_content",
+                    title: Strings.labelVisionPageConfig,
+                  ));
+            },
+            title: Strings.labelVisionPageConfig,
+            pathIcons: ImagePath.accountPageIconHelp,
+          ),
+          ItemConfig(
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRouterEndPoint.PAGECONTENT,
+                  arguments: const PageContentArgument(
+                    id: '16880',
+                    type: "page_content",
+                    title: Strings.labelReportPageConfig,
+                  ));
+            },
+            title: Strings.labelReportPageConfig,
             pathIcons: ImagePath.accountPageIconHelp,
           ),
           ItemConfig(

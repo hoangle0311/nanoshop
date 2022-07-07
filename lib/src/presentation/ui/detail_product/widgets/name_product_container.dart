@@ -178,7 +178,7 @@ class NameProductContainer extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          'Đã bán ${product.totalSell ?? 0}',
+                          'Đã bán ${product.totalBuy ?? 0}',
                           textAlign: TextAlign.center,
                           style: TextStyleApp.textStyle2,
                         ),

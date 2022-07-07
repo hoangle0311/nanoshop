@@ -9,7 +9,9 @@ class Strings {
   static const labelAccountPageConfig = "Thông tin cá nhân";
   static const labelOrderPageConfig = "Quản lý đơn hàng";
   static const labelWalletPageConfig = "Ví điện tử";
-  static const labelAQPageConfig = "Hỏi đáp";
+  static const labelAQPageConfig = "Về chúng tôi";
+  static const labelVisionPageConfig = "Tầm nhìn và sứ mệnh";
+  static const labelReportPageConfig = "Cảm nhận của khách hàng";
   static const labelChangePasswordPageConfig = "Đổi mật khẩu";
   static const labelLogoutPageConfig = "Đăng xuất";
   static const update = "Cập nhật";

@@ -32,6 +32,7 @@ import '../../../data/responses/cart/cart.dart';
 import '../../../domain/entities/notification/type_notification.dart';
 import '../../../presentation/ui/detail_shop/sc_detail_shop.dart';
 import '../../../presentation/ui/list_category/sc_list_category.dart';
+import '../../../presentation/ui/page_content/sc_page_content.dart';
 import '../../../presentation/ui/send_comment/sc_send_comment.dart';
 
 part 'app_router_endpoint.dart';
@@ -156,6 +157,10 @@ class AppRouters {
       case AppRouterEndPoint.DETAILFLASHSALE:
         return _materialRoute(
           ScDetailFlashSale(flashSale: settings.arguments as FlashSale),
+        );
+      case AppRouterEndPoint.PAGECONTENT:
+        return _materialRoute(
+          ScPageContent(argument: settings.arguments as PageContentArgument),
         );
       default:
         return _materialRoute(

@@ -84,6 +84,7 @@ class FireBaseAccount{
   }
 
   static addToken(id) async {
+    print('add token');
     String fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
     await FirebaseFirestore.instance
         .collection(DbPaths.collectionusers)

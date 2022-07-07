@@ -98,7 +98,7 @@ class LoginForm extends StatelessWidget {
             if (state.status == FormzStatus.submissionFailure) {
               Navigator.of(context).pop();
               Toast.showText(
-                "Đăng nhập thất bại",
+                "Đăng nhập thất bại. Kiểm tra lại tài khoản và mật khẩu",
                 iconData: Icons.sms_failed,
               );
             }

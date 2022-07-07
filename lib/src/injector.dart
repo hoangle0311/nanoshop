@@ -9,6 +9,7 @@ import 'package:nanoshop/src/data/data_source/local/product_local_service/produc
 import 'package:nanoshop/src/data/data_source/local/user_service/user_local_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/auth_service/auth_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/notification_service/notification_service.dart';
+import 'package:nanoshop/src/data/data_source/remote/page_content_service/page_content_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/payment_service/payment_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/post_service/post_remote_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/product_service/product_service.dart';
@@ -50,6 +51,7 @@ import 'package:nanoshop/src/presentation/cubits/get_list_order_cubit/get_list_o
 import 'package:nanoshop/src/presentation/cubits/get_list_shop_cubit/get_list_shop_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/get_type_notification/get_type_notification_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/manufacturer_cubit/manufacturer_cubit.dart';
+import 'package:nanoshop/src/presentation/cubits/page_content_cubit/page_content_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/payment_cubit/payment_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/range_cubit/range_cubit.dart';
 import 'package:nanoshop/src/presentation/cubits/related_list_product_cubit/related_list_product_cubit.dart';
@@ -70,6 +72,7 @@ import 'data/repositories/auth_repository_impl.dart';
 import 'data/repositories/data_layer_repository.dart';
 import 'data/repositories/location_repository_impl.dart';
 import 'data/repositories/notification_repository_impl.dart';
+import 'data/repositories/page_content_repository_impl.dart';
 import 'data/repositories/payment_repository_impl.dart';
 import 'domain/usecases/auth_usecase/add_message_count_local.dart';
 import 'domain/usecases/auth_usecase/get_count_message_local.dart';
@@ -80,6 +83,7 @@ import 'domain/usecases/location_usecase/get_list_city_usecase.dart';
 import 'domain/usecases/location_usecase/get_list_district_usecase.dart';
 import 'domain/usecases/location_usecase/get_list_ward_usecase.dart';
 import 'domain/usecases/notification_usecase/get_list_notification_usecase.dart';
+import 'domain/usecases/page_content_usecase/get_page_content_usecase.dart';
 import 'domain/usecases/payment_usecase/checkout_usecase.dart';
 import 'domain/usecases/payment_usecase/get_bank_usecase.dart';
 import 'domain/usecases/payment_usecase/get_list_discount_usecase.dart';
@@ -119,6 +123,11 @@ _dependencyExternal() async {
 }
 
 _dependencyUseCase() {
+  injector.registerLazySingleton<GetPageContentUsecase>(
+        () => GetPageContentUsecase(
+      injector<PageContentRepositoryImpl>(),
+    ),
+  );
   injector.registerLazySingleton<GetListNotificationUsecase>(
     () => GetListNotificationUsecase(
       injector<NotificationRepositoryImpl>(),
@@ -327,6 +336,12 @@ _dependencyUseCase() {
 }
 
 _dependencyService() {
+  injector.registerLazySingleton<PageContentService>(
+        () => PageContentService(
+      injector<Dio>(),
+      baseUrl: Environment.domain,
+    ),
+  );
   injector.registerLazySingleton<NotificationService>(
     () => NotificationService(
       injector<Dio>(),
@@ -401,6 +416,11 @@ _dependencyService() {
 }
 
 _dependencyRepository() {
+  injector.registerLazySingleton<PageContentRepositoryImpl>(
+        () => PageContentRepositoryImpl(
+      injector<PageContentService>(),
+    ),
+  );
   injector.registerLazySingleton<NotificationRepositoryImpl>(
     () => NotificationRepositoryImpl(
       injector<NotificationService>(),
@@ -536,6 +556,12 @@ _dependencyBloc() {
 }
 
 _dependencyCubit() {
+  injector.registerFactory<PageContentCubit>(
+        () => PageContentCubit(
+      injector<GetPageContentUsecase>(),
+    ),
+  );
+
   injector.registerFactory<FlashSaleWithListProductCubit>(
     () => FlashSaleWithListProductCubit(
       injector<GetFlashSaleWithListProductRemoteUsecase>(),
