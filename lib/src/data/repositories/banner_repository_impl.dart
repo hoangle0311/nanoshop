@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:nanoshop/src/core/params/banner_param.dart';
+import 'package:nanoshop/src/data/models/banner/banner_model.dart';
 import 'package:retrofit/dio.dart';
 
 import 'package:nanoshop/src/data/data_source/remote/banner_service/banner_service.dart';
@@ -19,7 +20,7 @@ class BannerRepositoryImpl extends BannerRepository {
   );
 
   @override
-  Future<DataState<BannerResponseModel>> getListBanner(
+  Future<DataState<List<BannerModel>>> getListBanner(
     BannerParam param,
   ) async {
     try {
@@ -31,7 +32,7 @@ class BannerRepositoryImpl extends BannerRepository {
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!.data!);
       }
 
       return DataFailed(

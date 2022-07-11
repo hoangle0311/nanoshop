@@ -1,9 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'banner.g.dart';
-
-@JsonSerializable()
 class Banner extends Equatable {
   @JsonKey(name: 'banner_id')
   final String? bannerId;
@@ -46,9 +43,7 @@ class Banner extends Equatable {
       this.bannerVideoLink,
       this.style});
 
-  factory Banner.fromJson(Map<String, dynamic> json) => _$BannerFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BannerToJson(this);
 
   @override
   List<Object?> get props {

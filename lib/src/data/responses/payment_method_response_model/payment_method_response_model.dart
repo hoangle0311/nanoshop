@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:nanoshop/src/data/models/payment/payment_model.dart';
 
 import '../../../domain/entities/payment/payment.dart';
 
@@ -7,7 +8,7 @@ part 'payment_method_response_model.g.dart';
 @JsonSerializable()
 class PaymentMethodResponseModel {
   int? code;
-  List<Payment>? data;
+  List<PaymentModel>? data;
   String? message;
   String? error;
 

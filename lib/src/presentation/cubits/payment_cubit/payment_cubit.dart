@@ -100,7 +100,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       ),
     );
     try {
-      DataState<PaymentMethodResponseModel> dataState =
+      DataState<List<Payment>> dataState =
           await _getPaymentUsecase.call(tokenParam.token);
 
       List<Bank> _bank = [];
@@ -114,7 +114,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         Log.i('Get bank fail');
       }
 
-      List<Payment> _listPayment = dataState.data!.data!.map(
+      List<Payment> _listPayment = dataState.data!.map(
         (e) {
           if (e.id == 12) {
             return e.copyWith(

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:nanoshop/src/data/models/bank/bank_model.dart';
 import 'package:nanoshop/src/domain/entities/bank/bank.dart';
 
 part 'bank_response_model.g.dart';
@@ -6,7 +7,7 @@ part 'bank_response_model.g.dart';
 @JsonSerializable()
 class BankResponseModel {
   int? code;
-  List<Bank>? data;
+  List<BankModel>? data;
   String? message;
   String? error;
 

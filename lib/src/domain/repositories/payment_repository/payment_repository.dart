@@ -10,6 +10,7 @@ import '../../../data/responses/list_discount_response_model/list_discount_respo
 import '../../../data/responses/order_response_model/order_response_model.dart';
 import '../../../data/responses/payment_method_response_model/payment_method_response_model.dart';
 import '../../../data/responses/transport_response_model/transport_response_model.dart';
+import '../../entities/payment/payment.dart';
 
 abstract class PaymentRepository {
   Future<DataState<DiscountResponseModel>> getDiscount(VoucherParam param);
@@ -18,7 +19,7 @@ abstract class PaymentRepository {
 
   Future<DataState<TransportResponseModel>> getTransport(String param);
 
-  Future<DataState<PaymentMethodResponseModel>> getPayment(String param);
+  Future<DataState<List<Payment>>> getPayment(String param);
 
   Future<DataState<BankResponseModel>> getBank(String param);
 

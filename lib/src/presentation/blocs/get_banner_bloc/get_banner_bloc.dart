@@ -29,7 +29,7 @@ class GetBannerBloc extends Bloc<GetBannerEvent, GetBannerState> {
     Emitter emit,
   ) async {
     try {
-      DataState<BannerResponseModel> dataState = await _getBannerUsecase.call(
+      DataState<List<Banner>> dataState = await _getBannerUsecase.call(
         BannerParam(
           groupId: event.groupId,
           limit: "10",
@@ -46,7 +46,7 @@ class GetBannerBloc extends Bloc<GetBannerEvent, GetBannerState> {
       if (dataState is DataSuccess) {
         emit(
           GetBannerDone(
-            banners: dataState.data!.data!.data!,
+            banners: dataState.data!,
           ),
         );
       }

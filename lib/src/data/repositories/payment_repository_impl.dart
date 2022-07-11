@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:nanoshop/src/data/models/payment/payment_model.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
 
@@ -7,7 +8,6 @@ import 'package:nanoshop/src/core/params/checkout_param.dart';
 import 'package:nanoshop/src/core/params/get_list_order_param.dart';
 import 'package:nanoshop/src/data/data_source/remote/payment_service/payment_service.dart';
 import 'package:nanoshop/src/domain/repositories/payment_repository/payment_repository.dart';
-
 
 import 'package:nanoshop/src/core/resource/data_state.dart';
 
@@ -61,7 +61,7 @@ class PaymentRepositoryImpl extends PaymentRepository {
       String token) async {
     try {
       final HttpResponse<ListDiscountResponseModel> response =
-      await _paymentService.getListDiscount(
+          await _paymentService.getListDiscount(
         token: token,
       );
 
@@ -110,7 +110,7 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<DataState<PaymentMethodResponseModel>> getPayment(String param) async {
+  Future<DataState<List<PaymentModel>>> getPayment(String param) async {
     try {
       final HttpResponse<PaymentMethodResponseModel> response =
           await _paymentService.getPayment(
@@ -118,7 +118,7 @@ class PaymentRepositoryImpl extends PaymentRepository {
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(
@@ -189,7 +189,8 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<DataState<OrderResponseModel>> getListOrder(GetListOrderParam param) async {
+  Future<DataState<OrderResponseModel>> getListOrder(
+      GetListOrderParam param) async {
     try {
       final HttpResponse<OrderResponseModel> response =
           await _paymentService.getListOrder(

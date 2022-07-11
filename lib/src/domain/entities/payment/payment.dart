@@ -1,11 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 import '../bank/bank.dart';
 
-part 'payment.g.dart';
 
-@JsonSerializable()
 class Payment extends Equatable {
   final int? id;
   final String? name;
@@ -27,16 +24,11 @@ class Payment extends Equatable {
     );
   }
 
-  factory Payment.fromJson(Map<String, dynamic> json) {
-    return _$PaymentFromJson(json);
-  }
-
   static const empty = Payment(
     id: -1,
     name: '-',
   );
 
-  Map<String, dynamic> toJson() => _$PaymentToJson(this);
 
   @override
   List<Object?> get props => [
