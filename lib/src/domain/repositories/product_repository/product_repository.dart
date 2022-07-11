@@ -13,18 +13,19 @@ import '../../../data/responses/flash_sale_response_model/flash_sale_response_mo
 import '../../../data/responses/manufacturer_response_model/manufacturer_response_model.dart';
 import '../../../data/responses/product_response_model/detail_product_response_model.dart';
 import '../../../data/responses/product_response_model/product_response_model.dart';
+import '../../entities/flash_sale/flash_sale.dart';
 import '../../entities/product/product.dart';
 
 abstract class ProductRepository {
-  Future<DataState<ProductResponseModel>> getListProductRemote(
+  Future<DataState<List<Product>>> getListProductRemote(
     ProductParam param,
   );
 
-  Future<DataState<ProductResponseModel>> getSearchListProductRemote(
+  Future<DataState<List<Product>>> getSearchListProductRemote(
     SearchProductParam param,
   );
 
-  Future<DataState<ProductResponseModel>> getListRelatedProductRemote(
+  Future<DataState<List<Product>>> getListRelatedProductRemote(
     RelatedProductParam param,
   );
 
@@ -32,7 +33,7 @@ abstract class ProductRepository {
     DetailProductParam param,
   );
 
-  Future<DataState<FlashSaleResponseModel>> getListFlashSaleRemote(
+  Future<DataState<List<FlashSale>>> getListFlashSaleRemote(
       String params);
 
   Future<DataState<List<Product>>> getListFlashSaleWithListProductRemote(

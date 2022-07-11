@@ -124,12 +124,12 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
       ),
     );
 
-    DataState<ProductResponseModel> dataState =
+    DataState<List<Product>> dataState =
         await _getListProductUsecase.call(param);
 
     if (dataState is DataSuccess) {
       products.addAll(
-        dataState.data!.data!.data!,
+        dataState.data!,
       );
 
       // List<Product> listCheckProduct =
@@ -230,13 +230,13 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
       priceMax: state.param!.priceMax,
     );
 
-    DataState<ProductResponseModel> response =
+    DataState<List<Product>> response =
         await _getListProductUsecase.call(
       param,
     );
 
     if (response is DataSuccess) {
-      products.addAll(response.data!.data!.data!);
+      products.addAll(response.data!);
 
       List<Product> listCheckProduct =
           await _checkProductHasFavourite(products);

@@ -5,8 +5,6 @@ import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
 import 'package:nanoshop/src/domain/usecases/product_usecase/get_related_list_product_usecase.dart';
 
-import '../../../data/responses/product_response_model/product_response_model.dart';
-
 part 'related_list_product_state.dart';
 
 class RelatedListProductCubit extends Cubit<RelatedListProductState> {
@@ -23,14 +21,14 @@ class RelatedListProductCubit extends Cubit<RelatedListProductState> {
       ),
     );
     try {
-      DataState<ProductResponseModel> dataState =
+      DataState<List<Product>> dataState =
           await _getRelatedListProductUsecase.call(param);
 
       if (dataState is DataSuccess) {
         emit(
           state.copyWith(
             status: RelatedListProductStatus.loading,
-            products: List.of(dataState.data!.data!.data!),
+            products: List.of(dataState.data!),
           ),
         );
       }

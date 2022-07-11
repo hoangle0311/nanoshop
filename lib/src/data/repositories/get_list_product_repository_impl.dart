@@ -12,6 +12,7 @@ import 'package:nanoshop/src/data/data_source/local/product_local_service/produc
 import 'package:retrofit/dio.dart';
 
 import '../../core/resource/data_state.dart';
+import '../../domain/entities/flash_sale/flash_sale.dart';
 import '../../domain/entities/product/product.dart';
 import '../../domain/repositories/product_repository/product_repository.dart';
 import '../data_source/remote/product_service/product_service.dart';
@@ -33,7 +34,7 @@ class GetListProductRepositoryImpl extends ProductRepository {
   );
 
   @override
-  Future<DataState<ProductResponseModel>> getListProductRemote(
+  Future<DataState<List<Product>>> getListProductRemote(
       ProductParam param) async {
     try {
       final HttpResponse<ProductResponseModel> response =
@@ -43,7 +44,7 @@ class GetListProductRepositoryImpl extends ProductRepository {
       );
 
       if (response.data.code == 1) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!.data!);
       }
 
       return DataFailed(
@@ -79,7 +80,7 @@ class GetListProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<DataState<FlashSaleResponseModel>> getListFlashSaleRemote(
+  Future<DataState<List<FlashSale>>> getListFlashSaleRemote(
       String params) async {
     try {
       final HttpResponse<FlashSaleResponseModel> response =
@@ -88,7 +89,7 @@ class GetListProductRepositoryImpl extends ProductRepository {
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(
@@ -201,7 +202,7 @@ class GetListProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<DataState<ProductResponseModel>> getListRelatedProductRemote(
+  Future<DataState<List<Product>>> getListRelatedProductRemote(
       RelatedProductParam param) async {
     try {
       final HttpResponse<ProductResponseModel> response =
@@ -211,7 +212,7 @@ class GetListProductRepositoryImpl extends ProductRepository {
       );
 
       if (response.data.code == 1) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!.data!);
       }
 
       return DataFailed(
@@ -229,7 +230,7 @@ class GetListProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<DataState<ProductResponseModel>> getSearchListProductRemote(
+  Future<DataState<List<Product>>> getSearchListProductRemote(
     SearchProductParam param,
   ) async {
     try {
@@ -240,7 +241,7 @@ class GetListProductRepositoryImpl extends ProductRepository {
       );
 
       if (response.data.code == 1) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!.data!);
       }
 
       return DataFailed(

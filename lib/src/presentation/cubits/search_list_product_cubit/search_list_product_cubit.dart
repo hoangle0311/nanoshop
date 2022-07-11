@@ -39,11 +39,11 @@ class SearchListProductCubit extends Cubit<SearchListProductState> {
     );
 
     try {
-      DataState<ProductResponseModel> dataState =
+      DataState<List<Product>> dataState =
       await _searchListProductUsecase.call(param);
 
       if (dataState is DataSuccess) {
-        final List<Product> products = List.of(dataState.data!.data!.data!);
+        final List<Product> products = List.of(dataState.data!);
 
         emit(
           state.copyWith(
@@ -99,11 +99,11 @@ class SearchListProductCubit extends Cubit<SearchListProductState> {
     );
 
     try {
-      DataState<ProductResponseModel> dataState =
+      DataState<List<Product>> dataState =
       await _searchListProductUsecase.call(param);
 
       if (dataState is DataSuccess) {
-        final List<Product> products = List.of(dataState.data!.data!.data!);
+        final List<Product> products = List.of(dataState.data!);
 
         emit(
           state.copyWith(

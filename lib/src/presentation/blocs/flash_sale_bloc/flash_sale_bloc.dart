@@ -30,13 +30,13 @@ class FlashSaleBloc extends Bloc<FlashSaleEvent, FlashSaleState> {
     GetFlashSale event,
     emit,
   ) async {
-    DataState<FlashSaleResponseModel> dataState =
+    DataState<List<FlashSale>> dataState =
         await _getListFlashSaleProductRemoteUsecase.call(
       event.tokenParam.token,
     );
 
     if (dataState is DataSuccess) {
-      List<FlashSale> _listFlashSale = List.of(dataState.data!.data!);
+      List<FlashSale> _listFlashSale = List.of(dataState.data!);
 
       if (_listFlashSale.isEmpty) {
         return;
