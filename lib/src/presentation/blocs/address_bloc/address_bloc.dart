@@ -87,6 +87,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           district: district,
           ward: ward,
           addressPayment: address,
+          typeState: TypeState.initialValue,
           status: Formz.validate(
             [
               phone,
@@ -120,6 +121,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     emit(
       state.copyWith(
         name: name,
+        typeState: TypeState.typing,
         status: Formz.validate(
           [
             state.phone,
@@ -144,6 +146,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     emit(
       state.copyWith(
         phone: phone,
+        typeState: TypeState.typing,
         status: Formz.validate(
           [
             phone,
@@ -168,6 +171,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     emit(
       state.copyWith(
         address: address,
+        typeState: TypeState.typing,
         status: Formz.validate(
           [
             state.phone,
@@ -192,6 +196,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     emit(
       state.copyWith(
         sex: sex,
+        typeState: TypeState.typing,
         status: Formz.validate(
           [
             state.phone,
@@ -215,6 +220,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     emit(
       state.copyWith(
         city: city,
+        typeState: TypeState.typing,
         status: Formz.validate(
           [
             state.phone,
@@ -239,6 +245,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     emit(
       state.copyWith(
         district: district,
+        typeState: TypeState.typing,
         status: Formz.validate(
           [
             state.phone,
@@ -263,6 +270,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     emit(
       state.copyWith(
         ward: ward,
+        typeState: TypeState.typing,
         status: Formz.validate(
           [
             state.phone,

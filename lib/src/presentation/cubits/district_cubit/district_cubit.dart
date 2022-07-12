@@ -20,7 +20,8 @@ class DistrictCubit extends Cubit<DistrictState> {
           const DistrictState(),
         );
 
-  void onChangeDistrict(FilterModel district) {
+
+  void onChangeDistrict(FilterModel? district) {
     emit(
       state.copyWith(
         district: district,
@@ -28,7 +29,7 @@ class DistrictCubit extends Cubit<DistrictState> {
     );
   }
 
-  void onGetListData(DistrictParam param) async {
+  void onGetListData(DistrictParam param, {FilterModel? initialDistrict}) async {
     emit(
       state.copyWith(
         status: DistrictStatus.loading,
@@ -52,6 +53,7 @@ class DistrictCubit extends Cubit<DistrictState> {
         state.copyWith(
           status: DistrictStatus.success,
           listData: listFilterModel,
+          district: initialDistrict,
         ),
       );
     }

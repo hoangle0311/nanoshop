@@ -18,7 +18,7 @@ class CityCubit extends Cubit<CityState> {
           const CityState(),
         );
 
-  void onChangeCity(FilterModel city) {
+  void onChangeCity(FilterModel? city) {
     emit(
       state.copyWith(
         city: city,

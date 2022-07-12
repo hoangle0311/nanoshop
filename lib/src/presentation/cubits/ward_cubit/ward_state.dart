@@ -24,7 +24,7 @@ class WardState extends Equatable {
     List<FilterModel>? listData,
   }) {
     return WardState(
-      ward: ward ?? this.ward,
+      ward: ward,
       listData: listData ?? this.listData,
       status: status ?? this.status,
     );

@@ -9,6 +9,11 @@ class FilterModel extends Equatable {
     this.name,
   });
 
+  static const defaultValue = FilterModel(
+    id: '-',
+    name: "---Tất cả---",
+  );
+
   @override
   List<Object?> get props => [
         id,

@@ -10,7 +10,7 @@ class SexCubit extends Cubit<SexState> {
           const SexState(),
         );
 
-  void onChangeSex(FilterModel sex) {
+  void onChangeSex(FilterModel? sex) {
     emit(
       state.copyWith(
         sex: sex,

@@ -9,13 +9,19 @@ class DropDownField extends StatelessWidget {
   final String hint;
   final FilterModel? value;
   final ValueChanged onChanged;
+  final IconData? iconData;
+  final bool showIcon;
+  final Color colorIcon;
 
   const DropDownField({
     Key? key,
     required this.listItem,
     required this.hint,
     this.value,
+    this.iconData,
+    this.colorIcon = Colors.white,
     required this.onChanged,
+    this.showIcon = true,
   }) : super(key: key);
 
   @override
@@ -30,27 +36,33 @@ class DropDownField extends StatelessWidget {
         ).createShader(bounds);
       },
       child: DropdownButtonFormField(
+        key: key,
         value: value,
         onChanged: onChanged,
         isExpanded: true,
-        hint: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            hint,
-            style: TextStyleApp.textStyle2.copyWith(
-              color: AppColors.dividerColor,
-            ),
-          ),
-        ),
         style: TextStyleApp.textStyle2,
         decoration: InputDecoration(
+          prefixIcon: showIcon
+              ? Icon(
+                  iconData,
+                  color: colorIcon.withOpacity(0.5),
+                  size: 18,
+                )
+              : null,
+          label: Text(
+            hint,
+          ),
+          labelStyle: TextStyleApp.textStyle1.copyWith(
+            color: AppColors.primaryColor,
+          ),
           // hintText: widget.hint,
           hintStyle: TextStyleApp.textStyle2.copyWith(
             color: AppColors.black.withOpacity(0.5),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(color: Colors.white.withOpacity(0.8), width: 1),
+            borderSide:
+                BorderSide(color: Colors.white.withOpacity(0.8), width: 1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),

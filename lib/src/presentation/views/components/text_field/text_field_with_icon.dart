@@ -17,10 +17,12 @@ class TextFieldWithIcon extends StatelessWidget {
   final bool showIcon;
   final String labelText;
   final double radiusBorder;
+  final String? initialValue;
 
   const TextFieldWithIcon({
     Key? key,
     this.iconData,
+    this.initialValue,
     this.hint,
     this.errorText,
     required this.labelText,
@@ -52,8 +54,9 @@ class TextFieldWithIcon extends StatelessWidget {
             ],
           ).createShader(bounds);
         },
-        child: TextField(
+        child: TextFormField(
           maxLines: maxLine,
+          initialValue: initialValue,
           // onTap: onTap,
           // readOnly: readOnly,
           onChanged: onChanged,

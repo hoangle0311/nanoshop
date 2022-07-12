@@ -19,7 +19,7 @@ class WardCubit extends Cubit<WardState> {
           const WardState(),
         );
 
-  void onChangeDistrict(FilterModel ward) {
+  void onChangeWard(FilterModel ward) {
     emit(
       state.copyWith(
         ward: ward,
@@ -27,7 +27,10 @@ class WardCubit extends Cubit<WardState> {
     );
   }
 
-  void onGetListData(WardParam param) async {
+  void onGetListData(
+    WardParam param, {
+    FilterModel? initialValue,
+  }) async {
     emit(
       state.copyWith(
         status: WardStatus.loading,
@@ -51,6 +54,7 @@ class WardCubit extends Cubit<WardState> {
         state.copyWith(
           status: WardStatus.success,
           listData: listFilterModel,
+          ward: initialValue,
         ),
       );
     }

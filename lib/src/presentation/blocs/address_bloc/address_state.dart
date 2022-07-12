@@ -1,7 +1,13 @@
 part of 'address_bloc.dart';
 
+enum TypeState {
+  initialValue,
+  typing,
+}
+
 class AddressState extends Equatable {
   const AddressState({
+    this.typeState = TypeState.typing,
     this.addressPayment = Address.empty,
     this.status = FormzStatus.pure,
     this.name = const FullNameInput.pure(),
@@ -14,6 +20,7 @@ class AddressState extends Equatable {
   });
 
   final Address addressPayment;
+  final TypeState typeState;
   final FormzStatus status;
   final UsernameInput phone;
   final FullNameInput name, address;
@@ -29,9 +36,11 @@ class AddressState extends Equatable {
     LocationFormModel? district,
     LocationFormModel? ward,
     Address? addressPayment,
+    TypeState? typeState,
   }) {
     return AddressState(
       status: status ?? this.status,
+      typeState: typeState ?? this.typeState,
       phone: phone ?? this.phone,
       name: name ?? this.name,
       address: address ?? this.address,
@@ -54,5 +63,6 @@ class AddressState extends Equatable {
         district,
         ward,
         addressPayment,
+        typeState,
       ];
 }

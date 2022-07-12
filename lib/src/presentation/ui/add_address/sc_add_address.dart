@@ -33,7 +33,10 @@ class ScAddAddress extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => injector<AddressBloc>(),
+          create: (context) => injector<AddressBloc>()
+            ..add(
+              CheckLocalAddress(),
+            ),
         ),
         BlocProvider(
           create: (context) => injector<SexCubit>(),
@@ -76,17 +79,21 @@ class _BottomNav extends StatelessWidget {
           isShowGradient: state.status == FormzStatus.valid,
           onTap: state.status == FormzStatus.valid
               ? () {
-                  Navigator.of(context).pop(
-                    Address(
-                      name: state.name.value,
-                      phone: state.phone.value,
-                      city: state.city.value!.id,
-                      district: state.district.value!.id,
-                      ward: state.district.value!.id,
-                      address: state.address.value,
-                      sex: state.sex.value!.id,
-                    ),
+                  Address address = Address(
+                    name: state.name.value,
+                    phone: state.phone.value,
+                    city: state.city.value!.id,
+                    district: state.district.value!.id,
+                    ward: state.ward.value!.id,
+                    address: state.address.value,
+                    sex: state.sex.value!.id,
                   );
+                  Navigator.of(context).pop(
+                    address,
+                  );
+                  context
+                      .read<AddressBloc>()
+                      .add(SetLocalAddress(address: address));
                 }
               : () {
                   Toast.showText('Vui lòng điền đầy đủ tất cả thông tin');
@@ -106,35 +113,35 @@ class _Body extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SingleChildScrollView(
         child: Column(
-          children: const [
-            SizedBox(
+          children: [
+            const SizedBox(
               height: 20,
             ),
             _UsernameInputWidget(),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             _PhoneInputWidget(),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             _AddressInputWidget(),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            _SexDrop(),
-            SizedBox(
+            const _SexDrop(),
+            const SizedBox(
               height: 20,
             ),
-            _CityDrop(),
-            SizedBox(
+            const _CityDrop(),
+            const SizedBox(
               height: 20,
             ),
-            _DistrictDrop(),
-            SizedBox(
+            const _DistrictDrop(),
+            const SizedBox(
               height: 20,
             ),
-            _WardDrop(),
+            const _WardDrop(),
           ],
         ),
       ),
@@ -156,36 +163,21 @@ class _WardDrop extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BlocBuilder<WardCubit, WardState>(
-              buildWhen: (pre, cur) {
-                return pre.listData != cur.listData;
-              },
               builder: (context, state) {
-                if (state.status == WardStatus.success &&
-                    state.listData.isNotEmpty) {
-                  return DropDownField(
-                    key: ValueKey(state.hashCode),
-                    listItem: state.listData,
-                    hint: 'Phường/ xã',
-                    value: null,
-                    onChanged: (value) {
-                      context.read<AddressBloc>().add(
-                            LocationWardChanged(
-                              value,
-                            ),
-                          );
-                    },
-                  );
-                }
-
-                if (state.status == DistrictStatus.loading) {
-                  return Container();
-                }
-
                 return DropDownField(
-                  listItem: const [],
+                  key: UniqueKey(),
+                  iconData: Icons.location_on,
+                  listItem: state.listData,
                   hint: 'Phường/ xã',
-                  value: null,
-                  onChanged: (value) {},
+                  value: state.ward,
+                  onChanged: (value) {
+                    context.read<AddressBloc>().add(
+                          LocationWardChanged(
+                            value,
+                          ),
+                        );
+                    context.read<WardCubit>().onChangeWard(value);
+                  },
                 );
               },
             ),
@@ -220,59 +212,59 @@ class _DistrictDrop extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BlocBuilder<DistrictCubit, DistrictState>(
-              buildWhen: (pre, cur) {
-                return pre.listData != cur.listData;
-              },
               builder: (context, state) {
-                if (state.status == DistrictStatus.success &&
-                    state.listData.isNotEmpty) {
-                  return DropDownField(
-                    key: ValueKey(state.hashCode),
-                    listItem: state.listData,
-                    hint: 'Quận/ huyện',
-                    value: null,
-                    onChanged: (value) {
+                return DropDownField(
+                  key: UniqueKey(),
+                  iconData: Icons.location_on,
+                  listItem: state.listData,
+                  hint: 'Quận/ huyện',
+                  value: state.district,
+                  onChanged: (value) {
+                    if (context.read<AddressBloc>().state.district.value !=
+                        value) {
+                      context.read<DistrictCubit>().onChangeDistrict(value);
                       context.read<WardCubit>().onGetListData(
                             WardParam(
                               districtId: value.id,
                               token: injector<TokenParam>().token,
                             ),
                           );
-
-                      if (context.read<AddressBloc>().state.district.value !=
-                          value) {
-                        context.read<AddressBloc>().add(
-                              LocationDistrictChanged(
-                                value,
-                              ),
-                            );
-                        context.read<AddressBloc>().add(
-                              LocationWardChanged(
-                                null,
-                              ),
-                            );
-                      }
-                    },
-                  );
-                }
-
-                if (state.status == DistrictStatus.loading) {
-                  return Container();
-                }
-
-                return DropDownField(
-                  listItem: const [],
-                  hint: 'Quận/ huyện',
-                  value: null,
-                  onChanged: (value) {},
+                      context.read<AddressBloc>().add(
+                            LocationDistrictChanged(
+                              value,
+                            ),
+                          );
+                      context.read<AddressBloc>().add(
+                            LocationWardChanged(
+                              null,
+                            ),
+                          );
+                    }
+                  },
                 );
+                // }
+
+                // if (state.status == DistrictStatus.loading) {
+                //   return Container();
+                // }
+                //
+                // return DropDownField(
+                //   listItem: const [],
+                //   hint: 'Quận/ huyện',
+                //   value: null,
+                //   onChanged: (value) {},
+                // );
               },
             ),
             addressState.district.invalid
-                ? Text(
-                    addressState.district.error!.toText(),
-                    style: TextStyleApp.textStyle1.copyWith(
-                      color: Colors.red,
+                ? Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      addressState.district.error!.toText(),
+                      style: TextStyleApp.textStyle1.copyWith(
+                        color: Colors.red,
+                      ),
                     ),
                   )
                 : const SizedBox(),
@@ -288,67 +280,87 @@ class _CityDrop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddressBloc, AddressState>(
+    return BlocConsumer<AddressBloc, AddressState>(
+        listener: (context, state) {
+          if (state.typeState == TypeState.initialValue) {
+            context.read<CityCubit>().onChangeCity(state.city.value);
+
+            context.read<DistrictCubit>().onGetListData(
+                  DistrictParam(
+                    token: injector<TokenParam>().token,
+                    provinceId: state.city.value!.id,
+                  ),
+                  initialDistrict: state.district.value,
+                );
+
+            context.read<WardCubit>().onGetListData(
+                  WardParam(
+                    districtId: state.district.value!.id,
+                    token: injector<TokenParam>().token,
+                  ),
+                  initialValue: state.ward.value,
+                );
+          }
+        },
         buildWhen: (pre, cur) => pre.city != cur.city,
         builder: (context, addressState) {
           return Column(
             children: [
               BlocBuilder<CityCubit, CityState>(
                 builder: (context, state) {
-                  if (state.status == CityStatus.success &&
-                      state.listData.isNotEmpty) {
-                    return DropDownField(
-                      listItem: state.listData,
-                      hint: 'Tỉnh/ Thành phố',
-                      value: state.city,
-                      onChanged: (value) {
-                        context.read<CityCubit>().onChangeCity(value);
-
-                        if (context.read<AddressBloc>().state.city.value !=
-                            value) {
-                          context.read<DistrictCubit>().onGetListData(
-                                DistrictParam(
-                                  token: injector<TokenParam>().token,
-                                  provinceId: value.id,
-                                ),
-                              );
-                          context.read<WardCubit>().onGetListData(
-                                WardParam(
-                                  districtId: value.id,
-                                  token: injector<TokenParam>().token,
-                                ),
-                              );
-                          context.read<AddressBloc>().add(
-                                LocationCityChanged(
-                                  value,
-                                ),
-                              );
-                          context.read<AddressBloc>().add(
-                                LocationCityChanged(
-                                  value,
-                                ),
-                              );
-                          context.read<AddressBloc>().add(
-                                LocationDistrictChanged(
-                                  null,
-                                ),
-                              );
-                          context.read<AddressBloc>().add(
-                                LocationWardChanged(
-                                  null,
-                                ),
-                              );
-                        }
-                      },
-                    );
-                  }
-
                   return DropDownField(
-                    listItem: [],
+                    key: UniqueKey(),
+                    iconData: Icons.location_on,
+                    listItem: state.listData,
                     hint: 'Tỉnh/ Thành phố',
-                    value: null,
-                    onChanged: (value) {},
+                    value: state.city,
+                    onChanged: (value) {
+                      context.read<CityCubit>().onChangeCity(value);
+
+                      if (context.read<AddressBloc>().state.city.value !=
+                          value) {
+                        context.read<DistrictCubit>().onGetListData(
+                              DistrictParam(
+                                token: injector<TokenParam>().token,
+                                provinceId: value.id,
+                              ),
+                            );
+                        context.read<WardCubit>().onGetListData(
+                              WardParam(
+                                districtId: value.id,
+                                token: injector<TokenParam>().token,
+                              ),
+                            );
+                        context.read<AddressBloc>().add(
+                              LocationCityChanged(
+                                value,
+                              ),
+                            );
+                        context.read<AddressBloc>().add(
+                              LocationCityChanged(
+                                value,
+                              ),
+                            );
+                        context.read<AddressBloc>().add(
+                              LocationDistrictChanged(
+                                null,
+                              ),
+                            );
+                        context.read<AddressBloc>().add(
+                              LocationWardChanged(
+                                null,
+                              ),
+                            );
+                      }
+                    },
                   );
+
+                  // return DropDownField(
+                  //   listItem: [],
+                  //   hint: 'Tỉnh/ Thành phố',
+                  //   value: null,
+                  //   onChanged: (value) {},
+                  // );
                 },
               ),
               addressState.city.invalid
@@ -370,7 +382,12 @@ class _SexDrop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddressBloc, AddressState>(
+    return BlocConsumer<AddressBloc, AddressState>(
+        listener: (context, state) {
+          if (state.typeState == TypeState.initialValue) {
+            context.read<SexCubit>().onChangeSex(state.sex.value);
+          }
+        },
         buildWhen: (pre, cur) => pre.sex != cur.sex,
         builder: (context, addressState) {
           return Column(
@@ -379,6 +396,8 @@ class _SexDrop extends StatelessWidget {
               BlocBuilder<SexCubit, SexState>(
                 builder: (context, state) {
                   return DropDownField(
+                    key: UniqueKey(),
+                    iconData: Icons.transgender_outlined,
                     listItem: state.listData,
                     hint: 'Giới tính',
                     value: state.sex,
@@ -408,14 +427,22 @@ class _SexDrop extends StatelessWidget {
 }
 
 class _UsernameInputWidget extends StatelessWidget {
-  const _UsernameInputWidget({Key? key}) : super(key: key);
+  final TextEditingController _textEditingController = TextEditingController();
+
+  _UsernameInputWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddressBloc, AddressState>(
+    return BlocConsumer<AddressBloc, AddressState>(
+      listener: (context, state) {
+        if (state.typeState == TypeState.initialValue) {
+          _textEditingController.text = state.name.value;
+        }
+      },
       buildWhen: (previous, current) => previous.name != current.name,
       builder: ((context, state) {
         return TextFieldWithIcon(
+          controller: _textEditingController,
           // key: const Key('signUpForm_usernameInput_textField'),
           onChanged: (username) => context.read<AddressBloc>().add(
                 LocationNameChanged(
@@ -433,14 +460,22 @@ class _UsernameInputWidget extends StatelessWidget {
 }
 
 class _PhoneInputWidget extends StatelessWidget {
-  const _PhoneInputWidget({Key? key}) : super(key: key);
+  final TextEditingController _textEditingController = TextEditingController();
+
+  _PhoneInputWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddressBloc, AddressState>(
+    return BlocConsumer<AddressBloc, AddressState>(
+      listener: (context, state) {
+        if (state.typeState == TypeState.initialValue) {
+          _textEditingController.text = state.phone.value;
+        }
+      },
       buildWhen: (previous, current) => previous.phone != current.phone,
       builder: ((context, state) {
         return TextFieldWithIcon(
+          controller: _textEditingController,
           // key: const Key('signUpForm_usernameInput_textField'),
           onChanged: (phone) => context.read<AddressBloc>().add(
                 LocationPhoneChanged(
@@ -458,14 +493,22 @@ class _PhoneInputWidget extends StatelessWidget {
 }
 
 class _AddressInputWidget extends StatelessWidget {
-  const _AddressInputWidget({Key? key}) : super(key: key);
+  final TextEditingController _textEditingController = TextEditingController();
+
+  _AddressInputWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddressBloc, AddressState>(
+    return BlocConsumer<AddressBloc, AddressState>(
+      listener: (context, state) {
+        if (state.typeState == TypeState.initialValue) {
+          _textEditingController.text = state.address.value;
+        }
+      },
       buildWhen: (previous, current) => previous.address != current.address,
       builder: ((context, state) {
         return TextFieldWithIcon(
+          controller: _textEditingController,
           // key: const Key('signUpForm_usernameInput_textField'),
           onChanged: (address) => context.read<AddressBloc>().add(
                 LocationAddressChanged(
