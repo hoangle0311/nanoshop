@@ -51,7 +51,7 @@ class ScAddAddress extends StatelessWidget {
           create: (context) => injector<WardCubit>(),
         ),
       ],
-      child: RemoveFocusWidget(
+      child: const RemoveFocusWidget(
         child: Scaffold(
           appBar: PageAppBar(
             title: Strings.chooseAddress,

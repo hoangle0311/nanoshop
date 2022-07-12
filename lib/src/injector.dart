@@ -23,6 +23,7 @@ import 'package:nanoshop/src/domain/usecases/auth_usecase/login_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/remove_user_local_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/sign_up_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/notification_usecase/get_type_notification_usecase.dart';
+import 'package:nanoshop/src/domain/usecases/payment_usecase/get_address_local_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/payment_usecase/get_discount_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/post_usecase/detail_post_usecase.dart';
 import 'package:nanoshop/src/domain/usecases/post_usecase/get_list_post_usecase.dart';
@@ -66,6 +67,7 @@ import 'package:nanoshop/src/presentation/cubits/ward_cubit/ward_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/params/token_param.dart';
+import 'data/data_source/local/payment_local_service/payment_local_service.dart';
 import 'data/data_source/remote/location_service/location_service.dart';
 import 'data/data_source/remote/remote_service.dart';
 import 'data/repositories/auth_repository_impl.dart';
@@ -90,6 +92,7 @@ import 'domain/usecases/payment_usecase/get_list_discount_usecase.dart';
 import 'domain/usecases/payment_usecase/get_list_order_usecase.dart';
 import 'domain/usecases/payment_usecase/get_payment_usecase.dart';
 import 'domain/usecases/payment_usecase/get_transport_usecase.dart';
+import 'domain/usecases/payment_usecase/set_address_local_usecase.dart';
 import 'domain/usecases/product_usecase/get_flashsale_with_list_product_usecase.dart';
 import 'domain/usecases/product_usecase/get_list_manufacture_usecase.dart';
 import 'domain/usecases/product_usecase/get_related_list_product_usecase.dart';
@@ -123,8 +126,18 @@ _dependencyExternal() async {
 }
 
 _dependencyUseCase() {
+  injector.registerLazySingleton<SetAddressLocalUsecase>(
+        () => SetAddressLocalUsecase(
+      injector<PaymentRepositoryImpl>(),
+    ),
+  );
+  injector.registerLazySingleton<GetAddressLocalUsecase>(
+    () => GetAddressLocalUsecase(
+      injector<PaymentRepositoryImpl>(),
+    ),
+  );
   injector.registerLazySingleton<GetPageContentUsecase>(
-        () => GetPageContentUsecase(
+    () => GetPageContentUsecase(
       injector<PageContentRepositoryImpl>(),
     ),
   );
@@ -337,7 +350,7 @@ _dependencyUseCase() {
 
 _dependencyService() {
   injector.registerLazySingleton<PageContentService>(
-        () => PageContentService(
+    () => PageContentService(
       injector<Dio>(),
       baseUrl: Environment.domain,
     ),
@@ -364,6 +377,11 @@ _dependencyService() {
     () => PaymentService(
       injector<Dio>(),
       baseUrl: Environment.domain,
+    ),
+  );
+  injector.registerLazySingleton<PaymentLocalService>(
+    () => PaymentLocalService(
+      injector<SharedPreferences>(),
     ),
   );
   injector.registerLazySingleton<UserLocalService>(
@@ -417,7 +435,7 @@ _dependencyService() {
 
 _dependencyRepository() {
   injector.registerLazySingleton<PageContentRepositoryImpl>(
-        () => PageContentRepositoryImpl(
+    () => PageContentRepositoryImpl(
       injector<PageContentService>(),
     ),
   );
@@ -439,6 +457,7 @@ _dependencyRepository() {
   injector.registerLazySingleton<PaymentRepositoryImpl>(
     () => PaymentRepositoryImpl(
       injector<PaymentService>(),
+      injector<PaymentLocalService>(),
     ),
   );
   injector.registerLazySingleton<AuthRepositoryImpl>(
@@ -481,7 +500,10 @@ _dependencyBloc() {
     () => ChangePasswordBloc(injector<ChangePasswordUsecase>()),
   );
   injector.registerFactory(
-    () => AddressBloc(),
+    () => AddressBloc(
+      injector<GetAddressLocalUsecase>(),
+      injector<SetAddressLocalUsecase>(),
+    ),
   );
   injector.registerFactory(
     () => AddCommentBloc(
@@ -557,7 +579,7 @@ _dependencyBloc() {
 
 _dependencyCubit() {
   injector.registerFactory<PageContentCubit>(
-        () => PageContentCubit(
+    () => PageContentCubit(
       injector<GetPageContentUsecase>(),
     ),
   );

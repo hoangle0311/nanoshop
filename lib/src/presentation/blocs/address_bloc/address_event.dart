@@ -3,6 +3,22 @@ part of 'address_bloc.dart';
 @immutable
 abstract class AddressEvent extends Equatable {}
 
+class CheckLocalAddress extends AddressEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class SetLocalAddress extends AddressEvent {
+  final Address address;
+
+  SetLocalAddress({
+    required this.address,
+  });
+
+  @override
+  List<Object?> get props => [address];
+}
+
 class LocationNameChanged extends AddressEvent {
   final String name;
 

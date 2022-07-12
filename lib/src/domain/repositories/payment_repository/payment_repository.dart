@@ -1,4 +1,5 @@
 import 'package:nanoshop/src/core/resource/data_state.dart';
+import 'package:nanoshop/src/domain/entities/address/address.dart';
 
 import '../../../core/params/checkout_param.dart';
 import '../../../core/params/get_list_order_param.dart';
@@ -26,4 +27,8 @@ abstract class PaymentRepository {
   Future<DataState<DefaultResponseModel>> checkOut(CheckoutParam param);
 
   Future<DataState<OrderResponseModel>> getListOrder(GetListOrderParam param);
+
+  Address? getAddressLocal();
+
+  Future<void> setAddressLocal(Address address);
 }

@@ -7,6 +7,8 @@ import 'package:meta/meta.dart';
 import 'package:nanoshop/src/core/form_model/location/location_form_model.dart';
 import 'package:nanoshop/src/domain/entities/address/address.dart';
 import 'package:nanoshop/src/domain/entities/filter_model/filter_model.dart';
+import 'package:nanoshop/src/domain/usecases/payment_usecase/get_address_local_usecase.dart';
+import 'package:nanoshop/src/domain/usecases/payment_usecase/set_address_local_usecase.dart';
 
 import '../../../core/form_model/login/username_input.dart';
 import '../../../core/form_model/sign_up/fullname_input.dart';
@@ -17,7 +19,13 @@ part 'address_event.dart';
 part 'address_state.dart';
 
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
-  AddressBloc() : super(const AddressState()) {
+  final GetAddressLocalUsecase _getAddressLocalUsecase;
+  final SetAddressLocalUsecase _setAddressLocalUsecase;
+
+  AddressBloc(
+    this._getAddressLocalUsecase,
+    this._setAddressLocalUsecase,
+  ) : super(const AddressState()) {
     on<LocationNameChanged>(_onNameChanged);
     on<LocationPhoneChanged>(_onPhoneChanged);
     on<LocationAddressChanged>(_onAddressChanged);
@@ -26,6 +34,73 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     on<LocationDistrictChanged>(_onDistrictChanged);
     on<LocationWardChanged>(_onWardChanged);
     on<AddressPaymentAdd>(_onAddressPayment);
+    on<CheckLocalAddress>(_getAddressLocalPayment);
+    on<SetLocalAddress>(_setAddressLocalPayment);
+  }
+
+  _setAddressLocalPayment(SetLocalAddress event, emit) async {
+    await _setAddressLocalUsecase.call(event.address);
+  }
+
+  _getAddressLocalPayment(CheckLocalAddress event, emit) {
+    Address? address = _getAddressLocalUsecase.call(null);
+
+    // Log.i(address.toString());
+
+    if (address != null) {
+      final name = FullNameInput.dirty(
+        address.name,
+      );
+      final phone = UsernameInput.dirty(
+        address.phone,
+      );
+      final _$address = FullNameInput.dirty(
+        address.address,
+      );
+      final sex = LocationFormModel.dirty(
+        FilterModel(
+          id: address.sex,
+        ),
+      );
+      final city = LocationFormModel.dirty(
+        FilterModel(
+          id: address.city,
+        ),
+      );
+      final district = LocationFormModel.dirty(
+        FilterModel(
+          id: address.district,
+        ),
+      );
+      final ward = LocationFormModel.dirty(
+        FilterModel(
+          id: address.ward,
+        ),
+      );
+      emit(
+        state.copyWith(
+          name: name,
+          phone: phone,
+          address: _$address,
+          sex: sex,
+          city: city,
+          district: district,
+          ward: ward,
+          addressPayment: address,
+          status: Formz.validate(
+            [
+              phone,
+              _$address,
+              name,
+              sex,
+              city,
+              district,
+              ward,
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   _onAddressPayment(AddressPaymentAdd event, emit) {

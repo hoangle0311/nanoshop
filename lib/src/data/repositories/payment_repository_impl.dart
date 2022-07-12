@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:nanoshop/src/data/models/payment/payment_model.dart';
+import 'package:nanoshop/src/domain/entities/address/address.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
 
@@ -13,6 +14,7 @@ import 'package:nanoshop/src/core/resource/data_state.dart';
 
 import '../../core/params/voucher_param.dart';
 import '../../core/utils/log/log.dart';
+import '../data_source/local/payment_local_service/payment_local_service.dart';
 import '../responses/bank_response_model/bank_response_model.dart';
 import '../responses/default_response_model/default_response_model.dart';
 import '../responses/discount_response_model/discount_response_model.dart';
@@ -23,9 +25,11 @@ import '../responses/transport_response_model/transport_response_model.dart';
 
 class PaymentRepositoryImpl extends PaymentRepository {
   final PaymentService _paymentService;
+  final PaymentLocalService _paymentLocalService;
 
   PaymentRepositoryImpl(
     this._paymentService,
+    this._paymentLocalService,
   );
 
   @override
@@ -214,5 +218,15 @@ class PaymentRepositoryImpl extends PaymentRepository {
         error: e,
       );
     }
+  }
+
+  @override
+  Address? getAddressLocal() {
+    return _paymentLocalService.getAddressLocal();
+  }
+
+  @override
+  Future<void> setAddressLocal(Address address) async {
+    await _paymentLocalService.setAddressLocal(address);
   }
 }

@@ -2,16 +2,15 @@ import 'package:equatable/equatable.dart';
 
 class FilterModel extends Equatable {
   final String id;
-  final String name;
+  final String? name;
 
   const FilterModel({
     required this.id,
-    required this.name,
+    this.name,
   });
 
   @override
   List<Object?> get props => [
         id,
-        name,
       ];
 }

@@ -67,7 +67,7 @@ class ScPaymentShoppingCart extends StatelessWidget {
           create: (context) => injector<CheckoutCubit>(),
         ),
         BlocProvider(
-          create: (context) => injector<AddressBloc>(),
+          create: (context) => injector<AddressBloc>()..add(CheckLocalAddress()),
         ),
       ],
       child: RemoveFocusWidget(
@@ -502,7 +502,6 @@ class _Address extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AddressBloc, AddressState>(
       builder: (context, state) {
-        print(state);
         return _ContainerInformation(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
