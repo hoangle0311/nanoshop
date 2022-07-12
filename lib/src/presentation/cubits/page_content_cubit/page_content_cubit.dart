@@ -16,7 +16,6 @@ class PageContentCubit extends Cubit<PageContentState> {
   ) : super(const PageContentState());
 
   onGetPageContent(
-    TokenParam tokenParam,
     String id,
     String type,
   ) async {
@@ -28,7 +27,7 @@ class PageContentCubit extends Cubit<PageContentState> {
 
     try {
       DataState<PageContentModel> dataState = await _getPageContentUsecase.call(
-        PageContentParam(token: tokenParam.token, id: id, type: type),
+        PageContentParam( id: id, type: type),
       );
 
       if (dataState is DataSuccess) {

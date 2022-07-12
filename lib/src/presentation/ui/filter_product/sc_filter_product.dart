@@ -8,8 +8,6 @@ import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
-import '../../../core/utils/log/log.dart';
 import '../../cubits/manufacturer_cubit/manufacturer_cubit.dart';
 import '../../cubits/range_cubit/range_cubit.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
@@ -27,7 +25,6 @@ class ScFilterProduct extends StatelessWidget {
         BlocProvider(
           create: (context) => injector<ManufacturerCubit>()
             ..getListManufacturer(
-              injector<TokenParam>().token,
             ),
         ),
       ],

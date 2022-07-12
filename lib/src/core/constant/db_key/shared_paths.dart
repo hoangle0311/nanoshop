@@ -3,4 +3,5 @@ class SharedPaths {
   static const String userId = '/user_id';
   static const String message = '/message';
   static const String address = '/address';
+  static const String token = '/token';
 }

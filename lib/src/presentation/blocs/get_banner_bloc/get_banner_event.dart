@@ -14,10 +14,8 @@ abstract class GetBannerEvent extends Equatable {
 }
 
 class GetBannerByGroupId extends GetBannerEvent {
-  final TokenParam tokenParam;
 
   const GetBannerByGroupId({
     required String groupId,
-    required this.tokenParam,
   }) : super(groupId: groupId);
 }

@@ -14,19 +14,15 @@ abstract class LocationService {
   factory LocationService(Dio dio, {String baseUrl}) = _LocationService;
 
   @POST(ApiPath.getCity)
-  Future<HttpResponse<CityResponseModel>> getCity({
-    @Header("token") required String token,
-  });
+  Future<HttpResponse<CityResponseModel>> getCity();
 
   @POST(ApiPath.getDistrict)
   Future<HttpResponse<DistrictResponseModel>> getDistrict({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 
   @POST(ApiPath.getWard)
   Future<HttpResponse<WardResponseModel>> getWard({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 }

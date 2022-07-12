@@ -7,9 +7,7 @@ import 'package:nanoshop/src/core/params/product_param.dart';
 import 'package:nanoshop/src/domain/entities/manufacture/manufacturer.dart';
 import 'package:nanoshop/src/domain/usecases/domain_layer_usecase.dart';
 
-import '../../../core/params/token_param.dart';
 import '../../../core/resource/data_state.dart';
-import '../../../data/responses/product_response_model/product_response_model.dart';
 import '../../../domain/entities/product/product.dart';
 
 part 'product_event.dart';
@@ -111,7 +109,6 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
     final param = ProductParam(
       page: _page,
       limit: postPerPage,
-      token: event.tokenParam.token,
       categoryId: event.categoryId,
       priceMax: priceMax,
       priceMin: priceMin,
@@ -223,7 +220,6 @@ class ProductBloc extends BlocWithState<ProductEvent, ProductState> {
     final param = ProductParam(
       page: _page,
       limit: postPerPage,
-      token: state.param!.token,
       categoryId: state.param!.categoryId,
       manuId: state.param!.manuId,
       priceMin: state.param!.priceMin,

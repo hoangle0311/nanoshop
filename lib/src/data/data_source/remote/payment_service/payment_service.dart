@@ -19,39 +19,28 @@ abstract class PaymentService {
 
   @POST(ApiPath.getDiscount)
   Future<HttpResponse<DiscountResponseModel>> getDiscount({
-    @Header("token") required String token,
     @Part(name: "code") required String code,
   });
 
   @POST(ApiPath.getListDiscount)
-  Future<HttpResponse<ListDiscountResponseModel>> getListDiscount({
-    @Header("token") required String token,
-  });
+  Future<HttpResponse<ListDiscountResponseModel>> getListDiscount();
 
   @GET(ApiPath.getTransport)
-  Future<HttpResponse<TransportResponseModel>> getTransport({
-    @Header("token") required String token,
-  });
+  Future<HttpResponse<TransportResponseModel>> getTransport();
 
   @GET(ApiPath.getPayment)
-  Future<HttpResponse<PaymentMethodResponseModel>> getPayment({
-    @Header("token") required String token,
-  });
+  Future<HttpResponse<PaymentMethodResponseModel>> getPayment();
 
   @GET(ApiPath.getBank)
-  Future<HttpResponse<BankResponseModel>> getBank({
-    @Header("token") required String token,
-  });
+  Future<HttpResponse<BankResponseModel>> getBank();
 
   @POST(ApiPath.checkout)
   Future<HttpResponse<DefaultResponseModel>> checkout({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 
   @POST(ApiPath.getListOrder)
   Future<HttpResponse<OrderResponseModel>> getListOrder({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 }

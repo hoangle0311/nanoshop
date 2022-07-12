@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
-import 'package:nanoshop/src/core/utils/helper/convert_price.dart';
 import 'package:nanoshop/src/domain/entities/payment/payment.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/cubits/transport_cubit/transport_cubit.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
-import '../../../domain/entities/transport/transport.dart';
 import '../../cubits/payment_cubit/payment_cubit.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
 import '../payment_shopping_cart/sc_payment_shopping_cart.dart';
@@ -29,7 +26,7 @@ class ScChoosePayment extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) {
         return injector<PaymentCubit>()
-          ..onGetListPayment(injector<TokenParam>())
+          ..onGetListPayment()
           ..onChoosePayment(
             payment,
           );

@@ -30,7 +30,6 @@ class GetCategoryBloc extends Bloc<GetCategoryEvent, GetCategoryState> {
     DataState<CategoryResponseModel> dataState =
         await _getListCategoryUsecase.call(
       CategoryParam(
-        token: event.tokenParam.token,
         type: "product",
       ),
     );

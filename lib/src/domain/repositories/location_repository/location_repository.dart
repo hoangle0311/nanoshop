@@ -8,7 +8,7 @@ import '../../../data/responses/location_response_model/district_response_model.
 import '../../../data/responses/location_response_model/ward_response_model.dart';
 
 abstract class LocationRepository {
-  Future<DataState<CityResponseModel>> getListCity(TokenParam param);
+  Future<DataState<CityResponseModel>> getListCity();
 
   Future<DataState<DistrictResponseModel>> getListDistrict(
     DistrictParam param,

@@ -10,8 +10,6 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../config/routers/app_router/app_router.dart';
 import '../../../../core/params/filter_param.dart';
-import '../../../../core/params/token_param.dart';
-import '../../../../core/utils/log/log.dart';
 
 class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Function(String value)? onChanged;
@@ -40,7 +38,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
     _onTypingStream.debounceTime(const Duration(milliseconds: 400)).listen(
       (event) {
         context.read<SearchListProductCubit>().onGetRelatedList(
-              tokenParam: injector<TokenParam>(),
               searchKey: event,
             );
       },
@@ -138,7 +135,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
                               context
                                   .read<SearchListProductCubit>()
                                   .onGetRelatedList(
-                                    tokenParam: injector<TokenParam>(),
                                     searchKey: searchController.text,
                                     filterParam: value,
                                   );

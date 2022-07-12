@@ -1,10 +1,8 @@
-import 'dart:convert';
-
-import 'package:crypto/crypto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 
 import 'package:nanoshop/src/config/environment/app_environment.dart';
+import 'package:nanoshop/src/core/interceptor/custom_interceptor.dart';
 import 'package:nanoshop/src/data/data_source/local/product_local_service/product_local_service.dart';
 import 'package:nanoshop/src/data/data_source/local/user_service/user_local_service.dart';
 import 'package:nanoshop/src/data/data_source/remote/auth_service/auth_service.dart';
@@ -107,9 +105,6 @@ final injector = GetIt.instance;
 Future<void> initializeDependencies() async {
   await _dependencyExternal();
 
-  // Lay token cho toan app
-  _dependencyToken();
-
   _dependencyService();
   _dependencyUseCase();
   _dependencyRepository();
@@ -118,7 +113,6 @@ Future<void> initializeDependencies() async {
 }
 
 _dependencyExternal() async {
-  injector.registerLazySingleton<Dio>(() => Dio());
   final preferences = await SharedPreferences.getInstance();
   injector.registerSingleton<SharedPreferences>(
     preferences,
@@ -127,7 +121,7 @@ _dependencyExternal() async {
 
 _dependencyUseCase() {
   injector.registerLazySingleton<SetAddressLocalUsecase>(
-        () => SetAddressLocalUsecase(
+    () => SetAddressLocalUsecase(
       injector<PaymentRepositoryImpl>(),
     ),
   );
@@ -311,11 +305,11 @@ _dependencyUseCase() {
       injector<BannerRepositoryImpl>(),
     ),
   );
-  injector.registerLazySingleton<GetTokenUsecase>(
-    () => GetTokenUsecase(
-      injector<GetTokenRepositoryImpl>(),
-    ),
-  );
+  // injector.registerLazySingleton<GetTokenUsecase>(
+  //   () => GetTokenUsecase(
+  //     injector<GetTokenRepositoryImpl>(),
+  //   ),
+  // );
   injector.registerLazySingleton<GetListFavouriteProductLocalUsecase>(
     () => GetListFavouriteProductLocalUsecase(
       injector<GetListProductRepositoryImpl>(),
@@ -349,34 +343,40 @@ _dependencyUseCase() {
 }
 
 _dependencyService() {
+  final Dio _dio = Dio()..options.baseUrl = Environment.domain;
+
+  _dio.interceptors.addAll(
+    [
+      CustomInterceptor(
+        _dio,
+        injector<SharedPreferences>(),
+      ),
+    ],
+  );
+
   injector.registerLazySingleton<PageContentService>(
     () => PageContentService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
   injector.registerLazySingleton<NotificationService>(
     () => NotificationService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
   injector.registerLazySingleton<ShopService>(
     () => ShopService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
   injector.registerLazySingleton<LocationService>(
     () => LocationService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
   injector.registerLazySingleton<PaymentService>(
     () => PaymentService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
   injector.registerLazySingleton<PaymentLocalService>(
@@ -391,32 +391,28 @@ _dependencyService() {
   );
   injector.registerLazySingleton<AuthService>(
     () => AuthService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
   injector.registerLazySingleton<ProductRemoteService>(
     () => ProductRemoteService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
   injector.registerLazySingleton<CategoryService>(
     () => CategoryService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
   injector.registerLazySingleton<BannerService>(
     () => BannerService(
-      injector<Dio>(),
+      _dio,
       baseUrl: Environment.domain,
     ),
   );
   injector.registerLazySingleton<GetTokenService>(
     () => GetTokenService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
 
@@ -427,8 +423,7 @@ _dependencyService() {
   );
   injector.registerLazySingleton<PostRemoteService>(
     () => PostRemoteService(
-      injector<Dio>(),
-      baseUrl: Environment.domain,
+      _dio,
     ),
   );
 }
@@ -483,11 +478,11 @@ _dependencyRepository() {
       injector<BannerService>(),
     ),
   );
-  injector.registerLazySingleton<GetTokenRepositoryImpl>(
-    () => GetTokenRepositoryImpl(
-      injector<GetTokenService>(),
-    ),
-  );
+  // injector.registerLazySingleton<GetTokenRepositoryImpl>(
+  //   () => GetTokenRepositoryImpl(
+  //     injector<GetTokenService>(),
+  //   ),
+  // );
   injector.registerLazySingleton<PostRepositoryImpl>(
     () => PostRepositoryImpl(
       injector<PostRemoteService>(),
@@ -508,11 +503,6 @@ _dependencyBloc() {
   injector.registerFactory(
     () => AddCommentBloc(
       injector<AddCommentUsecase>(),
-    ),
-  );
-  injector.registerLazySingleton(
-    () => GetTokenBloc(
-      injector<GetTokenUsecase>(),
     ),
   );
   injector.registerLazySingleton(
@@ -682,23 +672,5 @@ _dependencyCubit() {
   );
   injector.registerLazySingleton<ShoppingCartCubit>(
     () => ShoppingCartCubit(),
-  );
-}
-
-_dependencyToken() {
-  // Tao token theo thoi gian hien tai cua app
-  DateTime now = DateTime.now();
-
-  var token = sha1.convert(
-    utf8.encode(
-      now.millisecondsSinceEpoch.toString() + Environment.token,
-    ),
-  );
-
-  injector.registerLazySingleton<TokenParam>(
-    () => TokenParam(
-      token: token.toString(),
-      string: now.millisecondsSinceEpoch.toString(),
-    ),
   );
 }

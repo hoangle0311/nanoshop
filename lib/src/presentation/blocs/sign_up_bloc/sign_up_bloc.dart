@@ -5,7 +5,6 @@ import 'package:nanoshop/src/core/form_model/sign_up/confirm_password_input.dart
 import 'package:nanoshop/src/core/form_model/sign_up/confirm_policy_checkbox.dart';
 import 'package:nanoshop/src/core/form_model/sign_up/fullname_input.dart';
 import 'package:nanoshop/src/core/params/sign_up_param.dart';
-import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/domain/usecases/auth_usecase/sign_up_usecase.dart';
 
 import '../../../core/form_model/login/password_input.dart';
@@ -47,7 +46,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           username: state.username.value,
           password: state.password.value,
           fullname: state.fullname.value,
-          token: event.tokenParam.token,
         ),
       );
 

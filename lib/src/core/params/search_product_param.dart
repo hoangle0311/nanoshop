@@ -1,6 +1,5 @@
 class SearchProductParam {
   final String? searchText;
-  final String token;
   final int page;
   final int limit;
   final int? priceMax;
@@ -9,7 +8,6 @@ class SearchProductParam {
 
   SearchProductParam({
     this.searchText = '',
-    required this.token,
     required this.page,
     required this.limit,
     this.priceMax,

@@ -117,7 +117,6 @@ class AddCommentBloc extends Bloc<AddCommentEvent, AddCommentState> {
       DataState<AddCommentResponseModel> dataState =
           await _addCommentUsecase.call(
         AddCommentParam(
-          token: event.tokenParam.token,
           type: '1',
           // phone: state.phone.value,
           content: state.content.value,

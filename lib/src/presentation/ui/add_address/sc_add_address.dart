@@ -15,7 +15,6 @@ import 'package:nanoshop/src/presentation/views/components/remove_focus_widget/r
 
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../blocs/address_bloc/address_bloc.dart';
 import '../../cubits/city_cubit/city_cubit.dart';
 import '../../cubits/district_cubit/district_cubit.dart';
@@ -44,7 +43,6 @@ class ScAddAddress extends StatelessWidget {
         BlocProvider(
           create: (context) => injector<CityCubit>()
             ..onGetListData(
-              injector<TokenParam>(),
             ),
         ),
         BlocProvider(
@@ -226,7 +224,6 @@ class _DistrictDrop extends StatelessWidget {
                       context.read<WardCubit>().onGetListData(
                             WardParam(
                               districtId: value.id,
-                              token: injector<TokenParam>().token,
                             ),
                           );
                       context.read<AddressBloc>().add(
@@ -287,7 +284,6 @@ class _CityDrop extends StatelessWidget {
 
             context.read<DistrictCubit>().onGetListData(
                   DistrictParam(
-                    token: injector<TokenParam>().token,
                     provinceId: state.city.value!.id,
                   ),
                   initialDistrict: state.district.value,
@@ -296,7 +292,6 @@ class _CityDrop extends StatelessWidget {
             context.read<WardCubit>().onGetListData(
                   WardParam(
                     districtId: state.district.value!.id,
-                    token: injector<TokenParam>().token,
                   ),
                   initialValue: state.ward.value,
                 );
@@ -321,14 +316,12 @@ class _CityDrop extends StatelessWidget {
                           value) {
                         context.read<DistrictCubit>().onGetListData(
                               DistrictParam(
-                                token: injector<TokenParam>().token,
                                 provinceId: value.id,
                               ),
                             );
                         context.read<WardCubit>().onGetListData(
                               WardParam(
                                 districtId: value.id,
-                                token: injector<TokenParam>().token,
                               ),
                             );
                         context.read<AddressBloc>().add(

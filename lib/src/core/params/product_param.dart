@@ -3,7 +3,6 @@ import '../utils/log/log.dart';
 class ProductParam {
   final String? categoryId;
   final int page;
-  final String token;
   final int limit;
   final int? priceMax;
   final int? priceMin;
@@ -12,7 +11,6 @@ class ProductParam {
   ProductParam({
     required this.page,
     required this.limit,
-    required this.token,
     this.categoryId,
     this.priceMax,
     this.priceMin,

@@ -1,12 +1,10 @@
 class GetListCommentParam {
-  final String token;
   final int type;
   final String productId;
   final int page;
   final int limit;
 
   const GetListCommentParam({
-    required this.token,
     required this.type,
     required this.productId,
     required this.page,
@@ -21,7 +19,6 @@ class GetListCommentParam {
     int? limit,
   }) {
     return GetListCommentParam(
-      token: token ?? this.token,
       type: type ?? this.type,
       productId: productId ?? this.productId,
       page: page ?? this.page,

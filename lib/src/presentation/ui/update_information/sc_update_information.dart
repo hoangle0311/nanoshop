@@ -8,11 +8,9 @@ import 'package:nanoshop/src/presentation/views/components/remove_focus_widget/r
 import '../../../config/styles/app_color.dart';
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../../core/toast/toast.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
-import '../../views/components/text_field/text_field_input.dart';
 import '../../views/components/text_field/text_field_input_with_inital_text.dart';
 import '../../views/dialog/dialog_loading.dart';
 
@@ -40,7 +38,6 @@ class ScUpdateInformation extends StatelessWidget {
           if (state.status == UpdateUserStatus.success) {
             Navigator.of(context).pop();
             context.read<AuthenticationBloc>().add(AuthenticationUserRequest(
-                  tokenParam: injector<TokenParam>(),
                   userId: context.read<AuthenticationBloc>().state.user.userId!,
                 ));
             Toast.showText(state.message);
@@ -108,7 +105,6 @@ class _BottomNav extends StatelessWidget {
       title: Strings.update,
       onTap: () {
         context.read<UpdateUserCubit>().updateUser(
-          tokenParam: injector<TokenParam>(),
           userId: injector<AuthenticationBloc>()
               .state
               .user

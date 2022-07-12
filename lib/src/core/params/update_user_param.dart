@@ -1,7 +1,6 @@
 import 'dart:io';
 
 class UpdateUserParam {
-  final String token;
   final File? file;
   final String userId;
   final String? userName;
@@ -9,7 +8,6 @@ class UpdateUserParam {
   final String? address;
 
   UpdateUserParam({
-    required this.token,
     required this.userId,
     this.file,
     this.userName,

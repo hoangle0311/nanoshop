@@ -1,10 +1,8 @@
 class GetTypeNotificationParam {
   final String userId;
-  final String token;
 
   GetTypeNotificationParam({
     required this.userId,
-    required this.token,
   });
 
   Map<String, dynamic> toJson() {

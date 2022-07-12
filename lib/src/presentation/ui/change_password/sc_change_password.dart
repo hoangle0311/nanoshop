@@ -11,7 +11,6 @@ import 'package:nanoshop/src/presentation/views/components/remove_focus_widget/r
 
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../blocs/change_password_bloc/change_password_bloc.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
@@ -106,7 +105,6 @@ class _BottomNav extends StatelessWidget {
               ? () {
                   context.read<ChangePasswordBloc>().add(
                         ChangePasswordSubmitted(
-                          tokenParam: injector<TokenParam>(),
                           userId:
                               injector<AuthenticationBloc>().state.user.userId!,
                         ),

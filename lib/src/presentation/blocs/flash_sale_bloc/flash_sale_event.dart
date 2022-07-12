@@ -8,9 +8,6 @@ abstract class FlashSaleEvent extends Equatable {
 }
 
 class GetFlashSale extends FlashSaleEvent {
-  final TokenParam tokenParam;
 
-  const GetFlashSale({
-    required this.tokenParam,
-  });
+  const GetFlashSale();
 }

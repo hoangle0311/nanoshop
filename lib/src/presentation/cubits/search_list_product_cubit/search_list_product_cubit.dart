@@ -2,11 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nanoshop/src/core/params/filter_param.dart';
 import 'package:nanoshop/src/core/params/search_product_param.dart';
-import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
 
-import '../../../data/responses/product_response_model/product_response_model.dart';
 import '../../../domain/entities/manufacture/manufacturer.dart';
 import '../../../domain/usecases/product_usecase/search_list_product_usecase.dart';
 
@@ -29,7 +27,6 @@ class SearchListProductCubit extends Cubit<SearchListProductState> {
     );
 
     final param = SearchProductParam(
-      token: state.param!.token,
       page: state.param!.page + 1,
       limit: _postPerPage,
       searchText: state.param!.searchText,
@@ -65,7 +62,6 @@ class SearchListProductCubit extends Cubit<SearchListProductState> {
   }
 
   onGetRelatedList({
-    required TokenParam tokenParam,
     String? searchKey,
     FilterParam? filterParam,
   }) async {
@@ -89,7 +85,6 @@ class SearchListProductCubit extends Cubit<SearchListProductState> {
     }
 
     final param = SearchProductParam(
-      token: tokenParam.token,
       page: 1,
       limit: _postPerPage,
       searchText: searchKey,

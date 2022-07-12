@@ -19,20 +19,17 @@ abstract class ProductRemoteService {
 
   @POST(ApiPath.product)
   Future<HttpResponse<ProductResponseModel>> getListProduct({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 
   @POST(ApiPath.detailProduct)
   Future<HttpResponse<DetailProductResponseModel>> getDetailProduct({
-    @Header("token") required String token,
     @Part(name: "id") required int id,
     @Part(name: "type") String? type = "product",
   });
 
   @POST(ApiPath.addComment)
   Future<HttpResponse<AddCommentResponseModel>> addComment({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
     // @Part(name: "user_id") required String userId,
     // @Part(name: "object_id") required String objectId,
@@ -42,7 +39,6 @@ abstract class ProductRemoteService {
 
   @POST(ApiPath.product)
   Future<HttpResponse<ProductResponseModel>> relatedListProduct({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
     // @Part(name: "user_id") required String userId,
     // @Part(name: "object_id") required String objectId,
@@ -52,7 +48,6 @@ abstract class ProductRemoteService {
 
   @POST(ApiPath.getComment)
   Future<HttpResponse<CommentResponseModel>> getListComment({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
     // @Part(name: "user_id") required String userId,
     // @Part(name: "object_id") required String objectId,
@@ -61,18 +56,13 @@ abstract class ProductRemoteService {
   });
 
   @GET(ApiPath.flashSale)
-  Future<HttpResponse<FlashSaleResponseModel>> getListFlashSale({
-    @Header("token") required String token,
-  });
+  Future<HttpResponse<FlashSaleResponseModel>> getListFlashSale();
 
   @POST(ApiPath.flashSaleWithListProduct)
   Future<HttpResponse<FlashSaleWithListProductResponseModel>> getFlashSaleWithListProduct({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 
   @GET(ApiPath.getManufacturer)
-  Future<HttpResponse<ManufacturerResponseModel>> getListManufacturer({
-    @Header("token") required String token,
-  });
+  Future<HttpResponse<ManufacturerResponseModel>> getListManufacturer();
 }

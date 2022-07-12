@@ -53,9 +53,6 @@ class SignUpConfirmPasswordChanged extends SignUpEvent {
 }
 
 class SignUpSubmitted extends SignUpEvent {
-  final TokenParam tokenParam;
 
-  const SignUpSubmitted({
-    required this.tokenParam,
-  });
+  const SignUpSubmitted();
 }

@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 import 'package:nanoshop/src/domain/entities/post/post.dart';
 import 'package:nanoshop/src/injector.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../../core/params/token_param.dart';
 import '../../blocs/post_bloc/post_bloc.dart';
 import '../../cubits/get_detail_post_cubit/get_detail_post_cubit.dart';
 import '../../views/components/app_bar/main_app_bar.dart';
@@ -40,7 +37,6 @@ class ScDetailPost extends HookWidget {
                 if (notification is OverscrollNotification) {
                   context.read<PostBloc>().add(
                         LoadMorePost(
-                          tokenParam: injector<TokenParam>(),
                         ),
                       );
                   return true;
@@ -79,7 +75,6 @@ class _Detail extends StatelessWidget {
     return BlocProvider(
       create: (context) => injector<GetDetailPostCubit>()
         ..onGetDetail(
-          injector<TokenParam>(),
           post.newsId!,
         ),
       child: BlocBuilder<GetDetailPostCubit, GetDetailPostState>(

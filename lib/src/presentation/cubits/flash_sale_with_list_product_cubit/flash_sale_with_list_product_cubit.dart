@@ -22,7 +22,6 @@ class FlashSaleWithListProductCubit
   int _page = 1;
 
   void onLoadMore({
-    required String token,
     required String groupId,
   }) async {
     _page++;
@@ -35,7 +34,6 @@ class FlashSaleWithListProductCubit
       DataState<List<Product>> dataState =
           await _flashSaleWithListProductRemoteUsecase.call(
         ListFlashSaleWithListProductParam(
-          token: token,
           groupId: groupId,
           page: _page,
           limit: limit,
@@ -69,7 +67,6 @@ class FlashSaleWithListProductCubit
   }
 
   void onGetListProduct({
-    required String token,
     required String groupId,
   }) async {
     emit(
@@ -81,7 +78,6 @@ class FlashSaleWithListProductCubit
       DataState<List<Product>> dataState =
           await _flashSaleWithListProductRemoteUsecase.call(
         ListFlashSaleWithListProductParam(
-          token: token,
           groupId: groupId,
           page: _page,
           limit: limit,

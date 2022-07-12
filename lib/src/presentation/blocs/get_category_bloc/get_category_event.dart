@@ -9,8 +9,5 @@ abstract class GetCategoryEvent extends Equatable {
 }
 
 class GetListCategoryEvent extends GetCategoryEvent {
-  final TokenParam tokenParam;
-  GetListCategoryEvent({
-    required this.tokenParam,
-  });
+  GetListCategoryEvent();
 }

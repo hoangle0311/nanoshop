@@ -16,13 +16,13 @@ import '../../entities/payment/payment.dart';
 abstract class PaymentRepository {
   Future<DataState<DiscountResponseModel>> getDiscount(VoucherParam param);
 
-  Future<DataState<ListDiscountResponseModel>> getListDiscount(String token);
+  Future<DataState<ListDiscountResponseModel>> getListDiscount();
 
-  Future<DataState<TransportResponseModel>> getTransport(String param);
+  Future<DataState<TransportResponseModel>> getTransport();
 
-  Future<DataState<List<Payment>>> getPayment(String param);
+  Future<DataState<List<Payment>>> getPayment();
 
-  Future<DataState<BankResponseModel>> getBank(String param);
+  Future<DataState<BankResponseModel>> getBank();
 
   Future<DataState<DefaultResponseModel>> checkOut(CheckoutParam param);
 

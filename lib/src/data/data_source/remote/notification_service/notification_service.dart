@@ -13,13 +13,11 @@ abstract class NotificationService {
 
   @POST(ApiPath.getTypeNotification)
   Future<HttpResponse<TypeNotificationResponseModel>> getType({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 
   @POST(ApiPath.getNotification)
   Future<HttpResponse<NotificationResponseModel>> getListNotification({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 }

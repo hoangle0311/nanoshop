@@ -93,7 +93,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   //   }
   // }
 
-  void onGetListPayment(TokenParam tokenParam) async {
+  void onGetListPayment() async {
     emit(
       state.copyWith(
         status: PaymentStatus.loading,
@@ -101,13 +101,13 @@ class PaymentCubit extends Cubit<PaymentState> {
     );
     try {
       DataState<List<Payment>> dataState =
-          await _getPaymentUsecase.call(tokenParam.token);
+          await _getPaymentUsecase.call(null);
 
       List<Bank> _bank = [];
 
       try {
         DataState<BankResponseModel> bankDataState =
-            await _getBankUsecase.call(tokenParam.token);
+            await _getBankUsecase.call(null);
 
         _bank.addAll(bankDataState.data!.data!);
       } catch (e) {

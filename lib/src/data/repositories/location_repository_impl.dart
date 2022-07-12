@@ -22,12 +22,10 @@ class LocationRepositoryImpl extends LocationRepository {
   );
 
   @override
-  Future<DataState<CityResponseModel>> getListCity(TokenParam param) async {
+  Future<DataState<CityResponseModel>> getListCity() async {
     try {
       final HttpResponse<CityResponseModel> response =
-          await _locationService.getCity(
-        token: param.token,
-      );
+          await _locationService.getCity();
 
       if (response.response.statusCode == HttpStatus.ok) {
         return DataSuccess(data: response.data);
@@ -53,7 +51,6 @@ class LocationRepositoryImpl extends LocationRepository {
     try {
       final HttpResponse<DistrictResponseModel> response =
           await _locationService.getDistrict(
-        token: param.token,
         body: {
           "province_id": param.provinceId,
         },
@@ -84,7 +81,6 @@ class LocationRepositoryImpl extends LocationRepository {
     try {
       final HttpResponse<WardResponseModel> response =
           await _locationService.getWard(
-        token: param.token,
         body: {
           "district_id": param.districtId,
         },

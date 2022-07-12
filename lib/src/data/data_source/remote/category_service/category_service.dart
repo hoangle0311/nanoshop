@@ -14,6 +14,5 @@ abstract class CategoryService {
   @POST(ApiPath.category)
   Future<HttpResponse<CategoryResponseModel>> getListCategory({
     @Part(name: "type") String? type = "product",
-    @Header("token") required String token,
   });
 }

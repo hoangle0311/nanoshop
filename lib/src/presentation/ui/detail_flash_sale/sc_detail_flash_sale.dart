@@ -11,8 +11,6 @@ import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.
 import 'package:nanoshop/src/presentation/views/components/product_widget/list_vertical_product_widget.dart';
 
 import '../../../core/hooks/use_scroll_controller_for_lazy_loading_flash_sale.dart';
-import '../../../core/hooks/use_scroll_controller_for_lazy_loading_product.dart';
-import '../../../core/params/token_param.dart';
 import '../../cubits/flash_sale_with_list_product_cubit/flash_sale_with_list_product_cubit.dart';
 
 class ScDetailFlashSale extends StatelessWidget {
@@ -28,7 +26,6 @@ class ScDetailFlashSale extends StatelessWidget {
     return BlocProvider(
       create: (context) => injector<FlashSaleWithListProductCubit>()
         ..onGetListProduct(
-          token: injector<TokenParam>().token,
           groupId: flashSale.promotionId ?? '0',
         ),
       child: Scaffold(

@@ -24,7 +24,6 @@ class PageContentRepositoryImpl extends PageContentRepository {
     try {
       final HttpResponse<PageContentResponse> response =
       await _pageContentService.getPageContent(
-        token: param.token,
         body: param.toJson(),
       );
 

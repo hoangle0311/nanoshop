@@ -39,7 +39,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
     try {
       final HttpResponse<ProductResponseModel> response =
           await _productRemoteService.getListProduct(
-        token: param.token,
         body: param.toJson(),
       );
 
@@ -80,13 +79,10 @@ class GetListProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<DataState<List<FlashSale>>> getListFlashSaleRemote(
-      String params) async {
+  Future<DataState<List<FlashSale>>> getListFlashSaleRemote() async {
     try {
       final HttpResponse<FlashSaleResponseModel> response =
-          await _productRemoteService.getListFlashSale(
-        token: params,
-      );
+          await _productRemoteService.getListFlashSale();
 
       if (response.response.statusCode == HttpStatus.ok) {
         return DataSuccess(data: response.data.data!);
@@ -112,7 +108,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
     try {
       final HttpResponse<DetailProductResponseModel> response =
           await _productRemoteService.getDetailProduct(
-        token: param.token,
         id: param.id,
         type: param.type,
       );
@@ -141,7 +136,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
     try {
       final HttpResponse<AddCommentResponseModel> response =
           await _productRemoteService.addComment(
-        token: params.token,
         body: {
           "user_id": params.userId,
           "object_id": params.productId,
@@ -179,7 +173,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
     try {
       final HttpResponse<CommentResponseModel> response =
           await _productRemoteService.getListComment(
-        token: params.token,
         body: params.toJson(),
       );
 
@@ -207,7 +200,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
     try {
       final HttpResponse<ProductResponseModel> response =
           await _productRemoteService.relatedListProduct(
-        token: param.token,
         body: param.toJson(),
       );
 
@@ -236,7 +228,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
     try {
       final HttpResponse<ProductResponseModel> response =
           await _productRemoteService.relatedListProduct(
-        token: param.token,
         body: param.toJson(),
       );
 
@@ -259,13 +250,10 @@ class GetListProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<DataState<ManufacturerResponseModel>> getListManufacturer(
-      String token) async {
+  Future<DataState<ManufacturerResponseModel>> getListManufacturer() async {
     try {
       final HttpResponse<ManufacturerResponseModel> response =
-          await _productRemoteService.getListManufacturer(
-        token: token,
-      );
+          await _productRemoteService.getListManufacturer();
 
       if (response.response.statusCode == HttpStatus.ok) {
         return DataSuccess(data: response.data);
@@ -291,7 +279,6 @@ class GetListProductRepositoryImpl extends ProductRepository {
     try {
       final HttpResponse<FlashSaleWithListProductResponseModel> response =
           await _productRemoteService.getFlashSaleWithListProduct(
-        token: params.token,
         body: params.toJson(),
       );
 

@@ -21,7 +21,6 @@ void onUseScrollControllerForLazyLoadingProduct(
       state.status != ProductStatus.loading) {
     bloc.add(
       LoadMoreListProductEvent(
-        tokenParam: injector<TokenParam>(),
       ),
     );
   }

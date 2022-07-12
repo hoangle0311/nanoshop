@@ -7,7 +7,6 @@ import 'package:nanoshop/src/domain/usecases/product_usecase/get_flash_sale_prod
 
 import '../../../data/responses/flash_sale_response_model/flash_sale_response_model.dart';
 
-
 part 'flash_sale_event.dart';
 
 part 'flash_sale_state.dart';
@@ -31,9 +30,7 @@ class FlashSaleBloc extends Bloc<FlashSaleEvent, FlashSaleState> {
     emit,
   ) async {
     DataState<List<FlashSale>> dataState =
-        await _getListFlashSaleProductRemoteUsecase.call(
-      event.tokenParam.token,
-    );
+        await _getListFlashSaleProductRemoteUsecase.call(null);
 
     if (dataState is DataSuccess) {
       List<FlashSale> _listFlashSale = List.of(dataState.data!);

@@ -26,7 +26,7 @@ class CityCubit extends Cubit<CityState> {
     );
   }
 
-  void onGetListData(TokenParam param) async {
+  void onGetListData() async {
     emit(
       state.copyWith(
         status: CityStatus.loading,
@@ -34,7 +34,7 @@ class CityCubit extends Cubit<CityState> {
     );
     try {
       DataState<CityResponseModel> dataState =
-          await _getListCityUsecase.call(param);
+          await _getListCityUsecase.call(null);
 
       if (dataState is DataSuccess) {
         List<FilterModel> listFilterModel = dataState.data!.data!.map(

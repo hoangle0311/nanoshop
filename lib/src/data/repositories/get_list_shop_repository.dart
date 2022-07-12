@@ -24,7 +24,6 @@ class GetListShopRepositoryImpl extends GetListShopRepository {
     try {
       final HttpResponse<ShopResponseModel> response =
       await _shopService.getListShop(
-        token: params.token,
         body: params.toJson(),
       );
 

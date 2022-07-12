@@ -9,7 +9,6 @@ import 'package:nanoshop/src/presentation/views/components/remove_focus_widget/r
 
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/hooks/on_use_scroll_controller_for_lazy_loading_search_product.dart';
-import '../../../core/params/token_param.dart';
 import '../../../domain/entities/product/product.dart';
 import '../../cubits/search_list_product_cubit/search_list_product_cubit.dart';
 import '../../views/components/product_widget/list_vertical_product_widget.dart';
@@ -28,7 +27,7 @@ class _ScSearchProductState extends State<ScSearchProduct> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => injector<SearchListProductCubit>()
-        ..onGetRelatedList(tokenParam: injector<TokenParam>()),
+        ..onGetRelatedList(),
       child: RemoveFocusWidget(
         child: Scaffold(
           appBar: SearchAppBar(

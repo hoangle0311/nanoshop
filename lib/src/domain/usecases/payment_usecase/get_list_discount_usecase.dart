@@ -7,7 +7,7 @@ import '../../../data/responses/discount_response_model/discount_response_model.
 import '../../../data/responses/list_discount_response_model/list_discount_response_model.dart';
 
 class GetListDiscountUsecase
-    extends UseCaseWithFuture<DataState<ListDiscountResponseModel>, String> {
+    extends UseCaseWithFuture<DataState<ListDiscountResponseModel>, void> {
   final PaymentRepository _paymentRepository;
 
   GetListDiscountUsecase(
@@ -15,7 +15,7 @@ class GetListDiscountUsecase
       );
 
   @override
-  Future<DataState<ListDiscountResponseModel>> call(String token) {
-    return _paymentRepository.getListDiscount(token);
+  Future<DataState<ListDiscountResponseModel>> call(void params) {
+    return _paymentRepository.getListDiscount();
   }
 }

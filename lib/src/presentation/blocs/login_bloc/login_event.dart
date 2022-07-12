@@ -26,9 +26,6 @@ class LoginPasswordChanged extends LoginEvent {
 }
 
 class LoginSubmitted extends LoginEvent {
-  final TokenParam tokenParam;
 
-  const LoginSubmitted({
-    required this.tokenParam,
-  });
+  const LoginSubmitted();
 }

@@ -3,9 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanoshop/src/presentation/blocs/post_bloc/post_bloc.dart';
 
 import '../../injector.dart';
-import '../bloc/bloc_with_state.dart';
-import '../params/token_param.dart';
-import '../utils/log/log.dart';
 
 void onUseScrollControllerForLazyLoadingPost(
   BuildContext context,
@@ -23,7 +20,6 @@ void onUseScrollControllerForLazyLoadingPost(
       state.status != PostStatus.loading) {
     bloc.add(
       LoadMorePost(
-        tokenParam: injector<TokenParam>(),
       ),
     );
   }

@@ -25,7 +25,6 @@ class PostRepositoryImpl extends PostRepository {
       PostParam param) async {
     try {
       final HttpResponse<PostResponseModel> response = await _postService.getListPost(
-        token: param.token,
         page: param.page,
         limit: param.limit,
       );
@@ -52,7 +51,6 @@ class PostRepositoryImpl extends PostRepository {
   Future<DataState<DetailPostResponseModel>> getDetailPostRemote(DetailPostParam param) async {
     try {
       final HttpResponse<DetailPostResponseModel> response = await _postService.detailPost(
-        token: param.token,
         body: param.toJson(),
       );
 

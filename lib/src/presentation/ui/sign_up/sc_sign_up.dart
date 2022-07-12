@@ -12,7 +12,6 @@ import 'package:nanoshop/src/presentation/views/components/remove_focus_widget/r
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/assets/image_path.dart';
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../../core/toast/toast.dart';
 import '../../../injector.dart';
 import '../../blocs/sign_up_bloc/sign_up_bloc.dart';
@@ -341,7 +340,6 @@ class _SignUpButton extends StatelessWidget {
                 onTap: state.status.isValidated
                     ? () {
                         context.read<SignUpBloc>().add(SignUpSubmitted(
-                              tokenParam: injector<TokenParam>(),
                             ));
                       }
                     : null,

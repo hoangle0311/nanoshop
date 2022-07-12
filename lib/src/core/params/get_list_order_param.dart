@@ -1,12 +1,10 @@
 class GetListOrderParam {
-  final String token;
   final String userId;
   final int orderStatus;
   final int page;
   final int limit;
 
   GetListOrderParam({
-    required this.token,
     required this.orderStatus,
     required this.userId,
     required this.page,

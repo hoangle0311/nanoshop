@@ -33,8 +33,7 @@ abstract class ProductRepository {
     DetailProductParam param,
   );
 
-  Future<DataState<List<FlashSale>>> getListFlashSaleRemote(
-      String params);
+  Future<DataState<List<FlashSale>>> getListFlashSaleRemote();
 
   Future<DataState<List<Product>>> getListFlashSaleWithListProductRemote(
     ListFlashSaleWithListProductParam params,
@@ -48,9 +47,7 @@ abstract class ProductRepository {
     GetListCommentParam params,
   );
 
-  Future<DataState<ManufacturerResponseModel>> getListManufacturer(
-    String token,
-  );
+  Future<DataState<ManufacturerResponseModel>> getListManufacturer();
 
   List<Product> getListFavouriteProductLocal();
 

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:nanoshop/src/core/params/token_param.dart';
+
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/domain/entities/transport/transport.dart';
 
@@ -24,7 +24,7 @@ class TransportCubit extends Cubit<TransportState> {
     );
   }
 
-  void onGetListTransPort(TokenParam tokenParam) async {
+  void onGetListTransPort() async {
     emit(
       state.copyWith(
         status: TransportStatus.loading,
@@ -32,7 +32,7 @@ class TransportCubit extends Cubit<TransportState> {
     );
 
     DataState<TransportResponseModel> dataState =
-        await _getTransportUsecase.call(tokenParam.token);
+        await _getTransportUsecase.call(null);
 
     if (dataState is DataSuccess) {
       emit(

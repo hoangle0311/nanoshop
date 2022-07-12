@@ -1,3 +1,4 @@
+import 'package:nanoshop/src/core/utils/log/log.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
@@ -12,10 +13,8 @@ part 'banner_service.g.dart';
 abstract class BannerService {
   factory BannerService(Dio dio, {String baseUrl}) = _BannerService;
 
-  // @GET(ApiPath.banner)
   @POST(ApiPath.banner)
   Future<HttpResponse<BannerResponseModel>> getBanner({
-    @Header("token") required String token,
     @Part(name: "group_id") required String groupId,
     @Part(name: "limit") required String limit,
   });

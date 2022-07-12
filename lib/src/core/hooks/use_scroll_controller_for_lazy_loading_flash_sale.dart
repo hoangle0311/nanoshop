@@ -21,6 +21,6 @@ void useScrollControllerForLazyLoadingFlashSale(
   if (currentScroll >= (maxScrollExtend - 200) &&
       hasMore &&
       state.status != ProductStatus.loading) {
-    bloc.onLoadMore(token: injector<TokenParam>().token, groupId: groupId);
+    bloc.onLoadMore( groupId: groupId);
   }
 }

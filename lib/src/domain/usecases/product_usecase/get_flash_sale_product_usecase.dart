@@ -7,14 +7,14 @@ import '../../../data/responses/flash_sale_response_model/flash_sale_response_mo
 import '../../repositories/product_repository/product_repository.dart';
 
 class GetListFlashSaleProductRemoteUsecase
-    extends UseCaseWithFuture<DataState<List<FlashSale>>, String> {
+    extends UseCaseWithFuture<DataState<List<FlashSale>>, void> {
   final ProductRepository _productRepository;
   GetListFlashSaleProductRemoteUsecase(
     this._productRepository,
   );
 
   @override
-  Future<DataState<List<FlashSale>>> call(String params) {
-    return _productRepository.getListFlashSaleRemote(params);
+  Future<DataState<List<FlashSale>>> call(void params) {
+    return _productRepository.getListFlashSaleRemote();
   }
 }

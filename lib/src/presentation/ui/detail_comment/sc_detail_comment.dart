@@ -26,7 +26,6 @@ class ScDetailComment extends StatelessWidget {
     return BlocProvider(
       create: (context) => injector<GetListCommentCubit>()
         ..onInitialGetListComment(
-          tokenParam: injector<TokenParam>(),
           product: product,
         ),
       child: Scaffold(

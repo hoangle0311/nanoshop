@@ -44,12 +44,10 @@ class ContentChanged extends AddCommentEvent {
 }
 
 class CommentSubmitted extends AddCommentEvent {
-  final TokenParam tokenParam;
   final String userId;
   final String productId;
 
   const CommentSubmitted({
-    required this.tokenParam,
     required this.userId,
     required this.productId,
   });

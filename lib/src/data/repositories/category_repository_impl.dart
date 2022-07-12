@@ -25,7 +25,6 @@ class CategoryRepositoryImpl extends CategoryRepository {
       final HttpResponse<CategoryResponseModel> response =
           await _categoryService.getListCategory(
         type: params.type,
-        token: params.token,
       );
 
       if (response.response.statusCode == HttpStatus.ok) {

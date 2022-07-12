@@ -6,6 +6,7 @@ import 'package:nanoshop/src/core/params/banner_param.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 
 import 'package:nanoshop/src/core/resource/data_state.dart';
+import 'package:nanoshop/src/core/utils/log/log.dart';
 
 import '../../../data/responses/banner_response_model.dart/banner_response_model.dart';
 import '../../../domain/entities/banner/banner.dart';
@@ -33,7 +34,6 @@ class GetBannerBloc extends Bloc<GetBannerEvent, GetBannerState> {
         BannerParam(
           groupId: event.groupId,
           limit: "10",
-          token: event.tokenParam.token,
         ),
       );
 
@@ -59,6 +59,7 @@ class GetBannerBloc extends Bloc<GetBannerEvent, GetBannerState> {
         );
       }
     } catch (e) {
+      Log.i(e.toString());
       emit(
         GetBannerFailed(),
       );

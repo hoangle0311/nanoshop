@@ -5,6 +5,7 @@ import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 
 import 'package:nanoshop/src/core/assets/image_path.dart';
+import 'package:nanoshop/src/core/utils/log/log.dart';
 import 'package:nanoshop/src/domain/entities/flash_sale/flash_sale.dart';
 
 import 'package:nanoshop/src/injector.dart';
@@ -22,7 +23,6 @@ import '../../../chat/models/data_model.dart';
 import '../../../chat/screen_chat.dart';
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/hooks/go_to_list_product_screen.dart';
-import '../../../core/params/token_param.dart';
 import '../../../domain/entities/user_login/user_login.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
 import '../../blocs/blocs.dart';
@@ -48,7 +48,6 @@ class HomePage extends StatelessWidget {
             ..add(
               GetBannerByGroupId(
                 groupId: _groupIdBanner,
-                tokenParam: injector<TokenParam>(),
               ),
             ),
         ),
@@ -56,9 +55,7 @@ class HomePage extends StatelessWidget {
           lazy: true,
           create: (_) => injector<GetCategoryBloc>()
             ..add(
-              GetListCategoryEvent(
-                tokenParam: injector<TokenParam>(),
-              ),
+              GetListCategoryEvent(),
             ),
         ),
         BlocProvider(
@@ -109,19 +106,15 @@ class HomePage extends StatelessWidget {
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
-              context
-                  .read<FlashSaleBloc>()
-                  .add(GetFlashSale(tokenParam: injector<TokenParam>()));
+              context.read<FlashSaleBloc>().add(GetFlashSale(
+                  ));
               context.read<GetBannerBloc>().add(
                     GetBannerByGroupId(
                       groupId: _groupIdBanner,
-                      tokenParam: injector<TokenParam>(),
                     ),
                   );
               context.read<GetCategoryBloc>().add(
-                    GetListCategoryEvent(
-                      tokenParam: injector<TokenParam>(),
-                    ),
+                    GetListCategoryEvent(),
                   );
             },
             child: SingleChildScrollView(
@@ -158,7 +151,6 @@ class HomePage extends StatelessWidget {
                     create: (context) => injector<ProductBloc>()
                       ..add(
                         GetListProductEvent(
-                          tokenParam: injector<TokenParam>(),
                         ),
                       ),
                     child: const VerticalListProductHomePage(),

@@ -25,7 +25,6 @@ class GetListOrderCubit extends Cubit<GetListOrderState> {
         state.copyWith(status: GetListOrderStatus.loading),
       );
       final params = GetListOrderParam(
-        token: state.param!.token,
         orderStatus: state.param!.orderStatus,
         userId: state.param!.userId,
         page: state.param!.page + 1,
@@ -73,7 +72,6 @@ class GetListOrderCubit extends Cubit<GetListOrderState> {
   }
 
   void onGetListData({
-    required TokenParam param,
     required int orderStatus,
     required String userId,
   }) async {
@@ -82,7 +80,6 @@ class GetListOrderCubit extends Cubit<GetListOrderState> {
     );
 
     final params = GetListOrderParam(
-      token: param.token,
       orderStatus: orderStatus,
       userId: userId,
       page: state.page + 1,

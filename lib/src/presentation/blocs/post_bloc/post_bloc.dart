@@ -40,7 +40,6 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
       PostParam(
         page: _page,
         limit: postPerPage,
-        token: event.tokenParam.token,
       ),
     );
 
@@ -80,7 +79,6 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
         PostParam(
           page: _page,
           limit: postPerPage,
-          token: event.tokenParam.token,
         ),
       );
 

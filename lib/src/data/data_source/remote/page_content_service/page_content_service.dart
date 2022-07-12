@@ -13,7 +13,6 @@ abstract class PageContentService {
   // @GET(ApiPath.banner)
   @POST(ApiPath.pageContent)
   Future<HttpResponse<PageContentResponse>> getPageContent({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 }

@@ -15,7 +15,7 @@ class GetBannerUsecase
 
   // Truyen groupId vao de lay banner
   @override
-  Future<DataState<List<Banner>>> call(BannerParam params) {
-    return _categoryRepository.getListBanner(params);
+  Future<DataState<List<Banner>>> call(BannerParam params) async {
+    return await _categoryRepository.getListBanner(params);
   }
 }

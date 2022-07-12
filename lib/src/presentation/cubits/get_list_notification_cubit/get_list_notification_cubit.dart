@@ -30,7 +30,6 @@ class GetListNotificationCubit extends Cubit<GetListNotificationState> {
       type: state.param!.type,
       page: state.param!.page + 1,
       userId: state.param!.userId,
-      token: state.param!.token,
     );
 
     try {
@@ -63,7 +62,6 @@ class GetListNotificationCubit extends Cubit<GetListNotificationState> {
   }
 
   onGetNotification(
-    TokenParam tokenParam,
     String userId,
     int type,
   ) async {
@@ -76,7 +74,6 @@ class GetListNotificationCubit extends Cubit<GetListNotificationState> {
       type: type.toString(),
       page: 1,
       userId: userId,
-      token: tokenParam.token,
     );
 
     try {

@@ -17,9 +17,7 @@ class GetListCouponCubit extends Cubit<GetListCouponState> {
           const GetListCouponState(),
         );
 
-  void onGetListVoucher(
-    TokenParam tokenParam,
-  ) async {
+  void onGetListVoucher() async {
     emit(
       state.copyWith(
         status: GetListCouponStatus.loading,
@@ -29,7 +27,7 @@ class GetListCouponCubit extends Cubit<GetListCouponState> {
     try {
       DataState<ListDiscountResponseModel> dataState =
           await _getListDiscountUsecase.call(
-        tokenParam.token,
+        null,
       );
 
       if (dataState is DataSuccess) {

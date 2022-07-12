@@ -14,8 +14,6 @@ import 'package:nanoshop/src/presentation/blocs/authentication_bloc/authenticati
 import 'package:nanoshop/src/presentation/cubits/get_list_notification_cubit/get_list_notification_cubit.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 
-import '../../../core/params/token_param.dart';
-
 class ScListNotification extends StatelessWidget {
   final TypeNotification typeNotification;
 
@@ -29,7 +27,6 @@ class ScListNotification extends StatelessWidget {
     return BlocProvider(
       create: (context) => injector<GetListNotificationCubit>()
         ..onGetNotification(
-          injector<TokenParam>(),
           context.read<AuthenticationBloc>().state.user.userId!,
           typeNotification.id ?? 0,
         ),

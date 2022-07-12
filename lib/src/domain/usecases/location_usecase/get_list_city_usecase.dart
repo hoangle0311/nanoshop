@@ -6,7 +6,7 @@ import 'package:nanoshop/src/domain/repositories/location_repository/location_re
 import '../../../data/responses/location_response_model/city_response_model.dart';
 
 class GetListCityUsecase
-    extends UseCaseWithFuture<DataState<CityResponseModel>, TokenParam> {
+    extends UseCaseWithFuture<DataState<CityResponseModel>, void> {
   final LocationRepository _locationRepository;
 
   GetListCityUsecase(
@@ -14,7 +14,7 @@ class GetListCityUsecase
   );
 
   @override
-  Future<DataState<CityResponseModel>> call(TokenParam params) {
-    return _locationRepository.getListCity(params);
+  Future<DataState<CityResponseModel>> call(void params) {
+    return _locationRepository.getListCity();
   }
 }

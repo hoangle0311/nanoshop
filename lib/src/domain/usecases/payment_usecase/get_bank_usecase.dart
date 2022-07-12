@@ -6,7 +6,7 @@ import '../../../data/responses/bank_response_model/bank_response_model.dart';
 
 
 class GetBankUsecase
-    extends UseCaseWithFuture<DataState<BankResponseModel>, String> {
+    extends UseCaseWithFuture<DataState<BankResponseModel>, void> {
   final PaymentRepository _paymentRepository;
 
   GetBankUsecase(
@@ -14,7 +14,7 @@ class GetBankUsecase
       );
 
   @override
-  Future<DataState<BankResponseModel>> call(String params) {
-    return _paymentRepository.getBank(params);
+  Future<DataState<BankResponseModel>> call(void params) {
+    return _paymentRepository.getBank();
   }
 }

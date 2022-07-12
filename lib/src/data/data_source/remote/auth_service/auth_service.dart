@@ -17,7 +17,6 @@ abstract class AuthService {
   // @GET(ApiPath.login)
   @POST(ApiPath.login)
   Future<HttpResponse<UserLoginResponseModel>> loginUser({
-    @Header("token") required String token,
     @Part(name: "username") required String username,
     @Part(name: "password") required String password,
   });
@@ -25,14 +24,12 @@ abstract class AuthService {
   // @GET(ApiPath.getUser)
   @POST(ApiPath.getUser)
   Future<HttpResponse<UserLoginResponseModel>> getUser({
-    @Header("token") required String token,
     @Part(name: "user_id") required String userId,
   });
 
   @POST(ApiPath.updateUser)
   @MultiPart()
   Future<HttpResponse<DefaultResponseModel>> updateUser({
-    @Header("token") required String token,
     @Part(name: "avatar") File? file,
     @Part(name: "user_id") required String userId,
     @Part(name: "name") String? name,
@@ -44,7 +41,6 @@ abstract class AuthService {
   // @GET(ApiPath.signUp)
   @POST(ApiPath.signUp)
   Future<HttpResponse<SignUpResponseModel>> signUpUser({
-    @Header("token") required String token,
     @Part(name: "name") required String name,
     @Part(name: "phone") required String phone,
     @Part(name: "password") required String password,
@@ -53,7 +49,6 @@ abstract class AuthService {
 
   @POST(ApiPath.changePassword)
   Future<HttpResponse<DefaultResponseModel>> changePasswordUser({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 }

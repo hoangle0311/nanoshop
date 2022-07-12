@@ -22,14 +22,14 @@ class ManufacturerCubit extends Cubit<ManufacturerState> {
     );
   }
 
-  getListManufacturer(String token) async {
+  getListManufacturer() async {
     emit(state.copyWith(
       status: ManufacturerStatus.loading,
     ));
 
     try {
       DataState<ManufacturerResponseModel> dataState =
-          await _getListManufacturerUsecase.call(token);
+          await _getListManufacturerUsecase.call(null);
 
       if (dataState is DataSuccess) {
         emit(

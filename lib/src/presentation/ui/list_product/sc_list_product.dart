@@ -7,17 +7,12 @@ import 'package:nanoshop/src/config/styles/app_text_style.dart';
 import 'package:nanoshop/src/core/assets/image_path.dart';
 import 'package:nanoshop/src/core/hooks/use_scroll_controller_for_lazy_loading_product.dart';
 import 'package:nanoshop/src/core/params/filter_param.dart';
-import 'package:nanoshop/src/core/utils/log/log.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 import 'package:nanoshop/src/presentation/views/components/image_widget/load_image_form_url_widget.dart';
 
 import '../../../config/styles/app_color.dart';
-import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../blocs/blocs.dart';
-import '../../blocs/local_product_bloc/local_product_bloc.dart';
-import '../../views/components/buttons/button_with_title_widget.dart';
 import '../../views/components/loading_widget/banner_loading.dart';
 import '../../views/components/loading_widget/list_horizontal_category_loading.dart';
 import '../../views/components/product_widget/list_vertical_product_widget.dart';
@@ -50,7 +45,6 @@ class ScListProduct extends StatelessWidget {
           create: (context) => injector<ProductBloc>()
             ..add(
               GetListProductEvent(
-                tokenParam: injector<TokenParam>(),
                 categoryId: argument.categoryId,
               ),
             ),
@@ -60,7 +54,6 @@ class ScListProduct extends StatelessWidget {
             ..add(
               GetBannerByGroupId(
                 groupId: _groupIdBanner,
-                tokenParam: injector<TokenParam>(),
               ),
             ),
         ),
@@ -143,10 +136,11 @@ class _Header extends StatelessWidget {
                       (value) {
                         if (value != null) {
                           if (value is FilterParam) {
-                            context.read<ProductBloc>().add(GetListProductEvent(
-                                  tokenParam: injector<TokenParam>(),
-                                  filterParam: value,
-                                ));
+                            context.read<ProductBloc>().add(
+                                  GetListProductEvent(
+                                    filterParam: value,
+                                  ),
+                                );
                           }
                         }
                       },

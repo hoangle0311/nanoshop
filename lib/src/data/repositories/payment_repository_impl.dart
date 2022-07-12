@@ -13,7 +13,6 @@ import 'package:nanoshop/src/domain/repositories/payment_repository/payment_repo
 import 'package:nanoshop/src/core/resource/data_state.dart';
 
 import '../../core/params/voucher_param.dart';
-import '../../core/utils/log/log.dart';
 import '../data_source/local/payment_local_service/payment_local_service.dart';
 import '../responses/bank_response_model/bank_response_model.dart';
 import '../responses/default_response_model/default_response_model.dart';
@@ -38,7 +37,6 @@ class PaymentRepositoryImpl extends PaymentRepository {
     try {
       final HttpResponse<DiscountResponseModel> response =
           await _paymentService.getDiscount(
-        token: param.token,
         code: param.voucherString,
       );
 
@@ -61,13 +59,10 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<DataState<ListDiscountResponseModel>> getListDiscount(
-      String token) async {
+  Future<DataState<ListDiscountResponseModel>> getListDiscount() async {
     try {
       final HttpResponse<ListDiscountResponseModel> response =
-          await _paymentService.getListDiscount(
-        token: token,
-      );
+          await _paymentService.getListDiscount();
 
       if (response.response.statusCode == HttpStatus.ok) {
         return DataSuccess(data: response.data);
@@ -88,12 +83,10 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<DataState<TransportResponseModel>> getTransport(String param) async {
+  Future<DataState<TransportResponseModel>> getTransport() async {
     try {
       final HttpResponse<TransportResponseModel> response =
-          await _paymentService.getTransport(
-        token: param,
-      );
+          await _paymentService.getTransport();
 
       if (response.response.statusCode == HttpStatus.ok) {
         return DataSuccess(data: response.data);
@@ -114,11 +107,10 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<DataState<List<PaymentModel>>> getPayment(String param) async {
+  Future<DataState<List<PaymentModel>>> getPayment() async {
     try {
       final HttpResponse<PaymentMethodResponseModel> response =
           await _paymentService.getPayment(
-        token: param,
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
@@ -140,11 +132,10 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<DataState<BankResponseModel>> getBank(String param) async {
+  Future<DataState<BankResponseModel>> getBank() async {
     try {
       final HttpResponse<BankResponseModel> response =
           await _paymentService.getBank(
-        token: param,
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
@@ -170,7 +161,6 @@ class PaymentRepositoryImpl extends PaymentRepository {
     try {
       final HttpResponse<DefaultResponseModel> response =
           await _paymentService.checkout(
-        token: param.token,
         body: param.toJson(),
       );
 
@@ -198,7 +188,6 @@ class PaymentRepositoryImpl extends PaymentRepository {
     try {
       final HttpResponse<OrderResponseModel> response =
           await _paymentService.getListOrder(
-        token: param.token,
         body: param.toJson(),
       );
 

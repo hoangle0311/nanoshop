@@ -16,7 +16,6 @@ import 'package:nanoshop/src/presentation/views/dialog/dialog_loading.dart';
 
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../blocs/login_bloc/login_bloc.dart';
 import '../../views/components/buttons/button_icon_with_title.dart';
 import '../../views/components/buttons/button_loading.dart';
@@ -88,7 +87,6 @@ class LoginForm extends StatelessWidget {
               context.read<AuthenticationBloc>().add(
                     AuthenticationUserRequest(
                       userId: state.userLogin.userId!,
-                      tokenParam: injector<TokenParam>(),
                     ),
                   );
               // await Future.delayed(
@@ -379,7 +377,6 @@ class _LoginButton extends StatelessWidget {
                     ? () {
                         context.read<LoginBloc>().add(
                               LoginSubmitted(
-                                tokenParam: injector<TokenParam>(),
                               ),
                             );
                       }

@@ -5,8 +5,6 @@ import 'package:formz/formz.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
 import 'package:nanoshop/src/core/form_model/add_comment/content_input.dart';
-import 'package:nanoshop/src/core/form_model/login/username_input.dart';
-import 'package:nanoshop/src/core/form_model/sign_up/fullname_input.dart';
 import 'package:nanoshop/src/domain/entities/product/product.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
@@ -15,7 +13,6 @@ import 'package:nanoshop/src/presentation/views/dialog/dialog_loading.dart';
 
 import '../../../config/routers/app_router/app_router.dart';
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../../core/toast/toast.dart';
 import '../../../domain/entities/user_login/user_login.dart';
 import '../../blocs/add_comment_bloc/add_comment_bloc.dart';
@@ -99,7 +96,6 @@ class _BottomNav extends StatelessWidget {
                   } else {
                     context.read<AddCommentBloc>().add(
                           CommentSubmitted(
-                            tokenParam: injector<TokenParam>(),
                             userId: injector<AuthenticationBloc>()
                                 .state
                                 .user

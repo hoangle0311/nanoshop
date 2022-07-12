@@ -1,11 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class GetListShopParam extends Equatable{
-  final String token;
   final String? provinceId;
 
   GetListShopParam({
-    required this.token,
     this.provinceId,
   });
 
@@ -20,9 +18,7 @@ class GetListShopParam extends Equatable{
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
-    token,
     provinceId,
   ];
 }

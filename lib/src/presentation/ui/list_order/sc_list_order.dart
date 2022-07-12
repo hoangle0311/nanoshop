@@ -5,7 +5,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
-import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/utils/helper/convert_price.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/cubits/get_list_order_cubit/get_list_order_cubit.dart';
@@ -97,7 +96,6 @@ class _ListOrderWidget extends HookWidget {
     return BlocProvider(
       create: (context) => injector<GetListOrderCubit>()
         ..onGetListData(
-          param: injector<TokenParam>(),
           orderStatus: status,
           userId: injector<AuthenticationBloc>().state.user.userId!,
         ),

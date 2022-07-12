@@ -10,8 +10,6 @@ import 'package:nanoshop/src/presentation/views/components/image_widget/load_ima
 
 import '../../../config/styles/app_color.dart';
 import '../../../config/styles/app_text_style.dart';
-import '../../../core/assets/image_path.dart';
-import '../../../core/params/token_param.dart';
 import '../../cubits/city_cubit/city_cubit.dart';
 import '../../cubits/get_list_shop_cubit/get_list_shop_cubit.dart';
 import '../../views/components/drop_down_field/drop_down_field.dart';
@@ -24,16 +22,10 @@ class ScListShop extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => injector<CityCubit>()
-            ..onGetListData(
-              injector<TokenParam>(),
-            ),
+          create: (context) => injector<CityCubit>()..onGetListData(),
         ),
         BlocProvider(
-          create: (context) => injector<GetListShopCubit>()
-            ..onGetListShop(
-              tokenParam: injector<TokenParam>(),
-            ),
+          create: (context) => injector<GetListShopCubit>()..onGetListShop(),
         ),
       ],
       child: Scaffold(
@@ -59,7 +51,6 @@ class ScListShop extends StatelessWidget {
                       value: state.city,
                       onChanged: (value) {
                         context.read<GetListShopCubit>().onGetListShop(
-                              tokenParam: injector<TokenParam>(),
                               city: value,
                             );
                       },

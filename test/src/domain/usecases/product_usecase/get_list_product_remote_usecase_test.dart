@@ -44,7 +44,7 @@ void main() {
     ),
   );
 
-  ProductParam productParam = ProductParam(page: 1, limit: 10, token: '');
+  ProductParam productParam = ProductParam(page: 1, limit: 10);
 
   group(
     'get_list_product_remote_usecase',

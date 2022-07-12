@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
-import 'package:nanoshop/src/core/assets/image_path.dart';
 import 'package:nanoshop/src/core/utils/helper/convert_price.dart';
 import 'package:nanoshop/src/domain/entities/discount/discount_data.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 
-import '../../../core/params/token_param.dart';
 import '../../cubits/get_list_coupon/get_list_coupon_cubit.dart';
 
 class ListCoupon extends StatelessWidget {
@@ -21,7 +19,6 @@ class ListCoupon extends StatelessWidget {
     return BlocProvider(
       create: (context) => injector<GetListCouponCubit>()
         ..onGetListVoucher(
-          injector<TokenParam>(),
         ),
       child: Scaffold(
         appBar: const PageAppBar(

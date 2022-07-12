@@ -45,7 +45,6 @@ class UpdateUserCubit extends Cubit<UpdateUserState> {
   }
 
   void updateUser({
-    required TokenParam tokenParam,
     required String userId,
     File? avatar,
     String? name,
@@ -60,7 +59,6 @@ class UpdateUserCubit extends Cubit<UpdateUserState> {
       DataState<DefaultResponseModel> dataState =
           await _updateUserRemoteUsecase.call(
         UpdateUserParam(
-          token: tokenParam.token,
           file: avatar,
           userId: userId,
           userName: name,

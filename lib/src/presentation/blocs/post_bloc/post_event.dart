@@ -8,17 +8,11 @@ abstract class PostEvent extends Equatable {
 }
 
 class GetListPost extends PostEvent {
-  final TokenParam tokenParam;
 
-  const GetListPost({
-    required this.tokenParam,
-  });
+  const GetListPost();
 }
 
 class LoadMorePost extends PostEvent {
-  final TokenParam tokenParam;
 
-  const LoadMorePost({
-    required this.tokenParam,
-  });
+  const LoadMorePost();
 }

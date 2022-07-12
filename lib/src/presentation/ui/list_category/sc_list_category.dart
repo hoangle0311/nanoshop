@@ -2,16 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanoshop/src/config/environment/app_environment.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
+import 'package:nanoshop/src/core/constant/db_key/shared_paths.dart';
 import 'package:nanoshop/src/presentation/ui/list_product/sc_list_product.dart';
 import 'package:nanoshop/src/presentation/views/components/image_widget/load_image_form_url_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../config/styles/app_color.dart';
-import '../../../core/params/token_param.dart';
 import '../../../injector.dart';
 import '../../blocs/blocs.dart';
 import '../../views/components/app_bar/main_app_bar.dart';
@@ -28,9 +30,7 @@ class ScListCategory extends StatelessWidget {
     return BlocProvider(
       create: (_) => injector<GetCategoryBloc>()
         ..add(
-          GetListCategoryEvent(
-            tokenParam: injector<TokenParam>(),
-          ),
+          GetListCategoryEvent(),
         ),
       child: Scaffold(
         appBar: const PageAppBar(
@@ -107,7 +107,8 @@ class _ItemCategoryState extends State<ItemCategory> {
         ),
         headers: {
           "Content-Type": "application/json",
-          "token": injector<TokenParam>().token,
+          "token":
+              injector<SharedPreferences>().getString(SharedPaths.token) ?? '',
         },
         body: json.encode({
           "category_id": categoryId,
@@ -264,7 +265,8 @@ class _ItemCategoryState extends State<ItemCategory> {
                                       if (snapshot.hasData) {
                                         return Text(
                                           "(${snapshot.data})",
-                                          style: TextStyleApp.textStyle2.copyWith(
+                                          style:
+                                              TextStyleApp.textStyle2.copyWith(
                                             color: AppColors.black,
                                             fontStyle: FontStyle.italic,
                                           ),

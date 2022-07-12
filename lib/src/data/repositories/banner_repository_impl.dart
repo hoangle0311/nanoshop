@@ -28,7 +28,6 @@ class BannerRepositoryImpl extends BannerRepository {
           await _bannerService.getBanner(
         groupId: param.groupId,
         limit: param.limit,
-        token: param.token,
       );
 
       if (response.response.statusCode == HttpStatus.ok) {

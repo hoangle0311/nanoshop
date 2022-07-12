@@ -7,7 +7,6 @@ import 'package:nanoshop/src/config/styles/app_text_style.dart';
 import 'package:nanoshop/src/injector.dart';
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 
-import '../../../core/params/token_param.dart';
 import '../../cubits/page_content_cubit/page_content_cubit.dart';
 
 class PageContentArgument {
@@ -35,7 +34,6 @@ class ScPageContent extends StatelessWidget {
     return BlocProvider(
       create: (context) => injector<PageContentCubit>()
         ..onGetPageContent(
-          injector<TokenParam>(),
           argument.id,
           argument.type,
         ),

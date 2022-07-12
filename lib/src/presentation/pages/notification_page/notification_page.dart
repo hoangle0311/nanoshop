@@ -24,7 +24,6 @@ class NotificationPage extends StatelessWidget {
       listener: (context, state) {
         if (state.status == AuthenticationStatus.authenticated) {
           context.read<GetTypeNotificationCubit>().onGetType(
-                injector<TokenParam>(),
                 state.user.userId!,
               );
         }

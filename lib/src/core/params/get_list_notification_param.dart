@@ -1,12 +1,10 @@
 class GetListNotificationParam {
-  final String token;
   final String userId;
   final String type;
   final int page;
   final int limit;
 
   GetListNotificationParam({
-    required this.token,
     required this.userId,
     required this.type,
     required this.page,

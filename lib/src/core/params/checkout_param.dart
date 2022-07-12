@@ -7,7 +7,6 @@ import '../../data/responses/cart/cart.dart';
 import '../../domain/entities/bank/bank.dart';
 
 class CheckoutParam extends Equatable {
-  final String token;
   final String? discountCode;
   final Bank bank;
   final String userId;
@@ -17,7 +16,6 @@ class CheckoutParam extends Equatable {
   final List<Cart> listProduct;
 
   const CheckoutParam({
-    required this.token,
     required this.listProduct,
     this.bank = Bank.empty,
     this.discountCode,

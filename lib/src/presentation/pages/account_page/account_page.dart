@@ -18,7 +18,6 @@ import 'package:nanoshop/src/presentation/views/dialog/custom_dialog_with_icon.d
 
 import '../../../config/styles/app_text_style.dart';
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../../core/toast/toast.dart';
 import '../../../domain/entities/user_login/user_login.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
@@ -93,7 +92,6 @@ class AccountPage extends StatelessWidget {
                             context
                                 .read<AuthenticationBloc>()
                                 .add(AuthenticationUserRequest(
-                                  tokenParam: injector<TokenParam>(),
                                   userId: context
                                       .read<AuthenticationBloc>()
                                       .state
@@ -265,7 +263,6 @@ class AccountFragment extends StatelessWidget {
                       }).then((value) {
                     if (value != null) {
                       context.read<UpdateUserCubit>().updateUser(
-                            tokenParam: injector<TokenParam>(),
                             avatar: value,
                             userId: injector<AuthenticationBloc>()
                                 .state

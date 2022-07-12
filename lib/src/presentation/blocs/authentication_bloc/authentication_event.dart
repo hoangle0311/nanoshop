@@ -8,12 +8,10 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class AuthenticationUserRequest extends AuthenticationEvent {
-  final TokenParam tokenParam;
   final String userId;
 
   const AuthenticationUserRequest({
     required this.userId,
-    required this.tokenParam,
   });
 
   @override
@@ -23,11 +21,8 @@ class AuthenticationUserRequest extends AuthenticationEvent {
 }
 
 class AuthenticationCheckLocalRequested extends AuthenticationEvent {
-  final TokenParam tokenParam;
 
-  const AuthenticationCheckLocalRequested({
-    required this.tokenParam,
-  });
+  const AuthenticationCheckLocalRequested();
 }
 
 class AuthenticationLogoutRequested extends AuthenticationEvent {}

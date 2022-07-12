@@ -91,7 +91,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           LoginUserParam(
             userName: state.username.value,
             password: state.password.value,
-            token: event.tokenParam.token,
           ),
         );
 

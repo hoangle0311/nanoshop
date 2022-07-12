@@ -6,12 +6,9 @@ import 'package:nanoshop/src/presentation/cubits/bottom_nav_cubit/bottom_nav_cub
 
 import '../../../../main.dart';
 import '../../../chat/firebase/firebase_send_notifi.dart';
-import '../../../core/params/token_param.dart';
 import '../../../injector.dart';
 import '../../blocs/authentication_bloc/authentication_bloc.dart';
-import '../../blocs/blocs.dart';
 import '../../blocs/flash_sale_bloc/flash_sale_bloc.dart';
-import '../../blocs/post_bloc/post_bloc.dart';
 import '../../bottom_home_nav_bar.dart';
 import '../../pages/notification_page/notification_page.dart';
 import '../../pages/pages.dart';
@@ -82,51 +79,42 @@ class _ScHomeState extends State<ScHome> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetTokenBloc, GetTokenState>(
-      builder: (context, state) {
-        if (state is GetTokenDone) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider<FlashSaleBloc>(
-                create: (context) => injector<FlashSaleBloc>()
-                  ..add(
-                    GetFlashSale(
-                      tokenParam: injector<TokenParam>(),
-                    ),
-                  ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<FlashSaleBloc>(
+          create: (context) => injector<FlashSaleBloc>()
+            ..add(
+              GetFlashSale(
               ),
-            ],
-            child: Scaffold(
-              extendBody: true,
-              body: BlocBuilder<BottomNavCubit, BottomNavState>(
-                builder: (context, state) => IndexedStack(
-                  index: state.index,
-                  children: List.generate(
-                    navDataItems.length,
-                    (index) {
-                      switch (index) {
-                        case 0:
-                          return const HomePage();
-                        case 1:
-                          return const PostPage();
-                        case 2:
-                          return const NotificationPage();
-                        case 3:
-                          return const AccountPage();
-                        default:
-                          return HomePage();
-                      }
-                    },
-                  ),
-                ),
-              ),
-              bottomNavigationBar: const BottomHomeNavBar(),
             ),
-          );
-        }
-
-        return Container();
-      },
+        ),
+      ],
+      child: Scaffold(
+        extendBody: true,
+        body: BlocBuilder<BottomNavCubit, BottomNavState>(
+          builder: (context, state) => IndexedStack(
+            index: state.index,
+            children: List.generate(
+              navDataItems.length,
+                  (index) {
+                switch (index) {
+                  case 0:
+                    return const HomePage();
+                  case 1:
+                    return const PostPage();
+                  case 2:
+                    return const NotificationPage();
+                  case 3:
+                    return const AccountPage();
+                  default:
+                    return HomePage();
+                }
+              },
+            ),
+          ),
+        ),
+        bottomNavigationBar: const BottomHomeNavBar(),
+      ),
     );
   }
 }

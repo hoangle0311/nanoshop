@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nanoshop/src/config/routers/app_router/app_router.dart';
 import 'package:nanoshop/src/config/styles/app_color.dart';
 import 'package:nanoshop/src/config/styles/app_text_style.dart';
-import 'package:nanoshop/src/core/constant/message/message.dart';
 import 'package:nanoshop/src/core/params/detail_product_param.dart';
 import 'package:nanoshop/src/core/toast/toast.dart';
 import 'package:nanoshop/src/injector.dart';
@@ -95,7 +94,6 @@ class _ScDetailProductState extends State<ScDetailProduct>
           create: (BuildContext context) {
             return injector<DetailProductCubit>()
               ..onGetDetail(DetailProductParam(
-                token: injector<TokenParam>().token,
                 id: int.parse(widget.product.id!),
                 type: "product",
               ));
@@ -106,7 +104,6 @@ class _ScDetailProductState extends State<ScDetailProduct>
             return injector<GetListCommentCubit>()
               ..onInitialGetListComment(
                 product: widget.product,
-                tokenParam: injector<TokenParam>(),
                 limit: 5,
               );
           },
@@ -117,7 +114,6 @@ class _ScDetailProductState extends State<ScDetailProduct>
               ..onGetRelatedList(
                 RelatedProductParam(
                   productId: widget.product.id!,
-                  token: injector<TokenParam>().token,
                 ),
               );
           },

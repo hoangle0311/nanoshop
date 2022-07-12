@@ -6,7 +6,6 @@ import 'package:nanoshop/src/core/params/change_password_param.dart';
 import 'package:nanoshop/src/core/params/get_user_param.dart';
 import 'package:nanoshop/src/core/params/sign_up_param.dart';
 import 'package:nanoshop/src/core/params/update_user_param.dart';
-import 'package:nanoshop/src/core/utils/log/log.dart';
 import 'package:nanoshop/src/data/data_source/local/user_service/user_local_service.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
@@ -52,7 +51,6 @@ class AuthRepositoryImpl extends AuthRepository {
           await _authService.loginUser(
         username: loginUserParam.userName,
         password: loginUserParam.password,
-        token: loginUserParam.token,
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
@@ -86,7 +84,6 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       final HttpResponse response = await _authService.getUser(
         userId: param.userId,
-        token: param.token,
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
@@ -119,7 +116,6 @@ class AuthRepositoryImpl extends AuthRepository {
         phone: signUpParam.username,
         password: signUpParam.password,
         passwordConfirm: signUpParam.password,
-        token: signUpParam.token,
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
@@ -175,7 +171,6 @@ class AuthRepositoryImpl extends AuthRepository {
       ChangePasswordParam param) async {
     try {
       final HttpResponse response = await _authService.changePasswordUser(
-        token: param.token,
         body: param.toJson(),
       );
 
@@ -201,7 +196,6 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<DataState<DefaultResponseModel>> updateUser(UpdateUserParam param) async {
     try {
       final HttpResponse response = await _authService.updateUser(
-        token: param.token,
         file: param.file,
         userId: param.userId,
         name: param.userName,

@@ -16,7 +16,6 @@ import 'package:nanoshop/src/presentation/views/components/remove_focus_widget/r
 import 'package:nanoshop/src/presentation/views/dialog/dialog_loading.dart';
 
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../../core/toast/toast.dart';
 import '../../../core/utils/helper/check_value_price.dart';
 import '../../../core/utils/helper/convert_price.dart';
@@ -185,7 +184,6 @@ class _BottomNav extends StatelessWidget {
                 CheckoutParam(
                   discountCode: stateVoucher.voucherString,
                   bank: statePayment.bank,
-                  token: injector<TokenParam>().token,
                   listProduct: listCart,
                   userId: injector<AuthenticationBloc>().state.user.userId!,
                   address: stateAddress.addressPayment,
@@ -699,7 +697,6 @@ class _VoucherState extends State<_Voucher> {
                       context.read<VoucherCubit>().onApplyVoucher(
                             param: VoucherParam(
                               voucherString: value.discountCode ?? '',
-                              token: injector<TokenParam>().token,
                             ),
                           );
                       // context.read<VoucherCubit>().onChooseCoupon(value);
@@ -751,7 +748,6 @@ class _VoucherState extends State<_Voucher> {
                       context.read<VoucherCubit>().onApplyVoucher(
                             param: VoucherParam(
                               voucherString: _voucherEditingController.text,
-                              token: injector<TokenParam>().token,
                             ),
                           );
                     },

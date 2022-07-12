@@ -23,12 +23,10 @@ class GetListCommentCubit extends Cubit<GetListCommentState> {
         );
 
   void onInitialGetListComment({
-    required TokenParam tokenParam,
     required Product product,
     int limit = 5,
   }) async {
     GetListCommentParam param = GetListCommentParam(
-      token: tokenParam.token,
       type: 1,
       productId: product.id!,
       page: state.page,

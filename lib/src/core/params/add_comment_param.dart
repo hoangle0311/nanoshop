@@ -1,5 +1,4 @@
 class AddCommentParam {
-  final String token;
   final String userId;
   final String productId;
   final double countRate;
@@ -9,7 +8,6 @@ class AddCommentParam {
   // final String phone;
 
   const AddCommentParam({
-    required this.token,
     required this.userId,
     required this.productId,
     required this.countRate,

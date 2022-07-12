@@ -32,17 +32,14 @@ class ConfirmPasswordChanged extends ChangePasswordEvent {
 }
 
 class ChangePasswordSubmitted extends ChangePasswordEvent {
-  final TokenParam tokenParam;
   final String userId;
 
   const ChangePasswordSubmitted({
-    required this.tokenParam,
     required this.userId,
   });
 
   @override
   List<Object?> get props => [
-        tokenParam,
         userId,
       ];
 }

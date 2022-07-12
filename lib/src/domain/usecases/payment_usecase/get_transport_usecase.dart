@@ -5,7 +5,7 @@ import 'package:nanoshop/src/domain/repositories/payment_repository/payment_repo
 import '../../../data/responses/transport_response_model/transport_response_model.dart';
 
 class GetTransportUsecase
-    extends UseCaseWithFuture<DataState<TransportResponseModel>, String> {
+    extends UseCaseWithFuture<DataState<TransportResponseModel>, void> {
   final PaymentRepository _paymentRepository;
 
   GetTransportUsecase(
@@ -13,7 +13,7 @@ class GetTransportUsecase
   );
 
   @override
-  Future<DataState<TransportResponseModel>> call(String params) {
-    return _paymentRepository.getTransport(params);
+  Future<DataState<TransportResponseModel>> call(void params) {
+    return _paymentRepository.getTransport();
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
@@ -9,7 +7,6 @@ import 'package:nanoshop/src/core/utils/log/log.dart';
 
 import '../../../core/form_model/login/password_input.dart';
 import '../../../core/form_model/sign_up/confirm_password_input.dart';
-import '../../../core/params/token_param.dart';
 import '../../../data/responses/default_response_model/default_response_model.dart';
 import '../../../domain/usecases/auth_usecase/change_password_usecase.dart';
 
@@ -43,7 +40,6 @@ class ChangePasswordBloc
       DataState<DefaultResponseModel> dataState =
           await _changePasswordUsecase.call(
         ChangePasswordParam(
-          token: event.tokenParam.token,
           userId: event.userId,
           oldPassword: state.oldPassword.value,
           password: state.newPassword.value,

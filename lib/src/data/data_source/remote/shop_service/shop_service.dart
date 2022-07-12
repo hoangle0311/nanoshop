@@ -12,10 +12,7 @@ abstract class ShopService {
   factory ShopService(Dio dio, {String baseUrl}) = _ShopService;
 
   @POST(ApiPath.getListShop)
-  // @DioResponseType(ResponseType.json)
-  // Future<HttpResponse<TokenResponseModel>> getToken();
   Future<HttpResponse<ShopResponseModel>> getListShop({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 }

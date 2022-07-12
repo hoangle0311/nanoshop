@@ -9,7 +9,6 @@ import 'package:nanoshop/src/presentation/cubits/transport_cubit/transport_cubit
 import 'package:nanoshop/src/presentation/views/components/app_bar/main_app_bar.dart';
 
 import '../../../core/constant/strings/strings.dart';
-import '../../../core/params/token_param.dart';
 import '../../../domain/entities/transport/transport.dart';
 import '../../views/components/bottom_nav/bottom_nav_text.dart';
 
@@ -26,7 +25,7 @@ class ScChooseTransport extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) {
         return injector<TransportCubit>()
-          ..onGetListTransPort(injector<TokenParam>())
+          ..onGetListTransPort()
           ..onChooseTransport(transport);
       },
       child: Scaffold(

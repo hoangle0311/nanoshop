@@ -21,7 +21,6 @@ class GetListShopCubit extends Cubit<GetListShopState> {
         );
 
   void onGetListShop({
-    required TokenParam tokenParam,
     FilterModel? city,
   }) async {
     emit(
@@ -37,7 +36,6 @@ class GetListShopCubit extends Cubit<GetListShopState> {
     }
 
     final param = GetListShopParam(
-      token: tokenParam.token,
       provinceId: provinceId,
     );
 

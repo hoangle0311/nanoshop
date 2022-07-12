@@ -7,7 +7,7 @@ import '../../../data/responses/payment_method_response_model/payment_method_res
 
 
 class GetPaymentUsecase
-    extends UseCaseWithFuture<DataState<List<Payment>>, String> {
+    extends UseCaseWithFuture<DataState<List<Payment>>, void> {
   final PaymentRepository _paymentRepository;
 
   GetPaymentUsecase(
@@ -15,7 +15,7 @@ class GetPaymentUsecase
       );
 
   @override
-  Future<DataState<List<Payment>>> call(String params) {
-    return _paymentRepository.getPayment(params);
+  Future<DataState<List<Payment>>> call(void params) {
+    return _paymentRepository.getPayment();
   }
 }

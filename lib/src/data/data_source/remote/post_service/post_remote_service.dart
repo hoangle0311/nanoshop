@@ -16,14 +16,12 @@ abstract class PostRemoteService {
   // @GET(ApiPath.post)
   @POST(ApiPath.post)
   Future<HttpResponse<PostResponseModel>> getListPost({
-    @Header("token") required String token,
     @Part(name: "page") required int page,
     @Part(name: "limit") required int limit,
   });
 
   @POST(ApiPath.detailPost)
   Future<HttpResponse<DetailPostResponseModel>> detailPost({
-    @Header("token") required String token,
     @Body() required Map<String, dynamic> body,
   });
 }

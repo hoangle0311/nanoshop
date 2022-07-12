@@ -16,7 +16,7 @@ class GetTypeNotificationCubit extends Cubit<GetTypeNotificationState> {
   GetTypeNotificationCubit(this._getTypeNotificationUsecase)
       : super(const GetTypeNotificationState());
 
-  void onGetType(TokenParam tokenParam, String userId) async {
+  void onGetType( String userId) async {
     emit(
       state.copyWith(
         status: GetTypeNotificationStatus.loading,
@@ -28,7 +28,6 @@ class GetTypeNotificationCubit extends Cubit<GetTypeNotificationState> {
           await _getTypeNotificationUsecase.call(
         GetTypeNotificationParam(
           userId: userId,
-          token: tokenParam.token,
         ),
       );
 

@@ -27,7 +27,6 @@ class NotificationRepositoryImpl extends NotificationRepository {
     try {
       final HttpResponse<TypeNotificationResponseModel> response =
           await _notificationService.getType(
-        token: param.token,
         body: param.toJson(),
       );
 
@@ -55,7 +54,6 @@ class NotificationRepositoryImpl extends NotificationRepository {
     try {
       final HttpResponse<NotificationResponseModel> response =
       await _notificationService.getListNotification(
-        token: param.token,
         body: param.toJson(),
       );
 

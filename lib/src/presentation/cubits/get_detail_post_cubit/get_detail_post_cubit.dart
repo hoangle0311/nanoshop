@@ -19,7 +19,6 @@ class GetDetailPostCubit extends Cubit<GetDetailPostState> {
         );
 
   void onGetDetail(
-    TokenParam param,
     String id,
   ) async {
     emit(
@@ -32,7 +31,6 @@ class GetDetailPostCubit extends Cubit<GetDetailPostState> {
       DataState<DetailPostResponseModel> dataState =
           await _detailPostUsecase.call(DetailPostParam(
         id: id,
-        token: param.token,
       ));
 
       if (dataState is DataSuccess) {
