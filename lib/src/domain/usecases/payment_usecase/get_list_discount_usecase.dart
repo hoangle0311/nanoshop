@@ -1,5 +1,6 @@
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/core/usecases/usecase_with_future.dart';
+import 'package:nanoshop/src/domain/entities/discount/discount_data.dart';
 import 'package:nanoshop/src/domain/repositories/payment_repository/payment_repository.dart';
 
 import '../../../core/params/voucher_param.dart';
@@ -7,7 +8,7 @@ import '../../../data/responses/discount_response_model/discount_response_model.
 import '../../../data/responses/list_discount_response_model/list_discount_response_model.dart';
 
 class GetListDiscountUsecase
-    extends UseCaseWithFuture<DataState<ListDiscountResponseModel>, void> {
+    extends UseCaseWithFuture<DataState<List<DiscountData>>, void> {
   final PaymentRepository _paymentRepository;
 
   GetListDiscountUsecase(
@@ -15,7 +16,7 @@ class GetListDiscountUsecase
       );
 
   @override
-  Future<DataState<ListDiscountResponseModel>> call(void params) {
+  Future<DataState<List<DiscountData>>> call(void params) {
     return _paymentRepository.getListDiscount();
   }
 }

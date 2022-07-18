@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'dart:developer' as developer;
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:nanoshop/src/core/constant/api/api_path.dart';
@@ -13,11 +15,13 @@ import '../../config/environment/app_environment.dart';
 
 class CustomInterceptor extends QueuedInterceptor {
   final Dio _dio;
+  final Connectivity _connectivity;
   final SharedPreferences _sharedPreferences;
 
   CustomInterceptor(
     this._dio,
     this._sharedPreferences,
+    this._connectivity,
   );
 
   _print() {
@@ -52,11 +56,29 @@ class CustomInterceptor extends QueuedInterceptor {
     handler.next(err);
   }
 
+
+
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     _print();
     developer.log('# REQUEST');
+
+    late StreamSubscription<ConnectivityResult> _subscription;
+
+    final Completer completer = Completer();
+
+    _subscription = _connectivity.onConnectivityChanged.listen(
+      (ConnectivityResult result) {
+        if(result != ConnectivityResult.none){
+          _subscription.cancel();
+          completer.complete();
+        }
+      },
+    );
+
+    await completer.future;
+
     developer.log('--> ${options.method} ${options.baseUrl}${options.path}');
     _print();
 

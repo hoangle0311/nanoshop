@@ -36,11 +36,11 @@ class DistrictCubit extends Cubit<DistrictState> {
         district: null,
       ),
     );
-    DataState<DistrictResponseModel> dataState =
+    DataState<List<District>> dataState =
         await _getListDistrictUsecase.call(param);
 
     if (dataState is DataSuccess) {
-      List<FilterModel> listFilterModel = dataState.data!.data!.map(
+      List<FilterModel> listFilterModel = dataState.data!.map(
         (District e) {
           return FilterModel(
             id: e.districtId!,

@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nanoshop/src/domain/entities/post/post.dart';
+import 'package:nanoshop/src/data/models/post/post_model.dart';
 
 part 'list_post_response_model.g.dart';
 
 @JsonSerializable()
 class DetailPostResponseModel {
   int? code;
-  Post? data;
+  PostModel? data;
   String? message;
   String? error;
 

@@ -1,20 +1,19 @@
 import 'package:nanoshop/src/core/params/district_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
+import 'package:nanoshop/src/domain/entities/location/city.dart';
+import 'package:nanoshop/src/domain/entities/location/district.dart';
+import 'package:nanoshop/src/domain/entities/location/ward.dart';
 
-import '../../../core/params/token_param.dart';
 import '../../../core/params/ward_param.dart';
-import '../../../data/responses/location_response_model/city_response_model.dart';
-import '../../../data/responses/location_response_model/district_response_model.dart';
-import '../../../data/responses/location_response_model/ward_response_model.dart';
 
 abstract class LocationRepository {
-  Future<DataState<CityResponseModel>> getListCity();
+  Future<DataState<List<City>>> getListCity();
 
-  Future<DataState<DistrictResponseModel>> getListDistrict(
+  Future<DataState<List<District>>> getListDistrict(
     DistrictParam param,
   );
 
-  Future<DataState<WardResponseModel>> getListWard(
+  Future<DataState<List<Ward>>> getListWard(
       WardParam param,
   );
 }

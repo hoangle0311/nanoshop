@@ -1,40 +1,41 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'category.g.dart';
-
-@JsonSerializable()
-class Category {
-  String? id;
+class Category extends Equatable {
+  final String? id;
   @JsonKey(name: 'cat_id')
-  String? catId;
+  final String? catId;
   @JsonKey(name: 'cat_name')
-  String? catName;
+  final String? catName;
   @JsonKey(name: 'cat_order')
-  String? catOrder;
+  final String? catOrder;
   @JsonKey(name: 'image_path')
-  String? imagePath;
+  final String? imagePath;
   @JsonKey(name: 'image_name')
-  String? imageName;
+  final String? imageName;
   @JsonKey(name: 'icon_path')
-  String? iconPath;
+  final String? iconPath;
   @JsonKey(name: 'icon_name')
-  String? iconName;
+  final String? iconName;
 
-  List<Category>? children;
+  final List<Category>? children;
 
-  Category(
-      {this.id,
-      this.catId,
-      this.catName,
-      this.catOrder,
-      this.imagePath,
-      this.imageName,
-      this.iconPath,
-      this.iconName,
-      this.children});
+  const Category({
+    this.id,
+    this.catId,
+    this.catName,
+    this.catOrder,
+    this.imagePath,
+    this.imageName,
+    this.iconPath,
+    this.iconName,
+    this.children,
+  });
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CategoryToJson(this);
+  @override
+  List<Object?> get props => [
+        id,
+        catId,
+        catName,
+      ];
 }

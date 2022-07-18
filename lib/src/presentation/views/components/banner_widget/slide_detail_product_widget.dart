@@ -30,6 +30,8 @@ class _DetailProductSliderImageState extends State<DetailProductSliderImage> {
     return Stack(
       children: [
         Container(
+          color: Colors.white,
+          width: double.infinity,
           child: CarouselSlider(
             carouselController: _carouselController,
             options: CarouselOptions(

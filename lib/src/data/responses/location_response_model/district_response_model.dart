@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nanoshop/src/core/utils/log/log.dart';
+import 'package:nanoshop/src/data/models/location/district_model.dart';
 
 import '../../../domain/entities/location/district.dart';
 
@@ -8,7 +8,7 @@ part 'district_response_model.g.dart';
 @JsonSerializable()
 class DistrictResponseModel {
   int? code;
-  List<District>? data;
+  List<DistrictModel>? data;
   String? message;
   String? error;
 

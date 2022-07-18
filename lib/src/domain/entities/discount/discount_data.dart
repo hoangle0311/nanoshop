@@ -1,9 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'discount_data.g.dart';
 
-@JsonSerializable()
 class DiscountData extends Equatable {
   final String? id;
   final String? name;
@@ -73,10 +71,7 @@ class DiscountData extends Equatable {
     this.totalRemain,
   });
 
-  factory DiscountData.fromJson(Map<String, dynamic> json) =>
-      _$DiscountDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DiscountDataToJson(this);
 
   @override
   List<Object?> get props => [

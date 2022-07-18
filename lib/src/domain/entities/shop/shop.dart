@@ -4,43 +4,34 @@ part 'shop.g.dart';
 
 @JsonSerializable()
 class Shop {
-  String? id;
-  String? name;
-  String? alias;
-  String? status;
-  String? address;
+  final String? id;
+  final String? name;
+  final String? alias;
+  final String? status;
+  final String? address;
   @JsonKey(name: "province_id")
-  String? provinceId;
+  final String? provinceId;
   @JsonKey(name: "province_name")
-  String? provinceName;
-
-  String? districtId;
+  final String? provinceName;
+  final String? districtId;
   @JsonKey(name: "district_name")
-  String? districtName;
-  String? wardId;
+  final String? districtName;
+  final String? wardId;
   @JsonKey(name: "ward_name")
-  String? wardName;
-  String? hotline;
-  String? phone;
-  String? email;
-  String? hours;
+  final String? wardName;
+  final String? hotline;
+  final String? phone;
+  final String? email;
+  final String? hours;
   @JsonKey(name: "avatar_path")
-  String? avatarPath;
+  final String? avatarPath;
   @JsonKey(name: "avatar_name")
-  String? avatarName;
-  String? createdTime;
-  String? modifiedTime;
-  String? siteId;
-  String? shopId;
-  String? latlng;
-  String? group;
-  String? order;
-  String? metaTitle;
-  String? metaKeywords;
-  String? metaDescription;
-  String? shopStoreDesc;
+  final String? avatarName;
+  final String? siteId;
+  final String? shopId;
+  final String? latlng;
 
-  Shop({
+  const Shop({
     this.id,
     this.name,
     this.alias,
@@ -58,23 +49,10 @@ class Shop {
     this.hours,
     this.avatarPath,
     this.avatarName,
-    this.createdTime,
-    this.modifiedTime,
     this.siteId,
     this.shopId,
     this.latlng,
-    this.group,
-    this.order,
-    this.metaTitle,
-    this.metaKeywords,
-    this.metaDescription,
-    this.shopStoreDesc,
   });
 
 
-  factory Shop.fromJson(Map<String, dynamic> json) {
-    return _$ShopFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() => _$ShopToJson(this);
 }

@@ -30,7 +30,6 @@ class Transport extends Equatable {
   Map<String, dynamic> toJson() => _$TransportToJson(this);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         id,
         name,

@@ -56,6 +56,8 @@ class _ScDetailProductState extends State<ScDetailProduct>
   late Animation _colorTween;
   late Animation _opacityTween;
 
+  static const _heightAppBar = 300.0;
+
   @override
   void initState() {
     super.initState();
@@ -76,7 +78,7 @@ class _ScDetailProductState extends State<ScDetailProduct>
 
   _onScroll() {
     _colorAnimationController
-        .animateTo(_scrollController.position.pixels / 350);
+        .animateTo(_scrollController.position.pixels / _heightAppBar);
   }
 
   @override
@@ -123,16 +125,55 @@ class _ScDetailProductState extends State<ScDetailProduct>
         builder: (context, state) {
           return Scaffold(
             backgroundColor: AppColors.grey,
-            body: Stack(
-              children: [
+            body: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: _scrollController,
+              slivers: [
                 if (state.status == DetailProductStatus.success)
-                  SingleChildScrollView(
-                    controller: _scrollController,
+                  SliverAppBar(
+                    expandedHeight: _heightAppBar,
+                    toolbarHeight: 50,
+                    pinned: true,
+                    floating: false,
+                    backgroundColor: AppColors.primaryColor,
+                    leading: AnimatedBuilder(
+                      animation: _colorAnimationController,
+                      builder: (context, child) => IconButton(
+                        icon: Container(
+                          height: 50,
+                          width: 50,
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.chevron_left,
+                            color: _colorTween.value,
+                          ),
+                        ),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                    title: AnimatedBuilder(
+                      animation: _colorAnimationController,
+                      builder: (context, child) => Opacity(
+                        opacity: _opacityTween.value,
+                        child: Text(
+                          state.product!.name ?? '',
+                          style: TextStyleApp.textStyle2.copyWith(
+                            color: _colorTween.value,
+                          ),
+                        ),
+                      ),
+                    ),
+                    flexibleSpace: FlexibleSpaceBar(
+                      expandedTitleScale: _heightAppBar,
+                      background: DetailProductSliderImage(
+                        images: state.product!.images ?? [],
+                      ),
+                    ),
+                  ),
+                if (state.status == DetailProductStatus.success)
+                  SliverToBoxAdapter(
                     child: Column(
                       children: [
-                        DetailProductSliderImage(
-                          images: state.product!.images ?? [],
-                        ),
                         NameProductContainer(
                           product: state.product!,
                         ),
@@ -167,90 +208,151 @@ class _ScDetailProductState extends State<ScDetailProduct>
                       ],
                     ),
                   ),
-                if (state.status == DetailProductStatus.loading)
-                  Center(
-                    child: CupertinoActivityIndicator(
-                      color: AppColors.primaryColor,
+
+                if(state.status == DetailProductStatus.loading)
+                  SliverFillRemaining(
+                    child: Center(
+                      child: CupertinoActivityIndicator(
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                   ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: AnimatedBuilder(
-                    animation: _colorAnimationController,
-                    builder: (context, child) => Stack(
-                      children: [
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: Opacity(
-                            opacity: _opacityTween.value,
-                            child: Image.asset(
-                              ImagePath.backgroundAppBar,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).padding.top,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 15),
-                              child: Row(
-                                children: [
-                                  Platform.isAndroid
-                                      ? InkWell(
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Icon(
-                                            Icons.arrow_back,
-                                            color: _colorTween.value,
-                                          ),
-                                        )
-                                      : InkWell(
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Icon(
-                                            Icons.arrow_back_ios,
-                                            color: _colorTween.value,
-                                          ),
-                                        ),
-                                  Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        widget.product.name ?? '',
-                                        style: TextStyleApp.textStyle1.copyWith(
-                                          color: AppColors.white.withOpacity(
-                                            _opacityTween.value,
-                                          ),
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
             bottomNavigationBar: _BottomNavigationBar(
               product: widget.product,
             ),
           );
+          // return Scaffold(
+          //   backgroundColor: AppColors.grey,
+          //   body: Stack(
+          //     children: [
+          //       if (state.status == DetailProductStatus.success)
+          //         SingleChildScrollView(
+          //           controller: _scrollController,
+          //           child: Column(
+          //             children: [
+          //               DetailProductSliderImage(
+          //                 images: state.product!.images ?? [],
+          //               ),
+          //               NameProductContainer(
+          //                 product: state.product!,
+          //               ),
+          //               // ShareListWidget(
+          //               //   model: state.detailProductModel,
+          //               // ),
+          //               ScDetailProduct._sizedBoxh5,
+          //               DetailWithTittleProductFragment(
+          //                 title: 'chi tiết sản phẩm',
+          //                 product: state.product!,
+          //               ),
+          //               ScDetailProduct._sizedBoxh5,
+          //               DetailWithTittleProductFragment(
+          //                 title: 'mô tả sản phẩm',
+          //                 product: state.product!,
+          //               ),
+          //               ScDetailProduct._sizedBoxh5,
+          //               RatingDetailProduct(
+          //                 product: state.product!,
+          //               ),
+          //               _RatingContainer(
+          //                 product: state.product!,
+          //               ),
+          //               const _HorizontalListProduct(),
+          //               // RatingProductFragment(
+          //               //   commentBloc: _commentBloc,
+          //               //   model: state.detailProductModel,
+          //               // ),
+          //               // ListHorizontalProduct(
+          //               //   title: 'sản phẩm tương tự',
+          //               // ),
+          //             ],
+          //           ),
+          //         ),
+          //       if (state.status == DetailProductStatus.loading)
+          //         Center(
+          //           child: CupertinoActivityIndicator(
+          //             color: AppColors.primaryColor,
+          //           ),
+          //         ),
+          //       Positioned(
+          //         top: 0,
+          //         left: 0,
+          //         right: 0,
+          //         child: AnimatedBuilder(
+          //           animation: _colorAnimationController,
+          //           builder: (context, child) => Stack(
+          //             children: [
+          //               Positioned(
+          //                 top: 0,
+          //                 left: 0,
+          //                 right: 0,
+          //                 bottom: 0,
+          //                 child: Opacity(
+          //                   opacity: _opacityTween.value,
+          //                   child: Image.asset(
+          //                     ImagePath.backgroundAppBar,
+          //                     fit: BoxFit.fill,
+          //                   ),
+          //                 ),
+          //               ),
+          //               Column(
+          //                 children: [
+          //                   Container(
+          //                     height: MediaQuery.of(context).padding.top,
+          //                   ),
+          //                   Container(
+          //                     padding: const EdgeInsets.symmetric(
+          //                         horizontal: 10, vertical: 15),
+          //                     child: Row(
+          //                       children: [
+          //                         Platform.isAndroid
+          //                             ? InkWell(
+          //                                 onTap: () {
+          //                                   Navigator.of(context).pop();
+          //                                 },
+          //                                 child: Icon(
+          //                                   Icons.arrow_back,
+          //                                   color: _colorTween.value,
+          //                                 ),
+          //                               )
+          //                             : InkWell(
+          //                                 onTap: () {
+          //                                   Navigator.of(context).pop();
+          //                                 },
+          //                                 child: Icon(
+          //                                   Icons.arrow_back_ios,
+          //                                   color: _colorTween.value,
+          //                                 ),
+          //                               ),
+          //                         Expanded(
+          //                           child: Center(
+          //                             child: Text(
+          //                               widget.product.name ?? '',
+          //                               style: TextStyleApp.textStyle1.copyWith(
+          //                                 color: AppColors.white.withOpacity(
+          //                                   _opacityTween.value,
+          //                                 ),
+          //                                 fontSize: 16,
+          //                               ),
+          //                             ),
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          //   bottomNavigationBar: _BottomNavigationBar(
+          //     product: widget.product,
+          //   ),
+          // );
         },
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:nanoshop/src/data/models/discount/discount_model.dart';
 import 'package:nanoshop/src/data/models/payment/payment_model.dart';
 import 'package:nanoshop/src/domain/entities/address/address.dart';
 import 'package:retrofit/dio.dart';
@@ -59,13 +60,13 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<DataState<ListDiscountResponseModel>> getListDiscount() async {
+  Future<DataState<List<DiscountModel>>> getListDiscount() async {
     try {
       final HttpResponse<ListDiscountResponseModel> response =
           await _paymentService.getListDiscount();
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:nanoshop/src/data/models/category/category_model.dart';
 import 'package:nanoshop/src/domain/entities/category/category.dart';
 
 part 'category_response_model.g.dart';
@@ -6,7 +7,7 @@ part 'category_response_model.g.dart';
 @JsonSerializable()
 class CategoryResponseModel {
   int? code;
-  List<Category>? data;
+  List<CategoryModel>? data;
   String? message;
   String? error;
 

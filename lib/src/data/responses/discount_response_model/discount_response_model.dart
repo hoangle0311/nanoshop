@@ -1,5 +1,6 @@
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:nanoshop/src/data/models/discount/discount_model.dart';
 
 import '../../../domain/entities/discount/discount_data.dart';
 
@@ -9,7 +10,7 @@ part 'discount_response_model.g.dart';
 @JsonSerializable()
 class DiscountResponseModel {
   int? code;
-  DiscountData? data;
+  DiscountModel? data;
   String? message;
   String? error;
 

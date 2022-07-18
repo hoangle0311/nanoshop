@@ -40,13 +40,13 @@ class GetListShopCubit extends Cubit<GetListShopState> {
     );
 
     try {
-      DataState<ShopResponseModel> dataState =
+      DataState<List<Shop>> dataState =
           await _getListShopUsecase.call(param);
       if (dataState is DataSuccess) {
         emit(
           state.copyWith(
             status: GetListShopStatus.success,
-            shops: dataState.data!.data,
+            shops: dataState.data,
           ),
         );
       } else {

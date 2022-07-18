@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:nanoshop/src/data/models/location/city_model.dart';
+import 'package:nanoshop/src/data/models/location/district_model.dart';
+import 'package:nanoshop/src/data/models/location/ward_model.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
 
 import 'package:nanoshop/src/core/params/district_param.dart';
-import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/data/data_source/remote/location_service/location_service.dart';
 import 'package:nanoshop/src/domain/repositories/location_repository/location_repository.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
@@ -22,13 +24,13 @@ class LocationRepositoryImpl extends LocationRepository {
   );
 
   @override
-  Future<DataState<CityResponseModel>> getListCity() async {
+  Future<DataState<List<CityModel>>> getListCity() async {
     try {
       final HttpResponse<CityResponseModel> response =
           await _locationService.getCity();
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(
@@ -46,7 +48,7 @@ class LocationRepositoryImpl extends LocationRepository {
   }
 
   @override
-  Future<DataState<DistrictResponseModel>> getListDistrict(
+  Future<DataState<List<DistrictModel>>> getListDistrict(
       DistrictParam param) async {
     try {
       final HttpResponse<DistrictResponseModel> response =
@@ -57,7 +59,7 @@ class LocationRepositoryImpl extends LocationRepository {
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(
@@ -77,7 +79,7 @@ class LocationRepositoryImpl extends LocationRepository {
   }
 
   @override
-  Future<DataState<WardResponseModel>> getListWard(WardParam param) async {
+  Future<DataState<List<WardModel>>> getListWard(WardParam param) async {
     try {
       final HttpResponse<WardResponseModel> response =
           await _locationService.getWard(
@@ -87,7 +89,7 @@ class LocationRepositoryImpl extends LocationRepository {
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(

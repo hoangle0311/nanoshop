@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:nanoshop/src/data/models/shop/shop_model.dart';
 import 'package:retrofit/dio.dart';
 
 import 'package:nanoshop/src/core/params/get_list_shop_param.dart';
@@ -19,7 +20,7 @@ class GetListShopRepositoryImpl extends GetListShopRepository {
       );
 
   @override
-  Future<DataState<ShopResponseModel>> getListShop(
+  Future<DataState<List<ShopModel>>> getListShop(
       GetListShopParam params) async {
     try {
       final HttpResponse<ShopResponseModel> response =
@@ -28,7 +29,7 @@ class GetListShopRepositoryImpl extends GetListShopRepository {
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(

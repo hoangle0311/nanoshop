@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 
@@ -64,7 +65,6 @@ import 'package:nanoshop/src/presentation/cubits/voucher_cubit/voucher_cubit.dar
 import 'package:nanoshop/src/presentation/cubits/ward_cubit/ward_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/params/token_param.dart';
 import 'data/data_source/local/payment_local_service/payment_local_service.dart';
 import 'data/data_source/remote/location_service/location_service.dart';
 import 'data/data_source/remote/remote_service.dart';
@@ -116,6 +116,9 @@ _dependencyExternal() async {
   final preferences = await SharedPreferences.getInstance();
   injector.registerSingleton<SharedPreferences>(
     preferences,
+  );
+  injector.registerSingleton<Connectivity>(
+    Connectivity(),
   );
 }
 
@@ -350,6 +353,7 @@ _dependencyService() {
       CustomInterceptor(
         _dio,
         injector<SharedPreferences>(),
+        injector<Connectivity>(),
       ),
     ],
   );

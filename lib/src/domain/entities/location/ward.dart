@@ -1,17 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'ward.g.dart';
-
-@JsonSerializable()
 class Ward {
   @JsonKey(name: "ward_id")
-  String? wardId;
-  String? name;
-  String? type;
-  String? latlng;
-  String? districtId;
+  final String? wardId;
+  final String? name;
+  final String? type;
+  final String? latlng;
+  final String? districtId;
 
-  Ward({
+ const Ward({
     this.wardId,
     this.name,
     this.type,
@@ -19,8 +16,5 @@ class Ward {
     this.districtId,
   });
 
-  factory Ward.fromJson(Map<String, dynamic> json) =>
-      _$WardFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WardToJson(this);
 }

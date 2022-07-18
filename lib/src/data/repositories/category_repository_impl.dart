@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:nanoshop/src/data/models/category/category_model.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
 
@@ -19,7 +20,7 @@ class CategoryRepositoryImpl extends CategoryRepository {
   );
 
   @override
-  Future<DataState<CategoryResponseModel>> getListCategory(
+  Future<DataState<List<CategoryModel>>> getListCategory(
       CategoryParam params) async {
     try {
       final HttpResponse<CategoryResponseModel> response =
@@ -28,7 +29,7 @@ class CategoryRepositoryImpl extends CategoryRepository {
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(

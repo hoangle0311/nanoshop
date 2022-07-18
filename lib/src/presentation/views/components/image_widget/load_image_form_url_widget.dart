@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Banner;
 
@@ -19,17 +20,15 @@ class LoadImageFromUrlWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: height,
       color: Colors.white,
-      child: Image.network(
-        imageUrl,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
         fit: BoxFit.fill,
-        errorBuilder: ((context, error, stackTrace) => Container(
-              child: const Center(
-                child: Icon(
-                  Icons.image,
-                  size: 32,
-                ),
-              ),
-            )),
+        errorWidget: ((context, error, stackTrace) => const Center(
+          child: Icon(
+            Icons.image,
+            size: 32,
+          ),
+        )),
       ),
     );
   }

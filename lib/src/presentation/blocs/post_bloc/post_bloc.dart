@@ -36,7 +36,7 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
         status: PostStatus.loading,
       ),
     );
-    DataState<PostResponseModel> dataState = await _getListPostUsecase.call(
+    DataState<List<Post>> dataState = await _getListPostUsecase.call(
       PostParam(
         page: _page,
         limit: postPerPage,
@@ -44,7 +44,7 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
     );
 
     if (dataState is DataSuccess) {
-      List<Post> posts = dataState.data!.data!.data!;
+      List<Post> posts = dataState.data!;
 
       emit(
         state.copyWith(
@@ -75,7 +75,7 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
     );
     _page++;
     try{
-      DataState<PostResponseModel> dataState = await _getListPostUsecase.call(
+      DataState<List<Post>> dataState = await _getListPostUsecase.call(
         PostParam(
           page: _page,
           limit: postPerPage,
@@ -83,7 +83,7 @@ class PostBloc extends BlocWithState<PostEvent, PostState> {
       );
 
       if (dataState is DataSuccess) {
-        List<Post> posts = dataState.data!.data!.data!;
+        List<Post> posts = dataState.data!;
 
         emit(
           state.copyWith(

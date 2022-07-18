@@ -28,7 +28,7 @@ class GetDetailPostCubit extends Cubit<GetDetailPostState> {
     );
 
     try {
-      DataState<DetailPostResponseModel> dataState =
+      DataState<Post> dataState =
           await _detailPostUsecase.call(DetailPostParam(
         id: id,
       ));
@@ -37,7 +37,7 @@ class GetDetailPostCubit extends Cubit<GetDetailPostState> {
         emit(
           state.copyWith(
             status: GetDetailPostStatus.success,
-            post: dataState.data!.data,
+            post: dataState.data,
           ),
         );
       } else {

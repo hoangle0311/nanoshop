@@ -1,13 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nanoshop/src/core/utils/log/log.dart';
-import 'package:nanoshop/src/domain/entities/location/city.dart';
+import 'package:nanoshop/src/data/models/location/city_model.dart';
 
 part 'city_response_model.g.dart';
 
 @JsonSerializable()
 class CityResponseModel {
   int? code;
-  List<City>? data;
+  List<CityModel>? data;
   String? message;
   String? error;
 

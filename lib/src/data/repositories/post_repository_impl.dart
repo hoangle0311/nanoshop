@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:nanoshop/src/data/models/post/post_model.dart';
 import 'package:retrofit/dio.dart';
 import 'package:dio/dio.dart';
 
@@ -21,7 +22,7 @@ class PostRepositoryImpl extends PostRepository {
   );
 
   @override
-  Future<DataState<PostResponseModel>> getListPostRemote(
+  Future<DataState<List<PostModel>>> getListPostRemote(
       PostParam param) async {
     try {
       final HttpResponse<PostResponseModel> response = await _postService.getListPost(
@@ -30,7 +31,7 @@ class PostRepositoryImpl extends PostRepository {
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!.data!);
       }
 
       return DataFailed(
@@ -48,14 +49,14 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
-  Future<DataState<DetailPostResponseModel>> getDetailPostRemote(DetailPostParam param) async {
+  Future<DataState<PostModel>> getDetailPostRemote(DetailPostParam param) async {
     try {
       final HttpResponse<DetailPostResponseModel> response = await _postService.detailPost(
         body: param.toJson(),
       );
 
       if (response.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: response.data);
+        return DataSuccess(data: response.data.data!);
       }
 
       return DataFailed(

@@ -25,7 +25,7 @@ class GetListCouponCubit extends Cubit<GetListCouponState> {
     );
 
     try {
-      DataState<ListDiscountResponseModel> dataState =
+      DataState<List<DiscountData>> dataState =
           await _getListDiscountUsecase.call(
         null,
       );
@@ -34,7 +34,7 @@ class GetListCouponCubit extends Cubit<GetListCouponState> {
         emit(
           state.copyWith(
             status: GetListCouponStatus.success,
-            listVoucher: List.of(dataState.data!.data!),
+            listVoucher: List.of(dataState.data!),
           ),
         );
       } else {

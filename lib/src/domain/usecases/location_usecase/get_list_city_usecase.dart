@@ -1,12 +1,10 @@
-import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/core/usecases/usecase_with_future.dart';
+import 'package:nanoshop/src/domain/entities/location/city.dart';
 import 'package:nanoshop/src/domain/repositories/location_repository/location_repository.dart';
 
-import '../../../data/responses/location_response_model/city_response_model.dart';
-
 class GetListCityUsecase
-    extends UseCaseWithFuture<DataState<CityResponseModel>, void> {
+    extends UseCaseWithFuture<DataState<List<City>>, void> {
   final LocationRepository _locationRepository;
 
   GetListCityUsecase(
@@ -14,7 +12,7 @@ class GetListCityUsecase
   );
 
   @override
-  Future<DataState<CityResponseModel>> call(void params) {
+  Future<DataState<List<City>>> call(void params) {
     return _locationRepository.getListCity();
   }
 }

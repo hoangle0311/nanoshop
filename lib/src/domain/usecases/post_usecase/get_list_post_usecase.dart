@@ -6,7 +6,7 @@ import '../../../data/responses/post_response_model/post_response_model.dart';
 import '../../entities/post/post.dart';
 import '../../repositories/post_repository/post_repository.dart';
 
-class GetListPostUsecase extends UseCaseWithFuture<DataState<PostResponseModel>, PostParam> {
+class GetListPostUsecase extends UseCaseWithFuture<DataState<List<Post>>, PostParam> {
   final PostRepository _postRepository;
 
   GetListPostUsecase(
@@ -14,7 +14,7 @@ class GetListPostUsecase extends UseCaseWithFuture<DataState<PostResponseModel>,
   );
 
   @override
-  Future<DataState<PostResponseModel>> call(PostParam params) {
+  Future<DataState<List<Post>>> call(PostParam params) {
     return _postRepository.getListPostRemote(params);
   }
 }

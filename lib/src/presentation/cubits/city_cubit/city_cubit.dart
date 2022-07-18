@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:nanoshop/src/core/params/token_param.dart';
 import 'package:nanoshop/src/core/resource/data_state.dart';
 import 'package:nanoshop/src/domain/entities/filter_model/filter_model.dart';
+import 'package:nanoshop/src/domain/entities/location/city.dart';
 
 import '../../../data/responses/location_response_model/city_response_model.dart';
 import '../../../domain/usecases/location_usecase/get_list_city_usecase.dart';
@@ -33,11 +34,11 @@ class CityCubit extends Cubit<CityState> {
       ),
     );
     try {
-      DataState<CityResponseModel> dataState =
+      DataState<List<City>> dataState =
           await _getListCityUsecase.call(null);
 
       if (dataState is DataSuccess) {
-        List<FilterModel> listFilterModel = dataState.data!.data!.map(
+        List<FilterModel> listFilterModel = dataState.data!.map(
           (e) {
             return FilterModel(
               id: e.provinceId!,

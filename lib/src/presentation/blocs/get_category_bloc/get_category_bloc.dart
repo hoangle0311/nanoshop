@@ -27,7 +27,7 @@ class GetCategoryBloc extends Bloc<GetCategoryEvent, GetCategoryState> {
     GetListCategoryEvent event,
     Emitter emit,
   ) async {
-    DataState<CategoryResponseModel> dataState =
+    DataState<List<Category>> dataState =
         await _getListCategoryUsecase.call(
       CategoryParam(
         type: "product",
@@ -43,7 +43,7 @@ class GetCategoryBloc extends Bloc<GetCategoryEvent, GetCategoryState> {
     if (dataState is DataSuccess) {
       emit(
         GetCategoryDone(
-          categories: dataState.data!.data!,
+          categories: dataState.data!,
         ),
       );
     }

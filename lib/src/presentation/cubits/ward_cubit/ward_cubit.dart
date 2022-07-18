@@ -37,11 +37,11 @@ class WardCubit extends Cubit<WardState> {
         ward: null,
       ),
     );
-    DataState<WardResponseModel> dataState =
+    DataState<List<Ward>> dataState =
         await _getListWardUsecase.call(param);
 
     if (dataState is DataSuccess) {
-      List<FilterModel> listFilterModel = dataState.data!.data!.map(
+      List<FilterModel> listFilterModel = dataState.data!.map(
         (Ward e) {
           return FilterModel(
             id: e.wardId!,

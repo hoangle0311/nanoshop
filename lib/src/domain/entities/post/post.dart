@@ -1,9 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'post.g.dart';
 
-@JsonSerializable()
 class Post extends Equatable {
   @JsonKey(name: "news_id")
   final String? newsId;
@@ -55,10 +53,6 @@ class Post extends Equatable {
   static const empty = Post(
     newsId: '-',
   );
-
-  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PostToJson(this);
 
   @override
   List<Object?> get props => [
